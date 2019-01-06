@@ -18,6 +18,15 @@ const isLocalhost = Boolean(
     )
 );
 
+var cacheName = 'WWW-EXAMPLE-COM-V1';
+
+var filesToCache = [
+    '/',                // index.html
+    '/main.js',
+    '/styles.css',
+    '/assets/logo.png'
+];
+
 export default function register() {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -30,7 +39,7 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker-custom.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
@@ -39,6 +48,11 @@ export default function register() {
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
+          let notification = document.getElementById('notification');
+          notification.innerHTML = "This page is running offline first. Click <a id='reload'>here</a> to continue.";
+          document.getElementById('reload').addEventListener('click', function(){
+            notification.className="hide"
+          });
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://goo.gl/SC7cgQ'
@@ -65,12 +79,23 @@ function registerValidSW(swUrl) {
               // the fresh content will have been added to the cache.
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
-              console.log('New content is available; please refresh.');
+              console.log('New content is available; please refresh.');              
+              let notification = document.getElementById('notification');
+              notification.innerHTML = "A new version of this app is available. Click <a id='reload'>here</a> to update.";
+              document.getElementById('reload').addEventListener('click', function(){
+                window.location.reload(); 
+              });
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
+              
               console.log('Content is cached for offline use.');
+              let notification = document.getElementById('notification');
+              notification.innerHTML = "Content is cached for offline use. Click <a id='reload'>here</a> to continue.";
+              document.getElementById('reload').addEventListener('click', function(){
+                notification.className="hide"
+              });
             }
           }
         };
@@ -105,6 +130,11 @@ function checkValidServiceWorker(swUrl) {
       console.log(
         'No internet connection found. App is running in offline mode.'
       );
+      let notification = document.getElementById('notification');
+      notification.innerHTML = "No internet connection found. App is running in offline mode. Click <a id='reload'>here</a> to continue.";
+      document.getElementById('reload').addEventListener('click', function(){
+        notification.className="hide"
+      });
     });
 }
 

@@ -22,7 +22,7 @@ export default {
     },
     {
       name: 'Settings',
-      url: '/profile'
+      url: '/settings'
     }
   ],
 };

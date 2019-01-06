@@ -1,5 +1,6 @@
 {
   "projects": {
-    "staging": ""
+    "staging": "lendstack-web-app-development",
+    "development": "lendstack-web-app-development"
   }
 }

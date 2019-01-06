@@ -17,18 +17,37 @@ import SideBarProfile from "./SideBarProfile";
 class DefaultLayout extends Component {
   render() {
     return (
-      <Container>
-                    <AppSidebar fixed display="lg" className="custom-side-bar">
+      <div className="root-container">
+        
+                    <div fixed display="lg" className="custom-side-bar">
                        <SideBarProfile/>
-                        <AppSidebarNav className="side-bar-nav" navConfig={navigation} {...this.props} />
-                        
-                        <AppSidebarFooter className="side-bar-footer" >
+                        <div className="nav-main-custom">
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" href="#/dashboard"><i className="nav-icon"></i>Dashboard</a>
+                          </div>
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" href="#"><i className="nav-icon"></i>Loans</a>
+                          </div>
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"></i>Transactions</a>
+                          </div>
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom active" href="#/"><i className="nav-icon"></i>Products</a>
+                          </div>
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"></i>Reports</a>
+                          </div>
+                          <div className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" href="#/settings" aria-current="page"><i className="nav-icon"></i>Settings</a>
+                          </div>
+                        </div>
+                        <div className="side-bar-footer" >
                         <div className="divider" />
                         <div className="help"><div className="icon"><img src={require('../../assets/img/brand/help-icon.svg')}/></div><a>Help</a></div>
                         <div className="terms"><a>Terms</a></div>
                         <div className="privacy"><a>Privacy</a></div>
-                        </AppSidebarFooter>
-                    </AppSidebar> 
+                        </div>
+                    </div> 
             <Switch>
                 {routes.map((route, idx) => {
                     return route.component ? (<Route key={idx} path={route.path} exact={route.exact} name={route.name} render={props => (
@@ -39,7 +58,7 @@ class DefaultLayout extends Component {
                 )}
                 <Redirect from="/" to="/dashboard" />
               </Switch>
-      </Container>
+      </div>
     );
   }
 }

@@ -10,15 +10,15 @@ class SideBarProfile extends Component {
           <img className="" src="https://res.cloudinary.com/devgeaks/image/upload/v1523729999/2017-03-02_08.30.03.jpg"/>
           <p className="profile-name">Pay Finance Ltd.</p>
           <AppHeaderDropdown>
-            <DropdownToggle nav >
-            <div className="toggle">
+            <DropdownToggle className="toggle" >
             <i className="fa fa-chevron-left"></i>
-            </div> 
             </DropdownToggle>
             <DropdownMenu>
             <div  className="profile-body">
+            <div className="profile-header">
             <img className="" src="https://res.cloudinary.com/devgeaks/image/upload/v1523729999/2017-03-02_08.30.03.jpg"/>
             <p className="profile-name">Pay Finance Ltd.</p>
+            </div>
             <DropdownItem className="close-container"><i className="fa fa-close close"></i></DropdownItem>
             <div className="divider"></div>
             <div className="header-text">You're signed in as jubril.abass@gmail.com</div>
