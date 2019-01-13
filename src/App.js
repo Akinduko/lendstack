@@ -12,7 +12,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 // Import Main styles for this application
 import './scss/style.css'
-import { Login, Register, RequestAccess } from './views/Pages';
+import { Login, Register, RequestAccess ,ValidateAccess, Success} from './views/Pages';
 // Containers
 import { DefaultLayout } from './containers';
 
@@ -24,7 +24,9 @@ class App extends Component {
       <HashRouter>
         <Switch>
           <Route exact path="/login" name="Login Page" component={Login} />
-          <Route exact path="/reset" name="Reset Password" component={RequestAccess} />
+          <Route exact path="/success" name="Success Page" component={Success} />
+          <Route  exact path="/reset" name="Reset Password" component={RequestAccess} />
+          <Route  path="/validate/:id" name="Validate Page" component={ValidateAccess} />
           <Route exact path="/register" name="Register Page" component={Register} />
           <Route path="/" name="Home" component={DefaultLayout} />
         </Switch>
