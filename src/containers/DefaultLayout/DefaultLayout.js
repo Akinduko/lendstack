@@ -23,22 +23,22 @@ class DefaultLayout extends Component {
                        <SideBarProfile/>
                         <div className="nav-main-custom">
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/dashboard"><i className="nav-icon"></i>Dashboard</a>
+                            <a className="nav-main-link-custom" href="#/dashboard"><i className="nav-icon"><img src={require('../../assets/img/brand/dashboard-icon.svg')}/></i>Dashboard</a>
                           </div>
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#"><i className="nav-icon"></i>Loans</a>
+                            <a className="nav-main-link-custom" href="#/loans"><i className="nav-icon"><img src={require('../../assets/img/brand/loans-icon.svg')}/></i>Loans</a>
                           </div>
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"></i>Transactions</a>
+                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"><img src={require('../../assets/img/brand/transactions-icon.svg')}/></i>Transactions</a>
                           </div>
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom active" href="#/"><i className="nav-icon"></i>Products</a>
+                            <a className="nav-main-link-custom active" href="#/"><i className="nav-icon"><img src={require('../../assets/img/brand/product-icon.svg')}/></i>Products</a>
                           </div>
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"></i>Reports</a>
+                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"><img src={require('../../assets/img/brand/reports-icon.svg')}/></i>Reports</a>
                           </div>
                           <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/settings" aria-current="page"><i className="nav-icon"></i>Settings</a>
+                            <a className="nav-main-link-custom" href="#/settings" aria-current="page"><i className="nav-icon"><img src={require('../../assets/img/brand/settings-icon.svg')}/></i>Settings</a>
                           </div>
                         </div>
                         <div className="side-bar-footer" >

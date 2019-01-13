@@ -1,0 +1,6 @@
+{
+  "name": "DataArtistList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./DataArtistList.js"
+}
