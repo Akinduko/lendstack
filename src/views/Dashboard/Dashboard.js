@@ -38,9 +38,15 @@ class Dashboard extends Component {
     this.setState({ fadeIn: !this.state.fadeIn });
   }
   
+<<<<<<< HEAD
   // async componentDidMount(){
   //   await this.props.dispatch(actions("SET_TOKEN_FULFILLED",{token:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODEsInVzZXJBZ2VudCI6InNwZWNpYWxfdXNlcl9hZ2VudCIsInNjb3BlIjpbImxlbmRlciJdLCJ0eXBlIjoibG9naW4iLCJpYXQiOjE1NDcxOTcyOTl9.w4-8FHAi4Ahxw3-MB8QH26vfNSh3b6quR-hEmzG3owqTEZzhSoW1nNDYk7g7MBqjqrMw1kQJspt9Vljk0Q9Ejg"}))
   // }
+=======
+  async componentDidMount(){
+    await this.props.dispatch(actions("SET_TOKEN_FULFILLED",{token:"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODEsInVzZXJBZ2VudCI6InNwZWNpYWxfdXNlcl9hZ2VudCIsInNjb3BlIjpbImxlbmRlciJdLCJ0eXBlIjoibG9naW4iLCJpYXQiOjE1NDcxOTcyOTl9.w4-8FHAi4Ahxw3-MB8QH26vfNSh3b6quR-hEmzG3owqTEZzhSoW1nNDYk7g7MBqjqrMw1kQJspt9Vljk0Q9Ejg"}))
+  }
+>>>>>>> 1c6c3ce35428264dc4a5a0afa09531646e092739
   renderPage(){
     if(this.props.auth.token){
       return (<div>
