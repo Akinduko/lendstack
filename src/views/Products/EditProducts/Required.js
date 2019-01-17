@@ -68,12 +68,17 @@ class Required extends Component {
   }
 
   async componentDidMount(){
-    const id = this.props.edit_product.id
-    await this.props.dispatch(actions("EDIT_PRODUCT_GROUPS",get_action(this.props.token,`products/${id}/groups`,"")))
-    switch(this.props.edit_product_groups_state){
-      case "success":
-      break
+   
+    if(this.props.edit_product.id && this.props.edit_product){
+      const id = this.props.edit_product.id
+      await this.props.dispatch(actions("EDIT_PRODUCT_GROUPS",get_action(this.props.token,`products/${id}/groups`,"")))
+      switch(this.props.edit_product_groups_state){
+        case "success":
+        break
+      }
     }
+    this.props.history.push('/product')
+
   }
 
   toggle(tab) {

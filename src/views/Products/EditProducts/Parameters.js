@@ -70,43 +70,47 @@ class Parameters extends Component {
   }
 
   async componentDidMount(){
-    const id = this.props.edit_product.id
-    await this.props.dispatch(actions("EDIT_PRODUCT_PARAMETERS",get_action(this.props.token,`products/${id}/parameters`,"")))
-    switch(this.props.edit_product_parameters_state){
-      case "success":
-      const _validFields ={}
-      const _validField =[]
-      const _fields ={}
-      const values ={}
-      for (let each of this.props.edit_product_parameters ){
-        _validField.push(`${each.parameter_description}_min`)
-        _validField.push(`${each.parameter_description}_max`)
-        _validFields[`${each.parameter_description}_max`]=false
-        _validFields[`${each.parameter_description}_min`]=false
-        _fields[`${each.parameter_description}_max`]=""
-        _fields[`${each.parameter_description}_min`]=""
-        values[`${each.parameter_description}_max`]=each.parameter_maximum_value
-        values[`${each.parameter_description}_min`]=each.parameter_minimum_value
-        values[`${each.parameter_description}`]=each.parameter_value
-      }
-      await this.setState({
-        formErrors:{...this.state["formErrors"],..._fields},
-        validFields:{...this.state["validFields"],..._validFields},
-        validField:[...this.state["validField"],..._validField],
-        name:this.props.product_name,
-        ...values
-      })
-      break;
-      case "failed":
-      return <div>An Error Occured</div>
-      break;
-      case "pending":
-      return <div>Loading</div>
-      break;
-      default:
   
-      break;
-    }   
+    if(this.props.edit_product && this.props.edit_product.id){
+      const id = this.props.edit_product.id
+      await this.props.dispatch(actions("EDIT_PRODUCT_PARAMETERS",get_action(this.props.token,`products/${id}/parameters`,"")))
+      switch(this.props.edit_product_parameters_state){
+        case "success":
+        const _validFields ={}
+        const _validField =[]
+        const _fields ={}
+        const values ={}
+        for (let each of this.props.edit_product_parameters ){
+          _validField.push(`${each.parameter_description}_min`)
+          _validField.push(`${each.parameter_description}_max`)
+          _validFields[`${each.parameter_description}_max`]=false
+          _validFields[`${each.parameter_description}_min`]=false
+          _fields[`${each.parameter_description}_max`]=""
+          _fields[`${each.parameter_description}_min`]=""
+          values[`${each.parameter_description}_max`]=each.parameter_maximum_value
+          values[`${each.parameter_description}_min`]=each.parameter_minimum_value
+          values[`${each.parameter_description}`]=each.parameter_value
+        }
+        await this.setState({
+          formErrors:{...this.state["formErrors"],..._fields},
+          validFields:{...this.state["validFields"],..._validFields},
+          validField:[...this.state["validField"],..._validField],
+          name:this.props.product_name,
+          ...values
+        })
+        break;
+        case "failed":
+        return <div>An Error Occured</div>
+        break;
+        case "pending":
+        return <div>Loading</div>
+        break;
+        default:
+    
+        break;
+      }   
+    }
+    this.props.history.push('/product')
   }
 
   toggle(tab) {
