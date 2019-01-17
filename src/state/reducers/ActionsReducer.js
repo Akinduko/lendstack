@@ -9,7 +9,24 @@ const options = {
     GET_USER_BANKS:"user_banks",
     GET_ALL_BANKS:"all_banks",
     GET_PRODUCT_GROUP:"all_groups",
-    SET_LOAN_ACTION:"new_loan"
+    SET_LOAN_ACTION:"new_loan",
+    GET_PRODUCT_FIELDS:"group_fields",
+    SET_NEW_PRODUCT:"new_product",
+    SET_PRODUCT_TAB:"product_tab",
+    CREATE_NEW_PRODUCT:"create_product",
+    SET_NEW_PRODUCT:"set_product",
+    GET_ALL_PRODUCTS:"all_products",
+    GET_PRODUCT_FIELD:"product_field",
+    SET_EDIT_PRODUCT:"edit_product",
+    SET_VIEW_PRODUCT:"view_product",
+    GET_PRODUCT_PARAMETERS:"product_parameters",
+    CREATE_NEW_PARAMETER:"create_parameter",
+    EDIT_PRODUCT_PARAMETERS:"edit_product_parameters",
+    UPDATE_PRODUCTS_STATUS: "update_product_status",
+    UPDATE_NEW_PRODUCT:"update_new_product",
+    UPDATE_NEW_PARAMETER:"update_new_parameter",
+    EDIT_PRODUCT_FIELDS:"edit_product_fields",
+    EDIT_PRODUCT_GROUPS:"edit_product_groups"
 }
 export const action = (    
     state = {

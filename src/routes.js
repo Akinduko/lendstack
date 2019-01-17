@@ -37,6 +37,12 @@ const Products = Loadable({
   loading: Loading,
 });
 
+const EditProducts = Loadable({
+  loader: () => import('./views/Products/EditProducts'),
+  loading: Loading,
+});
+
+
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -47,6 +53,7 @@ const routes = [
   {path: '/loans',exact: true, name: 'Loans', component: Loans},
   {path: '/add-guarantor',exact: true, name: 'AddGuarantors', component: AddGuarantors},
   {path: '/decline-loan',exact: true, name: 'DeclineLoan', component: DeclineLoan},
+  {path: '/edit-product',exact: true, name: 'EditProducts', component: EditProducts}
 ];
 
 export default routes;

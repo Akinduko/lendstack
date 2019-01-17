@@ -10528,7 +10528,8 @@ body {
 
 .react-bs-table-container .react-bs-table .react-bs-container-body .table {
   width: 100%;
-  position: absolute; }
+  position: absolute;
+  height: 150%; }
   .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr {
     height: 80px;
     background: #FFFFFF;
@@ -10569,44 +10570,6 @@ body {
           text-transform: uppercase;
           color: #545F7D;
           opacity: 0.6; }
-        .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-slider {
-          position: relative;
-          display: block;
-          height: inherit;
-          cursor: pointer;
-          border: none;
-          border-top-color: currentcolor;
-          border-right-color: currentcolor;
-          border-bottom-color: currentcolor;
-          border-left-color: currentcolor;
-          -webkit-transition: .15s ease-out;
-          -o-transition: .15s ease-out;
-          transition: .15s ease-out;
-          background: #39CDCC;
-          border-radius: 100px !important; }
-        .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-success .switch-input:checked + .switch-slider {
-          background-color: #4dbd74;
-          border-color: #3a9d5d;
-          background: #39CDCC;
-          border-radius: 100px !important; }
-        .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-slider::before {
-          position: absolute;
-          top: 2px;
-          left: 2px;
-          -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-          width: 20px;
-          height: 20px;
-          background-color: #fff;
-          border: 1px solid #c8ced3;
-          border-top-color: #c8ced3;
-          border-right-color: #c8ced3;
-          border-bottom-color: #c8ced3;
-          border-left-color: #c8ced3;
-          -webkit-transition: .15s ease-out;
-          -o-transition: .15s ease-out;
-          transition: .15s ease-out;
-          border-radius: 120px; }
       .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .profile {
         display: flex;
         flex-direction: column; }
@@ -10640,17 +10603,30 @@ body {
         font-size: 14px;
         color: #545F7D; }
 
-.react-bs-table-container .react-bs-table .react-bs-table-pagination {
-  margin-top: 10px;
-  display: none; }
+.react-bs-table-container .react-bs-table .react-bs-table {
+  height: 85%; }
+
+.react-bs-table-container .react-bs-table .react-bootstrap-table-page-btns-ul {
+  float: right;
+  margin-top: 0;
+  display: flex; }
+  .react-bs-table-container .react-bs-table .react-bootstrap-table-page-btns-ul .pagination {
+    display: -ms-flexbox;
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem; }
+
+.react-bs-table-container .react-bs-table {
+  height: 85%; }
 
 .react-bs-table-container .react-bootstrap-table-page-btns-ul {
   float: right;
   margin-top: 0;
-  display: none; }
+  display: flex; }
   .react-bs-table-container .react-bootstrap-table-page-btns-ul .pagination {
     display: -ms-flexbox;
-    display: none;
+    display: flex;
     padding-left: 0;
     list-style: none;
     border-radius: 0.25rem; }
@@ -14314,132 +14290,16 @@ body {
         .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details {
           width: 100%;
           height: 20%;
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-start;
-          margin-bottom: 5%; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .first-name {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .first-name .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .first-name .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .last-name {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .last-name .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .last-name .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .dob {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .dob .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .dob .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .address {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .address .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .address .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-        .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details {
-          width: 100%;
-          height: 20%;
+          display: -ms-flexbox;
           display: flex;
           -ms-flex-direction: row;
           flex-direction: row;
-          -ms-flex-pack: space-evenly;
-          justify-content: space-between; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .city {
-            width: 100%;
+          -ms-flex-pack: start;
+          justify-content: space-between;
+          margin-bottom: 5%;
+          flex-wrap: wrap; }
+          .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .items {
+            width: 30%;
             height: 100%;
             display: flex;
             -ms-flex-direction: column;
@@ -14450,7 +14310,7 @@ body {
             margin-bottom: 10%;
             border: none;
             padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .city .first {
+            .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .items .first {
               background: #F8FAFB;
               -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
               box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
@@ -14458,81 +14318,7 @@ body {
               padding-top: 1%;
               padding-left: 5%;
               border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .city .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .state {
-            width: 45%;
-            margin-bottom: 10%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
-            border-radius: 5px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .state .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .state .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-          .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .email {
-            width: 45%;
-            margin-bottom: 10%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
-            border-radius: 5px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid #EDF1F5;
-            border-radius: 5px;
-            margin-bottom: 10%;
-            border: none;
-            padding-right: 5%; }
-            .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .email .first {
-              background: #F8FAFB;
-              -webkit-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.0599808);
-              height: 45%;
-              padding-top: 1%;
-              padding-left: 5%;
-              border-radius: 5px; }
-              .view-product-modal .sub-container .tab-content .tab-pane .required-page .bottom-details .email .first a {
+              .view-product-modal .sub-container .tab-content .tab-pane .required-page .top-details .items .first a {
                 font-family: "Work Sans";
                 font-style: normal;
                 font-weight: 500;
@@ -16629,9 +16415,11 @@ body {
 
 .add-product-body {
   display: flex;
+  -ms-flex-direction: column;
   flex-direction: column;
   width: 100%;
-  height: 90%; }
+  height: 100%;
+  padding-bottom: 10%; }
   .add-product-body .row {
     display: flex;
     margin-right: unset !important;
@@ -16639,12 +16427,9 @@ body {
     -ms-flex-direction: column;
     flex-direction: row;
     width: 100%;
-    height: 150%;
+    height: 85%;
     padding-left: 3%;
-    margin-top: 0px !important;
-    position: relative;
-    overflow-y: auto;
-    overflow-x: hidden; }
+    margin-top: 0px !important; }
   .add-product-body .nav {
     display: -ms-flexbox;
     display: flex;
@@ -16743,407 +16528,572 @@ body {
     font-weight: 500;
     line-height: 20px;
     font-size: 16px; }
-  .add-product-body .tab-content .tab-pane {
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
+  .add-product-body .tab-content {
     border: none;
-    padding-left: unset !important; }
-    .add-product-body .tab-content .tab-pane .parameters-page {
+    -webkit-box-shadow: unset !important;
+    box-shadow: unset !important;
+    border-radius: 5px;
+    width: 100%;
+    height: auto !important;
+    background: #FFF !important;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: row;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding-top: 5%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative; }
+    .add-product-body .tab-content .tab-pane {
+      flex-direction: row;
+      justify-content: center;
       width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between; }
-      .add-product-body .tab-content .tab-pane .parameters-page .left-details {
-        width: 40%;
-        height: 40%;
-        display: flex;
-        flex-direction: column;
-        padding-left: 5%; }
-        .add-product-body .tab-content .tab-pane .parameters-page .left-details .first {
-          height: 50%;
-          width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .left-details .first a {
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            font-size: 30px;
-            color: #545F7D; }
-        .add-product-body .tab-content .tab-pane .parameters-page .left-details .second {
-          height: 50%;
-          width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .left-details .second a {
-            color: rgba(84, 95, 125, 0.6);
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: normal;
-            line-height: 20px;
-            font-size: 14px; }
-      .add-product-body .tab-content .tab-pane .parameters-page .right-details {
-        width: 60%;
+      border: none;
+      padding-left: unset !important; }
+      .add-product-body .tab-content .tab-pane .parameters-page {
+        width: 100%;
         height: 100%;
         display: flex;
         flex-direction: row;
-        padding-right: 5%;
         justify-content: space-between; }
-        .add-product-body .tab-content .tab-pane .parameters-page .right-details .left {
-          width: 48%;
-          height: 100%;
+        .add-product-body .tab-content .tab-pane .parameters-page .left-details {
+          width: 40%;
+          height: 40%;
           display: flex;
-          flex-direction: column; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name {
-            display: flex;
-            flex-direction: column;
-            height: 30%;
+          flex-direction: column;
+          padding-left: 5%; }
+          .add-product-body .tab-content .tab-pane .parameters-page .left-details .first {
+            height: 50%;
             width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name {
-            display: flex;
-            flex-direction: column;
-            height: 30%;
-            width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number {
-            display: flex;
-            flex-direction: column;
-            height: 30%;
-            width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit {
-            width: 35%;
-            height: 10%;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-            border-radius: 5px; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit:hover {
-              cursor: pointer; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit input {
+            .add-product-body .tab-content .tab-pane .parameters-page .left-details .first a {
               font-family: "Work Sans";
               font-style: normal;
               font-weight: 600;
               line-height: normal;
-              font-size: 14px;
-              text-align: center;
-              letter-spacing: 0.1em;
-              text-transform: uppercase;
-              color: #FFFFFF;
-              width: 100%;
-              border: none;
-              background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
-              height: 100%; }
-        .add-product-body .tab-content .tab-pane .parameters-page .right-details .right {
-          width: 48%;
+              font-size: 30px;
+              color: #545F7D; }
+          .add-product-body .tab-content .tab-pane .parameters-page .left-details .second {
+            height: 50%;
+            width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .left-details .second a {
+              color: rgba(84, 95, 125, 0.6);
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: normal;
+              line-height: 20px;
+              font-size: 14px; }
+        .add-product-body .tab-content .tab-pane .parameters-page .right-details {
+          width: 60%;
           height: 100%;
           display: flex;
-          flex-direction: column; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name {
+          flex-direction: row;
+          padding-right: 5%;
+          justify-content: space-between; }
+          .add-product-body .tab-content .tab-pane .parameters-page .right-details .left {
+            width: 48%;
+            height: 100%;
             display: flex;
-            flex-direction: column;
-            height: 30%;
-            width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email {
-            display: flex;
-            flex-direction: column;
-            height: 30%;
-            width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob {
-            display: flex;
-            flex-direction: column;
-            height: 30%;
-            width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .first {
-              height: 30%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .first a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .second {
-              height: 90%;
-              width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 50%;
-                width: 100%; }
-        .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div {
-          display: flex;
-          width: 100%;
-          height: 100%;
-          flex-direction: column;
-          justify-content: flex-start; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio {
-            display: flex;
-            flex-direction: row;
-            height: 10%;
-            width: 100%;
-            margin-bottom: 5%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .text {
+            flex-direction: column; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name {
               display: flex;
               flex-direction: column;
-              height: 100%;
-              width: 30%;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .text a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 21px;
-                font-size: 14px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios {
-              display: flex;
-              flex-direction: row;
-              height: 100%;
-              width: 50%;
-              padding-top: 0%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .form-check-input {
-                padding: unset !important;
-                position: unset !important;
-                margin-top: unset !important;
-                margin-left: unset !important;
-                margin: unset !important; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 {
-                display: flex;
-                flex-direction: row;
-                height: 100%;
-                width: 10%;
-                margin-left: 5%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 input {
-                  height: 100%;
-                  width: 50%;
-                  background: #39CDCC; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 a {
-                  font-family: "Work Sans";
-                  font-style: normal;
-                  font-weight: 500;
-                  line-height: 21px;
-                  font-size: 14px;
-                  letter-spacing: 0.08em;
-                  text-transform: uppercase;
-                  color: #545F7D;
-                  width: 50%;
-                  padding: 15%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 {
-                display: flex;
-                flex-direction: row;
-                height: 100%;
-                width: 10%;
-                margin-left: 30%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 input {
-                  height: 100%;
-                  width: 50%;
-                  background: #39CDCC; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 a {
-                  font-family: "Work Sans";
-                  font-style: normal;
-                  font-weight: 500;
-                  line-height: 21px;
-                  font-size: 14px;
-                  letter-spacing: 0.08em;
-                  text-transform: uppercase;
-                  color: #545F7D;
-                  width: 50%;
-                  padding: 15%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount {
-            display: flex;
-            width: 100%;
-            height: 25%;
-            flex-direction: column; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .first {
               height: 30%;
               width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .first a {
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .first-name .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name {
+              display: flex;
+              flex-direction: column;
+              height: 30%;
+              width: 100%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .last-name .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number {
+              display: flex;
+              flex-direction: column;
+              height: 30%;
+              width: 100%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .phone-number .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit {
+              width: 35%;
+              height: 10%;
+              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+              border-radius: 5px; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit:hover {
+                cursor: pointer; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .left .submit input {
                 font-family: "Work Sans";
                 font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .second {
-              height: 50%;
+                font-weight: 600;
+                line-height: normal;
+                font-size: 14px;
+                text-align: center;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #FFFFFF;
+                width: 100%;
+                border: none;
+                background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+                height: 100%; }
+          .add-product-body .tab-content .tab-pane .parameters-page .right-details .right {
+            width: 48%;
+            height: 100%;
+            display: flex;
+            flex-direction: column; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name {
+              display: flex;
+              flex-direction: column;
+              height: 30%;
               width: 100%; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .second input {
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px;
-                height: 100%;
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .first {
+                height: 30%;
                 width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group {
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .middle-name .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email {
+              display: flex;
+              flex-direction: column;
+              height: 30%;
+              width: 100%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .email .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob {
+              display: flex;
+              flex-direction: column;
+              height: 30%;
+              width: 100%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .second {
+                height: 90%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .right .dob .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 50%;
+                  width: 100%; }
+          .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div {
             display: flex;
             width: 100%;
-            height: 25%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: flex-start; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio {
+              display: flex;
+              flex-direction: row;
+              height: 10%;
+              width: 100%;
+              margin-bottom: 5%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .text {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                width: 30%;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .text a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 21px;
+                  font-size: 14px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios {
+                display: flex;
+                flex-direction: row;
+                height: 100%;
+                width: 50%;
+                padding-top: 0%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .form-check-input {
+                  padding: unset !important;
+                  position: unset !important;
+                  margin-top: unset !important;
+                  margin-left: unset !important;
+                  margin: unset !important; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 {
+                  display: flex;
+                  flex-direction: row;
+                  height: 100%;
+                  width: 10%;
+                  margin-left: 5%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 input {
+                    height: 100%;
+                    width: 50%;
+                    background: #39CDCC; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-1 a {
+                    font-family: "Work Sans";
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 21px;
+                    font-size: 14px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #545F7D;
+                    width: 50%;
+                    padding: 15%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 {
+                  display: flex;
+                  flex-direction: row;
+                  height: 100%;
+                  width: 10%;
+                  margin-left: 30%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 input {
+                    height: 100%;
+                    width: 50%;
+                    background: #39CDCC; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .radio .radios .radio-2 a {
+                    font-family: "Work Sans";
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 21px;
+                    font-size: 14px;
+                    letter-spacing: 0.08em;
+                    text-transform: uppercase;
+                    color: #545F7D;
+                    width: 50%;
+                    padding: 15%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount {
+              display: flex;
+              width: 100%;
+              height: 25%;
+              flex-direction: column; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .first {
+                height: 30%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .first a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .second {
+                height: 50%;
+                width: 100%; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .amount .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  height: 100%;
+                  width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group {
+              display: flex;
+              width: 100%;
+              height: 25%;
+              flex-direction: row;
+              justify-content: space-between; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor {
+                display: flex;
+                width: 48%;
+                height: 100%;
+                flex-direction: column; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .first {
+                  height: 30%;
+                  width: 100%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .first a {
+                    font-family: "Work Sans";
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px;
+                    font-size: 12px;
+                    color: #545F7D;
+                    opacity: 0.6; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .second {
+                  height: 50%;
+                  width: 100%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .second input {
+                    background: #FFFFFF;
+                    border: 1px solid rgba(84, 95, 125, 0.15);
+                    box-sizing: border-box;
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay {
+                display: flex;
+                width: 48%;
+                height: 100%;
+                flex-direction: column; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .first {
+                  height: 30%;
+                  width: 100%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .first a {
+                    font-family: "Work Sans";
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 18px;
+                    font-size: 12px;
+                    color: #545F7D;
+                    opacity: 0.6; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .second {
+                  height: 50%;
+                  width: 100%; }
+                  .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .second input {
+                    background: #FFFFFF;
+                    border: 1px solid rgba(84, 95, 125, 0.15);
+                    box-sizing: border-box;
+                    border-radius: 5px;
+                    height: 100%;
+                    width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .submit {
+              height: 14%;
+              width: 25%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .submit input {
+                background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+                border-radius: 5px;
+                font-family: "Work Sans";
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                font-size: 14px;
+                text-align: center;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: #FFFFFF;
+                height: 100%;
+                width: 100%; }
+        .add-product-body .tab-content .tab-pane .parameters-page .right-column {
+          display: flex;
+          flex-direction: column;
+          width: 60%;
+          height: 100%; }
+          .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row {
+            display: flex;
             flex-direction: row;
-            justify-content: space-between; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor {
+            width: 100%;
+            height: 100%;
+            justify-content: space-between;
+            padding-bottom: 5%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left {
               display: flex;
-              width: 48%;
-              height: 100%;
-              flex-direction: column; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .first {
-                height: 30%;
-                width: 100%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .first a {
+              flex-direction: column;
+              background: #FFFFFF;
+              border: 1px solid rgba(84, 95, 125, 0.15);
+              border-radius: 5px;
+              border-style: dashed;
+              justify-content: space-between;
+              width: 45%;
+              height: 85%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .upload-icon {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 25%;
+                width: 100%;
+                margin-top: 10%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .upload-icon img {
+                  height: 100%;
+                  width: 45px; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .text {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 45%;
+                width: 100%;
+                padding-top: 5%;
+                padding-bottom: 5%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .text a {
                   font-family: "Work Sans";
                   font-style: normal;
                   font-weight: 500;
                   line-height: 18px;
                   font-size: 12px;
+                  text-align: center;
                   color: #545F7D;
                   opacity: 0.6; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .second {
-                height: 50%;
-                width: 100%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .tenor .second input {
-                  background: #FFFFFF;
-                  border: 1px solid rgba(84, 95, 125, 0.15);
-                  box-sizing: border-box;
-                  border-radius: 5px;
-                  height: 100%;
-                  width: 100%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay {
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .label {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 13%;
+                width: 100%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .label a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: 18px;
+                  font-size: 12px;
+                  text-align: center;
+                  letter-spacing: 0.1em;
+                  color: #39CDCC; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right {
               display: flex;
-              width: 48%;
-              height: 100%;
-              flex-direction: column; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .first {
-                height: 30%;
-                width: 100%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .first a {
+              flex-direction: column;
+              background: #FFFFFF;
+              border: 1px solid rgba(84, 95, 125, 0.15);
+              border-radius: 5px;
+              border-style: dashed;
+              justify-content: space-between;
+              width: 45%;
+              height: 85%; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .upload-icon {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 25%;
+                width: 100%;
+                margin-top: 10%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .upload-icon img {
+                  height: 100%;
+                  width: 45px; }
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .text {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 45%;
+                width: 100%;
+                padding-top: 5%;
+                padding-bottom: 5%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .text a {
                   font-family: "Work Sans";
                   font-style: normal;
                   font-weight: 500;
                   line-height: 18px;
                   font-size: 12px;
+                  text-align: center;
                   color: #545F7D;
                   opacity: 0.6; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .second {
-                height: 50%;
-                width: 100%; }
-                .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .group .pay .second input {
-                  background: #FFFFFF;
-                  border: 1px solid rgba(84, 95, 125, 0.15);
-                  box-sizing: border-box;
-                  border-radius: 5px;
-                  height: 100%;
-                  width: 100%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .submit {
-            height: 14%;
-            width: 25%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-details .column-div .submit input {
+              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .label {
+                display: flex;
+                -ms-flex-direction: row;
+                flex-direction: row;
+                height: 13%;
+                width: 100%;
+                -ms-flex-pack: center;
+                justify-content: center; }
+                .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .label a {
+                  font-family: "Work Sans";
+                  font-style: normal;
+                  font-weight: 600;
+                  line-height: 18px;
+                  font-size: 12px;
+                  text-align: center;
+                  letter-spacing: 0.1em;
+                  color: #39CDCC; }
+          .add-product-body .tab-content .tab-pane .parameters-page .right-column .submit {
+            display: flex;
+            width: 24%;
+            height: 12%; }
+            .add-product-body .tab-content .tab-pane .parameters-page .right-column .submit input {
               background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
               box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
               border-radius: 5px;
@@ -17156,205 +17106,245 @@ body {
               letter-spacing: 0.1em;
               text-transform: uppercase;
               color: #FFFFFF;
-              height: 100%;
-              width: 100%; }
-      .add-product-body .tab-content .tab-pane .parameters-page .right-column {
+              width: 100%;
+              height: 100%; }
+      .add-product-body .tab-content .tab-pane .required-page {
+        width: 100%;
+        height: 100%;
         display: flex;
-        flex-direction: column;
-        width: 60%;
-        height: 100%; }
-        .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row {
+        flex-direction: row;
+        justify-content: space-between; }
+        .add-product-body .tab-content .tab-pane .required-page .left-details {
+          width: 40%;
+          height: 40%;
           display: flex;
-          flex-direction: row;
-          width: 100%;
+          flex-direction: column;
+          padding-left: 5%; }
+          .add-product-body .tab-content .tab-pane .required-page .left-details .first {
+            height: 50%;
+            width: 100%; }
+            .add-product-body .tab-content .tab-pane .required-page .left-details .first a {
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              font-size: 30px;
+              color: #545F7D; }
+          .add-product-body .tab-content .tab-pane .required-page .left-details .second {
+            height: 50%;
+            width: 100%;
+            padding-top: 10%; }
+            .add-product-body .tab-content .tab-pane .required-page .left-details .second a {
+              color: rgba(84, 95, 125, 0.6);
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: normal;
+              line-height: 20px;
+              font-size: 14px; }
+        .add-product-body .tab-content .tab-pane .required-page .right-details {
+          display: flex;
+          flex-direction: column;
+          width: 60%;
+          height: 100%; }
+          .add-product-body .tab-content .tab-pane .required-page .right-details .each-box {
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            height: 10%; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .accordion {
+              border: none !important;
+              border-radius: 2px; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .accordion__title {
+              background-color: unset !important;
+              cursor: pointer;
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: 300;
+              line-height: normal;
+              font-size: 20px;
+              color: #545F7D;
+              border-bottom: 1px solid rgba(219, 223, 233, 0.35); }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .accordion__title:hover {
+              background-color: unset !important; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .accordion__body {
+              padding: 20px;
+              display: block;
+              -webkit-animation: fadein 0.35s ease-in;
+              animation: fadein 0.35s ease-in; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .accordion__body--hidden {
+              display: none;
+              opacity: 0;
+              -webkit-animation: fadein 0.35s ease-in;
+              animation: fadein 0.35s ease-in; }
+          .add-product-body .tab-content .tab-pane .required-page .right-details .submit {
+            display: flex;
+            flex-direction: row;
+            width: 30%;
+            justify-content: flex-start;
+            padding-top: 5%;
+            height: 25%; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .submit input {
+              font-family: Work Sans;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              font-size: 14px;
+              text-align: center;
+              letter-spacing: 0.1em;
+              text-transform: uppercase;
+              color: #FFFFFF;
+              background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+              border-radius: 5px; }
+            .add-product-body .tab-content .tab-pane .required-page .right-details .submit:hover {
+              cursor: pointer; }
+      .add-product-body .tab-content .tab-pane .parameter-page {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between; }
+        .add-product-body .tab-content .tab-pane .parameter-page .left-details {
+          width: 40%;
+          height: 40%;
+          display: flex;
+          flex-direction: column;
+          padding-left: 5%; }
+          .add-product-body .tab-content .tab-pane .parameter-page .left-details .first {
+            height: 50%;
+            width: 100%; }
+            .add-product-body .tab-content .tab-pane .parameter-page .left-details .first a {
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              font-size: 30px;
+              color: #545F7D; }
+          .add-product-body .tab-content .tab-pane .parameter-page .left-details .second {
+            height: 50%;
+            width: 100%;
+            padding-top: 10%; }
+            .add-product-body .tab-content .tab-pane .parameter-page .left-details .second a {
+              color: rgba(84, 95, 125, 0.6);
+              font-family: "Work Sans";
+              font-style: normal;
+              font-weight: normal;
+              line-height: 20px;
+              font-size: 14px; }
+        .add-product-body .tab-content .tab-pane .parameter-page .right-details {
+          width: 48%;
           height: 100%;
-          justify-content: space-between;
-          padding-bottom: 5%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left {
-            display: flex;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid rgba(84, 95, 125, 0.15);
-            border-radius: 5px;
-            border-style: dashed;
-            justify-content: space-between;
-            width: 45%;
-            height: 85%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .upload-icon {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 25%;
-              width: 100%;
-              margin-top: 10%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .upload-icon img {
-                height: 100%;
-                width: 45px; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .text {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 45%;
-              width: 100%;
-              padding-top: 5%;
-              padding-bottom: 5%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .text a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                text-align: center;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .label {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 13%;
-              width: 100%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .left .label a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 600;
-                line-height: 18px;
-                font-size: 12px;
-                text-align: center;
-                letter-spacing: 0.1em;
-                color: #39CDCC; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right {
-            display: flex;
-            flex-direction: column;
-            background: #FFFFFF;
-            border: 1px solid rgba(84, 95, 125, 0.15);
-            border-radius: 5px;
-            border-style: dashed;
-            justify-content: space-between;
-            width: 45%;
-            height: 85%; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .upload-icon {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 25%;
-              width: 100%;
-              margin-top: 10%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .upload-icon img {
-                height: 100%;
-                width: 45px; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .text {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 45%;
-              width: 100%;
-              padding-top: 5%;
-              padding-bottom: 5%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .text a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 500;
-                line-height: 18px;
-                font-size: 12px;
-                text-align: center;
-                color: #545F7D;
-                opacity: 0.6; }
-            .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .label {
-              display: flex;
-              -ms-flex-direction: row;
-              flex-direction: row;
-              height: 13%;
-              width: 100%;
-              -ms-flex-pack: center;
-              justify-content: center; }
-              .add-product-body .tab-content .tab-pane .parameters-page .right-column .right-row .right .label a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 600;
-                line-height: 18px;
-                font-size: 12px;
-                text-align: center;
-                letter-spacing: 0.1em;
-                color: #39CDCC; }
-        .add-product-body .tab-content .tab-pane .parameters-page .right-column .submit {
           display: flex;
-          width: 24%;
-          height: 12%; }
-          .add-product-body .tab-content .tab-pane .parameters-page .right-column .submit input {
-            background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-            border-radius: 5px;
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            font-size: 14px;
-            text-align: center;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #FFFFFF;
+          flex-direction: column;
+          justify-content: space-evenly; }
+          .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
             width: 100%;
             height: 100%; }
-    .add-product-body .tab-content .tab-pane .required-page {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between; }
-      .add-product-body .tab-content .tab-pane .required-page .left-details {
-        width: 40%;
-        height: 40%;
-        display: flex;
-        flex-direction: column;
-        padding-left: 5%; }
-        .add-product-body .tab-content .tab-pane .required-page .left-details .first {
-          height: 50%;
-          width: 100%; }
-          .add-product-body .tab-content .tab-pane .required-page .left-details .first a {
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            font-size: 30px;
-            color: #545F7D; }
-        .add-product-body .tab-content .tab-pane .required-page .left-details .second {
-          height: 50%;
-          width: 100%; }
-          .add-product-body .tab-content .tab-pane .required-page .left-details .second a {
-            color: rgba(84, 95, 125, 0.6);
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: normal;
-            line-height: 20px;
-            font-size: 14px; }
-      .add-product-body .tab-content .tab-pane .required-page .right-details {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%; }
-        .add-product-body .tab-content .tab-pane .required-page .right-details .each-box {
-          display: flex;
-          -ms-flex-direction: column;
-          flex-direction: column;
-          width: 100%;
-          height: 10%;
-          padding-left: 20%; }
-          .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .Collapsible {
-            background-color: white; }
-          .add-product-body .tab-content .tab-pane .required-page .right-details .each-box .Collapsible__contentInner {
-            padding: 10px;
-            border: 1px solid #ebebeb;
-            border-top: 0; }
+            .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .full {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+              width: 100%;
+              height: 20%;
+              padding-bottom: 5%; }
+              .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .full a {
+                font-family: Work Sans;
+                font-style: normal;
+                font-weight: 500;
+                line-height: 18px;
+                font-size: 12px;
+                color: #545F7D;
+                opacity: 0.6; }
+              .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .full input {
+                background: #FFFFFF;
+                border: 1px solid rgba(84, 95, 125, 0.15);
+                box-sizing: border-box;
+                border-radius: 5px;
+                width: 100%;
+                height: 20%; }
+            .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              width: 100%;
+              height: 20%;
+              padding-bottom: 5%; }
+              .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group .first {
+                display: flex;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 45%; }
+                .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group .first a {
+                  font-family: Work Sans;
+                  font-style: normal;
+                  font-weight: 500;
+                  line-height: 18px;
+                  font-size: 12px;
+                  color: #545F7D;
+                  opacity: 0.6; }
+                .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group .first input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  width: 100%;
+                  height: 20%; }
+              .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group .second {
+                display: flex;
+                flex-direction: column;
+                width: 45%;
+                justify-content: flex-end; }
+                .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .group .second input {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(84, 95, 125, 0.15);
+                  box-sizing: border-box;
+                  border-radius: 5px;
+                  width: 100%;
+                  height: 20%; }
+            .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .row {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              width: 100%;
+              height: 20%;
+              padding-left: 0px !important;
+              padding-bottom: 5%; }
+              .add-product-body .tab-content .tab-pane .parameter-page .right-details .parameters .row a {
+                font-family: "Work Sans";
+                font-style: normal;
+                font-weight: 500;
+                line-height: 21px;
+                font-size: 14px;
+                color: #545F7D;
+                opacity: 0.6; }
+          .add-product-body .tab-content .tab-pane .parameter-page .right-details .submit {
+            display: flex;
+            flex-direction: row;
+            width: 30%;
+            justify-content: flex-start; }
+            .add-product-body .tab-content .tab-pane .parameter-page .right-details .submit input {
+              font-family: Work Sans;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              font-size: 14px;
+              text-align: center;
+              letter-spacing: 0.1em;
+              text-transform: uppercase;
+              color: #FFFFFF;
+              background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+              border-radius: 5px; }
+            .add-product-body .tab-content .tab-pane .parameter-page .right-details .submit:hover {
+              cursor: pointer; }
+
+html body .app.flex-row.align-items-center {
+  height: 100vh; }
 
 body {
   font-family: "Work Sans";
@@ -19390,47 +19380,6 @@ body {
                     text-transform: uppercase;
                     color: #545F7D;
                     opacity: 0.6; }
-                  .root-container .settings .settings-body .bank-account-page .account-content .account-cards .account-card .card-footer .toggle .switch {
-                    position: relative;
-                    top: -5px; }
-                  .root-container .settings .settings-body .bank-account-page .account-content .account-cards .account-card .card-footer .toggle .switch-slider {
-                    position: relative;
-                    display: block;
-                    height: inherit;
-                    cursor: pointer;
-                    border: none;
-                    border-top-color: currentcolor;
-                    border-right-color: currentcolor;
-                    border-bottom-color: currentcolor;
-                    border-left-color: currentcolor;
-                    -webkit-transition: .15s ease-out;
-                    -o-transition: .15s ease-out;
-                    transition: .15s ease-out;
-                    background: #39CDCC;
-                    border-radius: 100px !important; }
-                  .root-container .settings .settings-body .bank-account-page .account-content .account-cards .account-card .card-footer .toggle .switch-success .switch-input:checked + .switch-slider {
-                    background-color: #4dbd74;
-                    border-color: #3a9d5d;
-                    background: #39CDCC;
-                    border-radius: 100px !important; }
-                  .root-container .settings .settings-body .bank-account-page .account-content .account-cards .account-card .card-footer .toggle .switch-slider::before {
-                    position: absolute;
-                    top: 2px;
-                    left: 2px;
-                    -webkit-box-sizing: border-box;
-                    box-sizing: border-box;
-                    width: 20px;
-                    height: 20px;
-                    background-color: #fff;
-                    border: 1px solid #c8ced3;
-                    border-top-color: #c8ced3;
-                    border-right-color: #c8ced3;
-                    border-bottom-color: #c8ced3;
-                    border-left-color: #c8ced3;
-                    -webkit-transition: .15s ease-out;
-                    -o-transition: .15s ease-out;
-                    transition: .15s ease-out;
-                    border-radius: 120px; }
       .root-container .settings .settings-body .user-management-page {
         display: flex;
         flex-direction: column;
@@ -20614,12 +20563,13 @@ body {
     padding-top: 5%;
     flex-direction: column; }
     .products-page .user-table-container .full-user-list {
-      display: -ms-flexbox;
       display: flex;
       -ms-flex-direction: column;
       flex-direction: column;
       width: 100%;
-      height: 100%; }
+      height: 100%;
+      overflow-y: auto;
+      position: absolute; }
       .products-page .user-table-container .full-user-list .table-header {
         display: flex;
         flex-direction: row;
@@ -20738,12 +20688,27 @@ body {
       .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-header {
         overflow: hidden;
         width: 100%;
-        display: none; }
+        display: flex; }
+      .products-page .user-table-container .react-bs-table-container .react-bs-table .table {
+        width: 70%;
+        margin-bottom: 0rem;
+        background-color: transparent; }
+      .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-table .react-bs-container-header > table > thead > tr > th {
+        vertical-align: middle;
+        font-family: Work Sans;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        font-size: 12px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #545F7D;
+        opacity: 0.8; }
       .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table {
         display: flex;
         flex-direction: column;
         width: 100%;
-        height: 100%; }
+        height: 150%; }
         .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr {
           height: 80px;
           background: #FFFFFF;
@@ -20774,59 +20739,6 @@ body {
               text-transform: uppercase; }
               .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .edit:hover {
                 cursor: pointer; }
-            .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle {
-              display: flex;
-              flex-direction: row;
-              justify-content: space-evenly; }
-              .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle a {
-                font-family: Work Sans;
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                font-size: 14px;
-                text-align: right;
-                letter-spacing: 0.1em;
-                text-transform: uppercase;
-                color: #545F7D;
-                opacity: 0.6; }
-              .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-slider {
-                position: relative;
-                display: block;
-                height: inherit;
-                cursor: pointer;
-                border: none;
-                border-top-color: currentcolor;
-                border-right-color: currentcolor;
-                border-bottom-color: currentcolor;
-                border-left-color: currentcolor;
-                -webkit-transition: .15s ease-out;
-                -o-transition: .15s ease-out;
-                transition: .15s ease-out;
-                background: #39CDCC;
-                border-radius: 100px !important; }
-              .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-success .switch-input:checked + .switch-slider {
-                background-color: #4dbd74;
-                border-color: #3a9d5d;
-                background: #39CDCC;
-                border-radius: 100px !important; }
-              .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .toggle .switch-slider::before {
-                position: absolute;
-                top: 2px;
-                left: 2px;
-                -webkit-box-sizing: border-box;
-                box-sizing: border-box;
-                width: 20px;
-                height: 20px;
-                background-color: #fff;
-                border: 1px solid #c8ced3;
-                border-top-color: #c8ced3;
-                border-right-color: #c8ced3;
-                border-bottom-color: #c8ced3;
-                border-left-color: #c8ced3;
-                -webkit-transition: .15s ease-out;
-                -o-transition: .15s ease-out;
-                transition: .15s ease-out;
-                border-radius: 120px; }
             .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-container-body .table tbody tr td .profile {
               display: flex;
               flex-direction: column; }
@@ -20859,16 +20771,15 @@ body {
               line-height: normal;
               font-size: 14px;
               color: #545F7D; }
-      .products-page .user-table-container .react-bs-table-container .react-bs-table .react-bs-table-pagination {
-        margin-top: 10px;
-        display: none; }
+      .products-page .user-table-container .react-bs-table-container .react-bs-table {
+        height: 85%; }
       .products-page .user-table-container .react-bs-table-container .react-bootstrap-table-page-btns-ul {
         float: right;
         margin-top: 0;
-        display: none; }
+        display: flex; }
         .products-page .user-table-container .react-bs-table-container .react-bootstrap-table-page-btns-ul .pagination {
           display: -ms-flexbox;
-          display: none;
+          display: flex;
           padding-left: 0;
           list-style: none;
           border-radius: 0.25rem; }
@@ -20933,3 +20844,111 @@ body {
           color: #545F7D;
           padding-left: 5%;
           width: 80%; }
+    .products-page .add-product .fields {
+      display: flex;
+      flex-direction: column; }
+      .products-page .add-product .fields .group {
+        display: flex;
+        flex-direction: column; }
+        .products-page .add-product .fields .group .divider {
+          opacity: 0.35;
+          border: 1px solid #DBDFE9;
+          height: 0px; }
+        .products-page .add-product .fields .group .title {
+          display: flex;
+          flex-direction: row;
+          height: 5%;
+          width: 100%;
+          justify-content: space-between; }
+          .products-page .add-product .fields .group .title a {
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 14px;
+            color: #545F7D; }
+
+.edit-product {
+  flex-direction: column;
+  width: 80%;
+  height: 150%;
+  overflow-y: auto;
+  overflow-x: hidden !important;
+  background: rgba(244, 246, 249, 0.5); }
+  .edit-product .notification {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    width: 100%;
+    height: 5%;
+    padding-right: 5%;
+    margin-bottom: 5%;
+    -ms-flex-pack: end;
+    justify-content: flex-end; }
+  .edit-product .body-header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5%;
+    padding-left: 5%; }
+    .edit-product .body-header .first {
+      display: flex;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      width: 20%; }
+      .edit-product .body-header .first a {
+        font-family: Work Sans;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        font-size: 20px;
+        color: #213F7D; }
+    .edit-product .body-header .second {
+      display: flex;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      width: 50%; }
+      .edit-product .body-header .second a {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: normal;
+        line-height: 20px;
+        font-size: 16px;
+        text-align: center;
+        color: #545F7D;
+        opacity: 0.5;
+        width: 20%; }
+        .edit-product .body-header .second a:hover {
+          cursor: pointer; }
+      .edit-product .body-header .second p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        line-height: 20px;
+        font-size: 16px;
+        color: #545F7D;
+        padding-left: 5%;
+        width: 80%; }
+  .edit-product .fields {
+    display: flex;
+    flex-direction: column; }
+    .edit-product .fields .group {
+      display: flex;
+      flex-direction: column; }
+      .edit-product .fields .group .divider {
+        opacity: 0.35;
+        border: 1px solid #DBDFE9;
+        height: 0px; }
+      .edit-product .fields .group .title {
+        display: flex;
+        flex-direction: row;
+        height: 5%;
+        width: 100%;
+        justify-content: space-between; }
+        .edit-product .fields .group .title a {
+          font-family: "Work Sans";
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          font-size: 14px;
+          color: #545F7D; }

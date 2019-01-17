@@ -7,26 +7,35 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { put_action ,get_action} from  '../../../controllers/requests';
+import { put_action,post_action,get_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
 import Loader from 'react-loader-spinner'
+import { AppSwitch } from '@coreui/react'
 
-const validField =["email","password","phonenumber","firstname","lastname"]
+const validField =["name","tenor_min","tenor_max","amount_min","amount_max","employed","office_mail","salary_min","salary_max"]
 
 const fields = {
-  email: "",
-  firstname:"",
-  lastname:"",
-  phonenumber:"",
-  password:""
+  name: "",
+  tenor_min:"",
+  tenor_max:"",
+  amount_min:"",
+  amount_max:"",
+  employed:false,
+  office_mail:false,
+  salary_min:"",
+  salary_max:""
 }
 
 const validFields ={
-  email: false,
-  firstname:false,
-  lastname:false,
-  phonenumber:false,
-  password:false
+  name: false,
+  tenor_min:false,
+  tenor_max:false,
+  amount_min:false,
+  amount_max:false,
+  employed:false,
+  office_mail:false,
+  salary_min:false,
+  salary_max:false
 }
 
 class Parameters extends Component {
@@ -47,6 +56,7 @@ class Parameters extends Component {
       errortext: "",
       formErrors: fields,
       validFields:validFields,
+      validField,
       value: '',
       suggestions: [],
       fontSize: "",
@@ -55,25 +65,41 @@ class Parameters extends Component {
       headertext:"",
       formValid: false
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
   async componentDidMount(){
-    await this.props.dispatch(actions("GET_USER",get_action(this.props.auth.token,"users/me/profile","")))
-    switch(this.props.profileState){
+    await this.props.dispatch(actions("GET_PRODUCT_PARAMETERS",get_action(this.props.token,"products/parameters","")))
+    switch(this.props.product_parameters_state){
       case "success":
-      const profile = this.props.profile
-      this.setState({
-        email: profile?this.props.profile.email:"",
-        firstname:profile && profile.user_name?profile.user_name.split(" ")[0]:"",
-        lastname:profile && profile.user_name?profile.user_name.split(" ")[1]:"",
-        phonenumber:profile&&profile.mobile?this.props.profile.mobile:"",
-        password:""
+      const _validFields ={}
+      const _validField =[]
+      const _fields ={}
+      for (let each of this.props.product_parameters ){
+        _validField.push(`${each.parameter_description}_min`)
+        _validField.push(`${each.parameter_description}_max`)
+        _validFields[`${each.parameter_description}_max`]=false
+        _validFields[`${each.parameter_description}_min`]=false
+        _fields[`${each.parameter_description}_max`]=""
+        _fields[`${each.parameter_description}_min`]=""
+      }
+      await this.setState({
+        formErrors:{...this.state["formErrors"],..._fields},
+        validFields:{...this.state["validFields"],..._validFields},
+        validField:[...this.state["validField"],..._validField]
       })
-      break
-    }
+      break;
+      case "failed":
+      return <div>An Error Occured</div>
+      break;
+      case "pending":
+      return <div>Loading</div>
+      break;
+      default:
+  
+      break;
+    }   
   }
 
   toggle(tab) {
@@ -106,7 +132,7 @@ class Parameters extends Component {
       return this.setState({
         response: false,
         loader:false,
-        headertext: "",
+        headertext: ""
       })
     }
     return setTimeout(async () => {
@@ -114,17 +140,13 @@ class Parameters extends Component {
     }, time);
   }
 
-  async handleSubmit(event) {
-    event.preventDefault()
+  async handleNext() {
     const _body={}
-    for(let each of validField){
+    for(let each of this.state.validField){
       _body[each]=this.state[each]
     }
-    const body={}
-    body["mobile"]= _body["phonenumber"];
-    body["user_name"]=`${_body["firstname"]} ${_body["lastname"]}`;
 
-    const pre_action = async () =>{
+    const pre_action = async (id) =>{
       try{
       this.setState({
         headertext: "Verifying your details.",
@@ -134,21 +156,45 @@ class Parameters extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("UPDATE_USER",put_action(this.props.auth.token,body,"users/me/profile","")))
-      switch(this.props.state){
+      const body={
+                  "product_name":_body.name,
+                  "product_description": "Lender created product",
+                  "lender_id": id,
+                  "is_published": false
+                }
+      await this.props.dispatch(actions("CREATE_NEW_PRODUCT",post_action(this.props.token,body,"products","")));
+      switch(this.props.create_product_state){
         case "success":
-        this.setState({
-          headertext: "Update Successful",
-          loader: false,
-          response: true,
-          success:true,
-          color: "green"
-        });
-        await this.setTimedNotification(3000)
+        const _id =this.props.create_product.id
+        const body = []
+        for (let each of this.props.product_parameters ){
+          const param =     {
+            "parameter_definition_id": each.id,
+            "parameter_value": "string",
+            "parameter_minimum_value": this.state[`${each.parameter_description}_min`],
+            "parameter_maximum_value": this.state[`${each.parameter_description}_max`]
+          }
+          body.push(param)
+        }
+        const param_body= {
+          "lender_id": id,
+          "parameters": body
+        }
+
+        await this.props.dispatch(actions("CREATE_NEW_PARAMETER",post_action(this.props.token,param_body,`products/${_id}/parameters`,"")));
+        switch(this.props.create_product_state){
+          case "success":
+          await this.props.dispatch(actions("SET_PRODUCT_TAB_FULFILLED","2"))
+          break;
+          case "failed":
+          window.location.reload(); 
+          default:
+          break;
+        }
         break;
         case "failed":
         this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
+          headertext: this.props.create_product_error.response?this.props.create_product_error.response.data.message:"Request failed, Please try again",
           loader: false,
           response: true,
           success:false,
@@ -189,7 +235,11 @@ class Parameters extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      const start = pre_action()
+      // const start = pre_action()
+      if(this.props.profile){
+        const profile= this.props.profile
+        const start = pre_action(profile.lenders[0].id)
+      }
     }
     catch(error){
       this.setState({
@@ -320,9 +370,16 @@ class Parameters extends Component {
     
   }
 
+
+
+  async handleSwitch(e){
+    const value = e.target.value;
+    const name = e.target.name;
+    await this.setState({ [name]: !this.state[name] });
+  }
   async validateForm() {
     let state ={}
-      for(let each of validField){
+      for(let each of this.state.validField){
         state[each] = this.state.validFields[each]
       }
     const _state = Object.values(state);
@@ -333,8 +390,64 @@ class Parameters extends Component {
   redirect(link){
     this.props.history.push(link)
   }
-  renderItems(){
-    return <div></div>
+
+  renderParameters(){
+    const Group = (name,id) =>{
+      return  (<div key={id} className="group">
+      <div className="first"><a>{name}</a>
+      <FormGroup>
+                       <Input value={this.state[`${name}_min`]} onChange={this.handleUserInput} name={`${name}_min`}
+                         type="text"
+                         maxLength="30"
+                         placeholder="Min"
+                         onBlur={this.handleUserValidation}
+                         valid={this.state.validFields[`${name}_min`] === true}
+                         invalid={this.state.validFields[`${name}_min`] !== true}
+                         required
+                       />
+                    {this.state.formErrors[`${name}_min`]? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors[`${name}_min`]}`}</FormFeedback>:null}
+            </FormGroup>      
+      </div>
+      <div className="second">
+             <FormGroup>
+                       <Input value={this.state[`${name}_max`]} onChange={this.handleUserInput} name={`${name}_max`}
+                         type="text"
+                         maxLength="30"
+                         placeholder="Max"
+                         onBlur={this.handleUserValidation}
+                         valid={this.state.validFields[`${name}_max`] === true}
+                         invalid={this.state.validFields[`${name}_max`] !== true}
+                         required
+                       />
+                    {this.state.formErrors[`${name}_max`]? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors[`${name}_max`]}`}</FormFeedback>:null}
+            </FormGroup> 
+            </div>
+      </div>)
+    }  
+    const Row =(name,id)=>{
+      return <div className="row">
+      <a>Must Customer be employed?</a>
+      <div className="switch"><AppSwitch className={'mx-1'} color={'success'} name="employed" onClick={this.handleSwitch.bind(this)}   checked={this.state.employed} /></div>
+      </div>
+    }
+    switch(this.props.product_parameters_state){
+      case "success":
+      const body =[]
+      for (let each of this.props.product_parameters ){
+        body.push(Group(each.parameter_description,each.id))
+      }
+      return body
+      break;
+      case "failed":
+      return <div>An Error Occured</div>
+      break;
+      case "pending":
+      return <div>Loading</div>
+      break;
+      default:
+  
+      break;
+    }
   }
   render() {
     return (
@@ -350,68 +463,33 @@ class Parameters extends Component {
 
     <div className="right-details">
      <div className="parameters">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
+     <div className="full"><a>Name</a>
+    <FormGroup>
+                      <Input value={this.state.name} onChange={this.handleUserInput} name="name"
+                        type="text"
+                        maxLength="30"
+                        placeholder=""
+                        onBlur={this.handleUserValidation}
+                        valid={this.state.validFields.name === true}
+                        invalid={this.state.validFields.name !== true}
+                        required
+                      />
+                   {this.state.formErrors.name? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.name}`}</FormFeedback>:null}
+           </FormGroup>  
      </div>
-     <div className="tenor-group">
-     <div className="min">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>     
+      {this.renderParameters()}
      </div>
-     <div className="max">
-          <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     </div>
-     <div className="amount-group">
-     <div className="min">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     <div className="max">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
+     { this.state.response?null:this.state.loader ?
+                      <div className="login-loader">
+                      <Loader type="Watch" color="black" height="50" width="60"/>
+                      </div>: <div className="submit"> <Input onClick={()=>this.handleNext()} type="button" value="Next"/></div>}
+            {this.state.loader ?null :this.state.response ?                       
+                    <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                      {this.state.headertext}
+                    </div>:null}    
+    
      </div>
      </div>
-     </div>
-     <div className="employed">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     <div className="office-mail">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     <div className="salary">
-     <div className="min">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     <div className="max">
-     <div className="group">
-     <div className="first"><a></a></div>
-     <div className="second"><Input/></div>
-     </div>
-     </div>
-     </div>
-     <div className="submit"></div>
-     </div>
-     </div>
-    </div>
     );
   }
 }
@@ -420,8 +498,15 @@ export default connect(store => {
   return {
     state: store.login.state,
     error: store.login.error,
-    auth: store.token.auth,
+    token:store.token.auth?store.token.auth.token:"",
     profile:store.getuser.user,
-    profileState:store.getuser.state
+    profileState:store.getuser.state,
+    new_product: store.action.new_product,
+    create_product:store.action.create_product?store.action.create_product.product:{},
+    create_product_state:store.action.create_product_state,
+    product_parameters:store.action.product_parameters?store.action.product_parameters.parameters:[],
+    product_parameters_state:store.action.product_parameters_state,
+    create_parameter:store.action.create_parameter?store.action.create_parameter:{},
+    create_parameter_state:store.action.create_parameter_state
   };
 })(withRouter(Parameters));

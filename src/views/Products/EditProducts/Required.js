@@ -4,8 +4,20 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { put_action ,get_action} from  '../../../controllers/requests';
+import { put_action ,post_action, get_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemTitle,
+    AccordionItemBody,
+} from 'react-accessible-accordion';
+import { AppSwitch } from '@coreui/react'
+import Loader from 'react-loader-spinner'
+ 
+// Demo styles, see 'Styles' section below for some notes on use.
+import 'react-accessible-accordion/dist/fancy-example.css';
+// import Collapsible from 'react-collapsible';
 const validField =["email","password","phonenumber","firstname","lastname"]
 
 const fields = {
@@ -23,6 +35,7 @@ const validFields ={
   phonenumber:false,
   password:false
 }
+
 
 class Required extends Component {
 
@@ -48,25 +61,17 @@ class Required extends Component {
       modal: false,
       button:false,
       headertext:"",
-      formValid: false
+      formValid: false,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
   async componentDidMount(){
-    await this.props.dispatch(actions("GET_USER",get_action(this.props.auth.token,"users/me/profile","")))
-    switch(this.props.profileState){
+    const id = this.props.edit_product.id
+    await this.props.dispatch(actions("EDIT_PRODUCT_GROUPS",get_action(this.props.token,`products/${id}/groups`,"")))
+    switch(this.props.edit_product_groups_state){
       case "success":
-      const profile = this.props.profile
-      this.setState({
-        email: profile?this.props.profile.email:"",
-        firstname:profile && profile.user_name?profile.user_name.split(" ")[0]:"",
-        lastname:profile && profile.user_name?profile.user_name.split(" ")[1]:"",
-        phonenumber:profile&&profile.mobile?this.props.profile.mobile:"",
-        password:""
-      })
       break
     }
   }
@@ -107,96 +112,6 @@ class Required extends Component {
     return setTimeout(async () => {
       await operation()
     }, time);
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault()
-    const _body={}
-    for(let each of validField){
-      _body[each]=this.state[each]
-    }
-    const body={}
-    body["mobile"]= _body["phonenumber"];
-    body["user_name"]=`${_body["firstname"]} ${_body["lastname"]}`;
-
-    const pre_action = async () =>{
-      try{
-      this.setState({
-        headertext: "Verifying your details.",
-        loader: true,
-        response: false,
-        success:false,
-        color: "#213F7D",
-        errortext: ""
-      });
-      await this.props.dispatch(actions("UPDATE_USER",put_action(this.props.auth.token,body,"users/me/profile","")))
-      switch(this.props.state){
-        case "success":
-        this.setState({
-          headertext: "Update Successful",
-          loader: false,
-          response: true,
-          success:true,
-          color: "green"
-        });
-        await this.setTimedNotification(3000)
-        break;
-        case "failed":
-        this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
-          loader: false,
-          response: true,
-          success:false,
-          color: "red"
-        });
-        await this.setTimedNotification(3000)
-        break;
-        case "pending":
-        this.setState({
-          response: false,
-          loader: true,
-          color: "#213F7D",
-          headertext: "Submitting your details.",
-        });
-        break;
-        default:
-
-        break;
-      }
-    }
-      catch (error) {
-        this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
-          loader: false,
-          response: true,
-          success:false,
-          color: "red"
-        });
-        await this.setTimedNotification(5000)
-      }
-    }
-    try{
-      this.setState({
-        headertext: "Submitting your details.",
-        loader: true,
-        response: false,
-        success:false,
-        color: "#213F7D",
-        errortext: ""
-      });
-      const start = pre_action()
-    }
-    catch(error){
-      this.setState({
-        headertext: "Ooops!! Something went wrong.",
-        loader: false,
-        response: true,
-        success:false,
-        color: "red"
-      }); 
-      await this.setTimedNotification(5000)    
-    }
-    
   }
 
   checkNum = (value) => {
@@ -329,9 +244,178 @@ class Required extends Component {
     this.props.history.push(link)
   }
 
+  handleDynamics = async (name,value) => {
+    await this.setState({ [name]: value });
+  }
+
+  async handleFields(id){
+    const product_id = this.props.edit_product.id
+    await this.props.dispatch(actions("EDIT_PRODUCT_FIELDS",get_action(this.props.token,`products/${product_id}/groups/${id}`,"")))
+    switch(this.props.edit_product_fields_state){
+      case "success":
+      if(this.props.edit_product_fields && this.props.edit_product_fields.fields){
+        const fields = this.props.edit_product_fields.fields;
+        await this.handleDynamics(id,fields);
+        return this.renderFields(id);
+        break
+      }
+      default:
+      return <div>No fields were added.</div>
+    }
+  }
+
+  renderFields(name){
+    if(name && this.state[name]){
+      const body = this.state[name]
+      const items =[]
+      for(let each of body){ 
+        items.push(<div key={each.id} className="group">
+        <div className="title"><a>{each["field_name"]}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleDynamics(`field_${each.id}`,true)} color={'success'} checked/></div></div>
+        <div className="divider"/>
+        </div>)
+      }
+      return items
+    }
+    return null
+  }
+
+ async handleNext() {
+  const all = Object.keys(this.state)
+  const field_1 = []
+  const _body ={
+    "lender_id": 0,
+    "fields": [
+      {
+        "field_id": 0
+      }
+    ]
+  }
+  for(let each of all){
+    if(each.includes("field_") && this.state[each] ){
+      const identity = each.split("field_")[1]
+      field_1.push({field_id:identity})
+    }
+    _body["fields"]=field_1
+  }
+
+  const pre_action = async (id) =>{
+    try{
+    this.setState({
+      headertext: "Verifying your details.",
+      loader: true,
+      response: false,
+      success:false,
+      color: "#213F7D",
+      errortext: ""
+    });
+    _body["lender_id"]=id
+    const product_id = this.props.create_product.product.id
+    await this.props.dispatch(actions("SET_NEW_PRODUCT",post_action(this.props.token,_body,`products/${product_id}/fields`,"")));
+    switch(this.props.set_product_state){
+      case "success":
+      await this.props.dispatch(actions("SET_PRODUCT_TAB_FULFILLED","2"))
+      window.location.reload(); 
+      this.setState({
+        headertext: "Update Successful",
+        loader: false,
+        response: true,
+        success:true,
+        color: "green"
+      });
+      await this.setTimedNotification(3000)
+      break;
+      case "failed":
+      this.setState({
+        headertext: this.props.create_product_error.response?this.props.create_product_error.response.data.message:"Request failed, Please try again",
+        loader: false,
+        response: true,
+        success:false,
+        color: "red"
+      });
+      await this.setTimedNotification(3000)
+      break;
+      case "pending":
+      this.setState({
+        response: false,
+        loader: true,
+        color: "#213F7D",
+        headertext: "Submitting your details.",
+      });
+      break;
+      default:
+
+      break;
+    }
+  }
+    catch (error) {
+      this.setState({
+        headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
+        loader: false,
+        response: true,
+        success:false,
+        color: "red"
+      });
+      await this.setTimedNotification(5000)
+    }
+  }
+  try{
+    this.setState({
+      headertext: "Submitting your details.",
+      loader: true,
+      response: false,
+      success:false,
+      color: "#213F7D",
+      errortext: ""
+    });
+    // const start = pre_action()
+    if(this.props.profile){
+      const profile= this.props.profile
+      const start = pre_action(profile.lenders[0].id)
+    }
+  }
+  catch(error){
+    this.setState({
+      headertext: "Ooops!! Something went wrong.",
+      loader: false,
+      response: true,
+      success:false,
+      color: "red"
+    }); 
+    await this.setTimedNotification(5000)    
+    console.log(error)
+  }
+    
+  }
+
+
+  renderGroups(){
+
+    const groups = this.props.edit_product_groups;
+    const container =[];
+    if(groups && groups.groups){
+      for(let each of groups.groups){   
+        const id= each.id;
+        const name =each.code_description
+        container.push(<div className="each-box">
+        <AccordionItem>
+          <AccordionItemTitle>
+            <h3 onClick={()=>this.handleFields(id,name)}>{name}</h3>
+          </AccordionItemTitle>
+          <AccordionItemBody>
+            <div className="fields">
+            {this.renderFields(`${id}`)}   
+            </div>
+          </AccordionItemBody>
+         </AccordionItem>
+         </div>)
+      }
+      return <Accordion>{container}</Accordion>
+    }
+    return <div>No contents available</div>
+  }
   render() {
     return (
-      <div className="personal-page" >
+      <div className="required-page" >
       <div className="left-details">
       <div className="first">
       <a>Required Fields</a>
@@ -342,46 +426,16 @@ class Required extends Component {
      </div>
 
       <div className="right-details">
-      <div className="left">
-      <div className="first-name">
-      <div className="first">
-      <a>Street</a>
+      {this.renderGroups()}
+      { this.state.response?null:this.state.loader ?
+                      <div className="login-loader">
+                      <Loader type="Watch" color="black" height="50" width="60"/>
+                      </div>: <div className="submit"> <Input onClick={()=>this.handleNext()} type="button" value="SAVE CHANGES"/></div>}
+            {this.state.loader ?null :this.state.response ?                       
+                    <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                      {this.state.headertext}
+                    </div>:null}  
       </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="last-name">
-      <div className="first">
-      <a>State</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="submit">
-      <Input  type="submit" value="SAVE"/>
-      </div>
-      </div>
-      <div className="right">
-      <div className="middle-name">
-      <div className="first">
-      <a>City</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="email">
-      <div className="first">
-      <a>Country</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      </div>
-     </div>
     </div>
     );
   }
@@ -391,8 +445,18 @@ export default connect(store => {
   return {
     state: store.login.state,
     error: store.login.error,
-    auth: store.token.auth,
-    profile:store.getuser.user,
-    profileState:store.getuser.state
+    token:store.token.auth?store.token.auth.token:"",
+    profile:store.action.user,
+    profileState:store.action.user_state,
+    required_groups: store.action.all_groups,
+    group_fields:store.action.group_fields,
+    group_fields_state:store.action.group_fields_state,
+    create_product:store.action.create_product,
+    set_product_state:store.action.set_product_state,
+    edit_product_fields:store.action.edit_product_fields,
+    edit_product_fields_state:store.action.edit_product_fields_state,
+    edit_product_groups:store.action.edit_product_groups,
+    edit_product_groups_state:store.action.edit_product_groups_state,
+    edit_product:store.action.edit_product,
   };
 })(withRouter(Required));

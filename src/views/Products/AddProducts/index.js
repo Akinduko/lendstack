@@ -31,11 +31,9 @@ class AddLoans extends Component {
           action[name]=!this.state[name]
           this.setState(action)
       }
-      toggle(tab) {
-        if (this.state.activeTab !== tab) {
-          this.setState({
-            activeTab: tab,
-          });
+     async toggle(tab) {
+        if (this.props.product_tab !== tab) {
+          await this.props.dispatch(actions("SET_PRODUCT_TAB_FULFILLED",tab))
         }
       }
       async exitLoan(){
@@ -64,7 +62,7 @@ class AddLoans extends Component {
                <div className="actual-tabs">
                  <NavItem>
                    <NavLink
-                     className={classnames({ active: this.state.activeTab === '1' })}
+                     className={classnames({ active: this.props.product_tab === '1' })}
                      onClick={() => { this.toggle('1'); }}
                    >
                      Parameters
@@ -72,7 +70,7 @@ class AddLoans extends Component {
                  </NavItem>
                  <NavItem>
                    <NavLink
-                     className={classnames({ active: this.state.activeTab === '2' })}
+                     className={classnames({ active: this.props.product_tab === '2' })}
                      onClick={() => { this.toggle('2'); }}
                    >
                      Required Fields
@@ -82,7 +80,7 @@ class AddLoans extends Component {
                  <div className="divider-bottom"/>
                </div>
                </Nav>
-               <TabContent activeTab={this.state.activeTab}>
+               <TabContent activeTab={this.props.product_tab?this.props.product_tab:"1"}>
                <TabPane tabId="1">
                  <Parameters/>
                </TabPane>
@@ -102,6 +100,7 @@ export default connect(store => {
   return {
     state: store.validate.state,
     error: store.validate.error,
-    new_loan:store.action.new_loan
+    new_loan:store.action.new_loan,
+    product_tab:store.action.product_tab
   };
 })(withRouter(AddLoans));

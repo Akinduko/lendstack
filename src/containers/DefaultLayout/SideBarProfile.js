@@ -27,22 +27,8 @@ class SideBarProfile extends Component {
         const _profile = this.props.user_profile
         this.setState({
           email: _profile?_profile.email:"",
-          company:_profile?_profile.entities[0].id:""
-        })
-        break
-      }
-    }
-    catch(error){
-      console.log("error")
-    }
-
-    try{
-      await this.props.dispatch(actions("GET_LENDER_PROFILE",get_action(this.props.auth.token,`lenders/${this.state.company}`,"")))  
-      switch(this.props.lender_state){
-        case "success":
-        const profile = this.props.lender_profile
-        this.setState({
-          name:profile && profile.user_name?profile.user_name:"",
+          company:_profile?_profile.lenders[0].id:"",
+          name:_profile?_profile.lenders[0].name:"",
         })
         break
       }

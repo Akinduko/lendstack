@@ -12,10 +12,11 @@ import {
     TabContent,
     TabPane
             } from 'reactstrap';
+import { get_action,put_action} from  '../../../controllers/requests';
+import { actions } from '../../../state/actions';
 import classnames from 'classnames';
 import Parameters from './Parameters';
 import Required from "./Required";
-import data from './_data';
 import { AppSwitch } from '@coreui/react'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -23,7 +24,7 @@ import { withRouter } from 'react-router-dom';
 class DataArtistList extends Component {
     constructor(props) {
         super(props);
-        this.table = data.rows;
+        this.table = this.props.all_products;
         this.options = {
             sortIndicator: true,
             hideSizePerPage: true,
@@ -39,34 +40,123 @@ class DataArtistList extends Component {
           };
 
     }
+    async componentDidMount(){
+      const profile= this.props.profile;
+      const id = profile.lenders?profile.lenders[0].id:""
+      await this.props.dispatch(actions("GET_ALL_PRODUCTS",get_action(this.props.token,`products`,`?lender_id=${id}`)))
+      switch(this.props.all_products_state){
+        case "success":
+        break
+      }
+    }
+  
     viewFormater = (cell, row) => {
-        return <div className="edit" onClick={()=>this.toggleModal("viewusermodal")}>VIEW</div>
+        return <div className="edit" onClick={()=>this.toggleModal("viewusermodal",row.id)}>VIEW</div>
       };
 
      editFormater = (cell, row) => {
-        return <div className="edit" onClick={()=>this.toggleModal("editusermodal")}>EDIT</div>
+        return <div className="edit" onClick={()=>this.toggleModal("editusermodal",row)}>EDIT</div>
       };
 
-      toggleFormater = (cell, row) => {
-        return <div className="toggle"><a>active</a><AppSwitch className={'mx-1'} color={'success'} checked /></div>
+      handleDynamics = async (name,value) => {
+        await this.setState({ [name]: value });
+      }
+      handleSwitch=(row)=>{
+        if(this.props.update_product_status_state==="succcess"){
+          return   this.setState({[row.id]:1})
+        }
+        if(this.props.update_product_status_state==="failed"){
+          console.log("here")
+          return   this.setState({[row.id]:0})
+        }
+        
+        return  this.setState({[row.id]:row.status})
+          
+        }
+      
+      handleToggle= async (row,e)=>{
+        console.log(e,row)
+        const body = {
+          product_name:row.product_name,
+          product_description:row.product_description,
+          lender_id:row.lender_id
+        };
+        if(row.status===0){
+          body["is_published"]=true
+          await this.props.dispatch(actions("UPDATE_PRODUCTS_STATUS",put_action(this.props.token,body,`products/${row.id}`,'')))
+          this.handleSwitch(row)
+        }
+        if(row.status===1){
+        body["is_published"]=false
+         await this.props.dispatch(actions("UPDATE_PRODUCTS_STATUS",put_action(this.props.token,body,`products/${row.id}`,'')))
+      }
+      }
+
+      toggleFormater =  (cell, row) => {
+        if(typeof this.state[row.id] !== 'number'){
+           this.setState({[row.id]:row.status})
+        }
+        switch(this.props.update_product_status_state){
+          case "succcess":
+          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} checked={this.state[row.id]==0?false:true} /></div></div>
+          break;
+          case "failed":
+          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
+          default:
+          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} handleToggle={this.handleToggle.bind(this,row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
+
+        }
       };
 
       profileFormater = (cell, row) => {
-        return <div className="profile"><p>Payday Plus</p></div>
+
+
+        return <div className="profile"><p>{cell}</p></div>
       };
 
-      emailFormater = (cell, row) => {
-        return <div className="email"><a>1 - 3 months</a></div>
+      tenorFormater = (cell, row) => {
+        if(row.parameters&&row.parameters.length>0){
+          const params = row.parameters
+          const result = []
+          for(let each of params){
+            if(each.parameter_description==="Tenor"){
+              result.push(`${each.parameter_minimum_value}-${each.parameter_maximum_value}`)
+            }
+          }
+          return <div className="email"><a>{result}</a></div>
+        }
+        return <div className="email"><a>{}</a></div>
       };
-      numberFormater = (cell, row) => {
-        return <div className="number"><a>#10,000,00-#450,000,000</a></div>
+      amountFormater = (cell, row) => {
+        if(row.parameters&&row.parameters.length>0){
+          const params = row.parameters
+          const result = []
+          for(let each of params){
+            if(each.parameter_description==="Amount"){
+              result.push(`${each.parameter_minimum_value}-${each.parameter_maximum_value}`)
+            }
+          }
+          return <div className="email"><a>{result}</a></div>
+        }
+        return <div className="email"><a>{}</a></div>
       };
 
-      toggleModal(name){
+      async toggleModal(name,id){
+        if(name.includes("edit")){
+          await this.props.dispatch(actions("SET_EDIT_PRODUCT_FULFILLED",{...id,...{active:true}}))
+          switch(this.props.edit_product_state){
+            case "success":
+            this.props.history.push("/edit-product")
+          }
+        }
+        if(name.includes("view")){
+          await this.props.dispatch(actions("SET_VIEW_PRODUCT_FULFILLED",{id}))
+        }
           const action ={}
           action[name]=!this.state[name]
           this.setState(action)
       }
+
       toggle(tab) {
         if (this.state.activeTab !== tab) {
           this.setState({
@@ -77,7 +167,30 @@ class DataArtistList extends Component {
       redirect(link){
         this.props.history.push(link)
       }
-    
+    renderTable(){
+      switch(this.props.all_products_state){
+                case "success":
+                return <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                            options={this.options}>
+                      <TableHeaderColumn  dataField="product_name" width="25%" dataFormat={this.profileFormater}>NAME</TableHeaderColumn>
+                      <TableHeaderColumn dataField="product_name" isKey  width="25%" dataFormat={this.tenorFormater}>TENOR</TableHeaderColumn>
+                      <TableHeaderColumn dataField="status"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>
+                      <TableHeaderColumn dataField="status"  width="15%" dataFormat={this.toggleFormater}></TableHeaderColumn>
+                      <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.editFormater} ></TableHeaderColumn>
+                      <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.viewFormater} ></TableHeaderColumn>
+                      </BootstrapTable>
+                break;
+                case "failed":
+                  return <div>Unable to fetch Data</div>
+                break;
+                case "pending":
+                  return <div>Fetching Data...</div>
+                break;
+                default:
+        
+                break;
+              }
+      }
     render() {
 
         return (
@@ -143,15 +256,7 @@ class DataArtistList extends Component {
                     <div className="clear-filter"><a>CLEAR FILTER</a></div>
                     </div>
                     </div>
-                    <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
-                                    options={this.options}>
-                        <TableHeaderColumn  dataField="artist-img" width="25%" dataFormat={this.profileFormater}>NAME</TableHeaderColumn>
-                        <TableHeaderColumn dataField="age" isKey  width="25%" dataFormat={this.emailFormater}>TENOR</TableHeaderColumn>
-                        <TableHeaderColumn dataField="age"  width="20%" dataFormat={this.numberFormater}>AMOUNT</TableHeaderColumn>
-                        <TableHeaderColumn dataField="age"  width="15%" dataFormat={this.toggleFormater}></TableHeaderColumn>
-                        <TableHeaderColumn  dataField="age"  width="15%" dataFormat={this.editFormater} ></TableHeaderColumn>
-                        <TableHeaderColumn  dataField="age"  width="15%" dataFormat={this.viewFormater} ></TableHeaderColumn>
-                    </BootstrapTable>
+                    {this.renderTable()}
                 </div>
         );
     }
@@ -161,6 +266,15 @@ export default connect(store => {
     return {
       state: store.validate.state,
       error: store.validate.error,
-      auth:store.validate.auth,
+      token:store.token.auth?store.token.auth.token:"",
+      profile:store.action.user,
+      all_products_state:store.action.all_products_state,
+      all_products:store.action.all_products?store.action.all_products.products:[],
+      product_parameters:store.action.product_parameters?store.action.product_parameters.parameters:[],
+      product_parameters_state:store.action.product_parameters,
+      edit_product:store.action.edit_product,
+      edit_product_state:store.action.edit_product_state,
+      update_product_status: store.action.update_product_status,
+      update_product_status_state: store.action.update_product_status_state
     };
   })(withRouter(DataArtistList));

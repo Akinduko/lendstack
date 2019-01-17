@@ -4,8 +4,19 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { put_action ,get_action} from  '../../../controllers/requests';
+import { put_action ,post_action, get_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
+import {
+    Accordion,
+    AccordionItem,
+    AccordionItemTitle,
+    AccordionItemBody,
+} from 'react-accessible-accordion';
+import { AppSwitch } from '@coreui/react'
+import Loader from 'react-loader-spinner'
+ 
+// Demo styles, see 'Styles' section below for some notes on use.
+import 'react-accessible-accordion/dist/fancy-example.css';
 // import Collapsible from 'react-collapsible';
 const validField =["email","password","phonenumber","firstname","lastname"]
 
@@ -25,235 +36,6 @@ const validFields ={
   password:false
 }
 
-class Collapsible extends React.Component {
-  constructor(props) {
-    super(props)
-
-    // Bind class methods
-    this.handleTriggerClick = this.handleTriggerClick.bind(this);
-    this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
-    this.continueOpenCollapsible = this.continueOpenCollapsible.bind(this);
-
-    // Defaults the dropdown to be closed
-    if (props.open) {
-      this.state = {
-        isClosed: false,
-        shouldSwitchAutoOnNextCycle: false,
-        height: 'auto',
-        transition: 'none',
-        hasBeenOpened: true,
-        overflow: props.overflowWhenOpen,
-        inTransition: false,
-      }
-    } else {
-      this.state = {
-        isClosed: true,
-        shouldSwitchAutoOnNextCycle: false,
-        height: 0,
-        transition: `height ${props.transitionTime}ms ${props.easing}`,
-        hasBeenOpened: false,
-        overflow: 'hidden',
-        inTransition: false,
-      }
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if(this.state.shouldOpenOnNextCycle){
-      this.continueOpenCollapsible();
-    }
-
-    if (prevState.height === 'auto' && this.state.shouldSwitchAutoOnNextCycle === true) {
-      window.setTimeout(() => { // Set small timeout to ensure a true re-render
-        this.setState({
-          height: 0,
-          overflow: 'hidden',
-          isClosed: true,
-          shouldSwitchAutoOnNextCycle: false,
-        });
-      }, 50);
-    }
-
-    // If there has been a change in the open prop (controlled by accordion)
-    if (prevProps.open !== this.props.open) {
-      if(this.props.open === true) {
-        this.openCollapsible();
-        this.props.onOpening();
-      } else {
-        this.closeCollapsible();
-        this.props.onClosing();
-      }
-    }
-  }
-
-  closeCollapsible() {
-    this.setState({
-      shouldSwitchAutoOnNextCycle: true,
-      height: this.refs.inner.offsetHeight,
-      transition: `height ${this.props.transitionCloseTime ?
-        this.props.transitionCloseTime : this.props.transitionTime}ms ${this.props.easing}`,
-      inTransition: true,
-    });
-  }
-
-  openCollapsible() {
-    this.setState({
-      inTransition: true,
-      shouldOpenOnNextCycle: true,
-    });
-  }
-
-  continueOpenCollapsible() {
-    this.setState({
-      height: this.refs.inner.offsetHeight,
-      transition: `height ${this.props.transitionTime}ms ${this.props.easing}`,
-      isClosed: false,
-      hasBeenOpened: true,
-      inTransition: true,
-      shouldOpenOnNextCycle: false,
-    });
-  }
-
-  handleTriggerClick(event) {
-    event.preventDefault();
-
-    if (this.props.triggerDisabled) {
-      return
-    }
-
-    if (this.props.handleTriggerClick) {
-      this.props.handleTriggerClick(this.props.accordionPosition);
-    } else {
-      if (this.state.isClosed === true) {
-        this.openCollapsible();
-        this.props.onOpening();
-      } else {
-        this.closeCollapsible();
-        this.props.onClosing();
-      }
-    }
-  }
-
-  renderNonClickableTriggerElement() {
-    if (this.props.triggerSibling && typeof this.props.triggerSibling === 'string') {
-      return (
-        <span className={`${this.props.classParentString}__trigger-sibling`}>{this.props.triggerSibling}</span>
-      )
-    } else if(this.props.triggerSibling) {
-      return <this.props.triggerSibling />
-    }
-
-    return null;
-  }
-
-  handleTransitionEnd() {
-    // Switch to height auto to make the container responsive
-    if (!this.state.isClosed) {
-      this.setState({ height: 'auto', overflow: this.props.overflowWhenOpen, inTransition: false });
-      this.props.onOpen();
-    } else {
-      this.setState({ inTransition: false });
-      this.props.onClose();
-    }
-  }
-
-  render() {
-    var dropdownStyle = {
-      height: this.state.height,
-      WebkitTransition: this.state.transition,
-      msTransition: this.state.transition,
-      transition: this.state.transition,
-      overflow: this.state.overflow,
-    }
-
-    var openClass = this.state.isClosed ? 'is-closed' : 'is-open';
-    var disabledClass = this.props.triggerDisabled ? 'is-disabled' : '';
-
-    //If user wants different text when tray is open
-    var trigger = (this.state.isClosed === false) && (this.props.triggerWhenOpen !== undefined)
-                  ? this.props.triggerWhenOpen
-                  : this.props.trigger;
-
-    // If user wants a trigger wrapping element different than 'span'
-    const TriggerElement = this.props.triggerTagName;
-
-    // Don't render children until the first opening of the Collapsible if lazy rendering is enabled
-    var children = this.props.lazyRender
-      && !this.state.hasBeenOpened
-      && this.state.isClosed
-      && !this.state.inTransition ? null : this.props.children;
-
-    // Construct CSS classes strings
-    const triggerClassString = `${this.props.classParentString}__trigger ${openClass} ${disabledClass} ${
-      this.state.isClosed ? this.props.triggerClassName : this.props.triggerOpenedClassName
-    }`;
-    const parentClassString = `${this.props.classParentString} ${
-      this.state.isClosed ? this.props.className : this.props.openedClassName
-    }`;
-    const outerClassString = `${this.props.classParentString}__contentOuter ${this.props.contentOuterClassName}`;
-    const innerClassString = `${this.props.classParentString}__contentInner ${this.props.contentInnerClassName}`;
-
-    return(
-      <div className={parentClassString.trim()}>
-        <TriggerElement
-          className={triggerClassString.trim()}
-          onClick={this.handleTriggerClick}
-          style={this.props.triggerStyle && this.props.triggerStyle}
-          onKeyPress={(event) => {
-            const { key } = event;
-              if (key === ' ' || key === 'Enter') {
-                this.handleTriggerClick(event);
-              }
-            }}
-            tabIndex={this.props.tabIndex && this.props.tabIndex}
-        >
-          {trigger}
-        </TriggerElement>
-
-        {this.renderNonClickableTriggerElement()}
-
-        <div
-          className={outerClassString.trim()}
-          ref="outer"
-          style={dropdownStyle}
-          onTransitionEnd={this.handleTransitionEnd}
-        >
-          <div
-            className={innerClassString.trim()}
-            ref="inner"
-          >
-            {children}
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-Collapsible.defaultProps = {
-  transitionTime: 400,
-  transitionCloseTime: null,
-  triggerTagName: 'span',
-  easing: 'linear',
-  open: false,
-  classParentString: 'Collapsible',
-  triggerDisabled: false,
-  lazyRender: false,
-  overflowWhenOpen: 'hidden',
-  openedClassName: '',
-  triggerStyle: null,
-  triggerClassName: '',
-  triggerOpenedClassName: '',
-  contentOuterClassName: '',
-  contentInnerClassName: '',
-  className: '',
-  triggerSibling: null,
-  onOpen: () => {},
-  onClose: () => {},
-  onOpening: () => {},
-  onClosing: () => {},
-  tabIndex: null,
-};
 
 class Required extends Component {
 
@@ -279,15 +61,14 @@ class Required extends Component {
       modal: false,
       button:false,
       headertext:"",
-      formValid: false
+      formValid: false,
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
   async componentDidMount(){
-    await this.props.dispatch(actions("GET_PRODUCT_GROUP",get_action(this.props.auth.token,"codes/fetch/field-group","")))
+    await this.props.dispatch(actions("GET_PRODUCT_GROUP",get_action(this.props.token,"codes/fetch/field-group","")))
     switch(this.props.profileState){
       case "success":
       const profile = this.props.profile
@@ -338,96 +119,6 @@ class Required extends Component {
     return setTimeout(async () => {
       await operation()
     }, time);
-  }
-
-  async handleSubmit(event) {
-    event.preventDefault()
-    const _body={}
-    for(let each of validField){
-      _body[each]=this.state[each]
-    }
-    const body={}
-    body["mobile"]= _body["phonenumber"];
-    body["user_name"]=`${_body["firstname"]} ${_body["lastname"]}`;
-
-    const pre_action = async () =>{
-      try{
-      this.setState({
-        headertext: "Verifying your details.",
-        loader: true,
-        response: false,
-        success:false,
-        color: "#213F7D",
-        errortext: ""
-      });
-      await this.props.dispatch(actions("UPDATE_USER",put_action(this.props.auth.token,body,"users/me/profile","")))
-      switch(this.props.state){
-        case "success":
-        this.setState({
-          headertext: "Update Successful",
-          loader: false,
-          response: true,
-          success:true,
-          color: "green"
-        });
-        await this.setTimedNotification(3000)
-        break;
-        case "failed":
-        this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
-          loader: false,
-          response: true,
-          success:false,
-          color: "red"
-        });
-        await this.setTimedNotification(3000)
-        break;
-        case "pending":
-        this.setState({
-          response: false,
-          loader: true,
-          color: "#213F7D",
-          headertext: "Submitting your details.",
-        });
-        break;
-        default:
-
-        break;
-      }
-    }
-      catch (error) {
-        this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
-          loader: false,
-          response: true,
-          success:false,
-          color: "red"
-        });
-        await this.setTimedNotification(5000)
-      }
-    }
-    try{
-      this.setState({
-        headertext: "Submitting your details.",
-        loader: true,
-        response: false,
-        success:false,
-        color: "#213F7D",
-        errortext: ""
-      });
-      const start = pre_action()
-    }
-    catch(error){
-      this.setState({
-        headertext: "Ooops!! Something went wrong.",
-        loader: false,
-        response: true,
-        success:false,
-        color: "red"
-      }); 
-      await this.setTimedNotification(5000)    
-    }
-    
   }
 
   checkNum = (value) => {
@@ -560,20 +251,170 @@ class Required extends Component {
     this.props.history.push(link)
   }
 
+  handleDynamics = async (name,value) => {
+    await this.setState({ [name]: value });
+  }
+
+  async handleFields(id){
+    await this.props.dispatch(actions("GET_PRODUCT_FIELDS",get_action(this.props.token,`products/fields/groups/${id}`,"")))
+    switch(this.props.group_fields_state){
+      case "success":
+      if(this.props.group_fields && this.props.group_fields.fields){
+        const fields = this.props.group_fields.fields;
+        await this.handleDynamics(id,fields);
+        return this.renderFields(id);
+        break
+      }
+      default:
+      return null
+    }
+  }
+
+  renderFields(name){
+    if(name && this.state[name]){
+      const body = this.state[name]
+      const items =[]
+      for(let each of body){ 
+        items.push(<div key={each.id} className="group">
+        <div className="title"><a>{each["field_name"]}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleDynamics(`field_${each.id}`,true)} color={'success'} checked={this.state[`field_${each.id}`]} /></div></div>
+        <div className="divider"/>
+        </div>)
+      }
+      return items
+    }
+    return null
+  }
+
+ async handleNext() {
+    const all = Object.keys(this.state)
+    const field_1 = []
+    const _body ={
+      "lender_id": 0,
+      "fields": [
+        {
+          "field_id": 0
+        }
+      ]
+    }
+    for(let each of all){
+      if(each.includes("field_") && this.state[each] ){
+        const identity = each.split("field_")[1]
+        field_1.push({field_id:identity})
+      }
+      _body["fields"]=field_1
+    }
+
+    const pre_action = async (id) =>{
+      try{
+      this.setState({
+        headertext: "Verifying your details.",
+        loader: true,
+        response: false,
+        success:false,
+        color: "#213F7D",
+        errortext: ""
+      });
+      _body["lender_id"]=id
+      const product_id = this.props.create_product.product.id
+      await this.props.dispatch(actions("SET_NEW_PRODUCT",post_action(this.props.token,_body,`products/${product_id}/fields`,"")));
+      switch(this.props.set_product_state){
+        case "success":
+        await this.props.dispatch(actions("SET_PRODUCT_TAB_FULFILLED","2"))
+        window.location.reload(); 
+        this.setState({
+          headertext: "Update Successful",
+          loader: false,
+          response: true,
+          success:true,
+          color: "green"
+        });
+        await this.setTimedNotification(3000)
+        break;
+        case "failed":
+        this.setState({
+          headertext: this.props.create_product_error.response?this.props.create_product_error.response.data.message:"Request failed, Please try again",
+          loader: false,
+          response: true,
+          success:false,
+          color: "red"
+        });
+        await this.setTimedNotification(3000)
+        break;
+        case "pending":
+        this.setState({
+          response: false,
+          loader: true,
+          color: "#213F7D",
+          headertext: "Submitting your details.",
+        });
+        break;
+        default:
+
+        break;
+      }
+    }
+      catch (error) {
+        this.setState({
+          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
+          loader: false,
+          response: true,
+          success:false,
+          color: "red"
+        });
+        await this.setTimedNotification(5000)
+      }
+    }
+    try{
+      this.setState({
+        headertext: "Submitting your details.",
+        loader: true,
+        response: false,
+        success:false,
+        color: "#213F7D",
+        errortext: ""
+      });
+      // const start = pre_action()
+      if(this.props.profile){
+        const profile= this.props.profile
+        const start = pre_action(profile.lenders[0].id)
+      }
+    }
+    catch(error){
+      this.setState({
+        headertext: "Ooops!! Something went wrong.",
+        loader: false,
+        response: true,
+        success:false,
+        color: "red"
+      }); 
+      await this.setTimedNotification(5000)    
+    }
+    
+  }
+
+
   renderGroups(){
 
     const groups = this.props.required_groups;
     const container =[];
     if(groups && groups.codes){
-      for(let each of groups.codes){         
+      for(let each of groups.codes){   
+        const id= each.id;
+        const name =each.code_description
         container.push(<div className="each-box">
-        <Collapsible trigger={each.code_description}>
-          <p>This is the collapsible content. It can be any element or React component you like.</p>
-          <p>It can even be another Collapsible component. Check out the next section!</p>
-        </Collapsible>
-        </div>)
+        <AccordionItem>
+          <AccordionItemTitle>
+            <h3 onClick={()=>this.handleFields(id,name)}>{name}</h3>
+          </AccordionItemTitle>
+          <AccordionItemBody>
+            <div className="fields">
+            {this.renderFields(`${id}`)}   
+            </div>
+          </AccordionItemBody>
+         </AccordionItem>
+         </div>)
       }
-      return container
+      return <Accordion>{container}</Accordion>
     }
     return container
   }
@@ -591,6 +432,14 @@ class Required extends Component {
 
       <div className="right-details">
       {this.renderGroups()}
+      { this.state.response?null:this.state.loader ?
+                      <div className="login-loader">
+                      <Loader type="Watch" color="black" height="50" width="60"/>
+                      </div>: <div className="submit"> <Input onClick={()=>this.handleNext()} type="button" value="CREATE PRODUCT"/></div>}
+            {this.state.loader ?null :this.state.response ?                       
+                    <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                      {this.state.headertext}
+                    </div>:null}  
       </div>
     </div>
     );
@@ -601,9 +450,13 @@ export default connect(store => {
   return {
     state: store.login.state,
     error: store.login.error,
-    auth: store.token.auth,
+    token:store.token.auth?store.token.auth.token:"",
     profile:store.getuser.user,
     profileState:store.getuser.state,
-    required_groups: store.action.all_groups
+    required_groups: store.action.all_groups,
+    group_fields:store.action.group_fields,
+    group_fields_state:store.action.group_fields_state,
+    create_product:store.action.create_product,
+    set_product_state:store.action.set_product_state
   };
 })(withRouter(Required));

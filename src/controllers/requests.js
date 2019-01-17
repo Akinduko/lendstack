@@ -3,14 +3,14 @@ import config from '../config.json';
 
 
 
-export const get_action = async (token,paths,params) => {
+export const get_action = async (token,paths="",params="") => {
   try {
       const options ={
           headers:{
               Authorization: token
           }
       }
-    const response = await axios.get(`${config.base_url}/api/${paths}?${params}`,options);
+    const response = await axios.get(`${config.base_url}/api/${paths}${params}`,options);
     return response.data
   }
   catch (error) {
@@ -26,7 +26,7 @@ export const put_action = async (token,body,paths,params) => {
                 Authorization: token
             }
         }
-      const response = await axios.put(`${config.base_url}/api/${paths}?${params}`,body,options);
+      const response = await axios.put(`${config.base_url}/api/${paths}${params}`,body,options);
       return response.data
     }
     catch (error) {
@@ -42,7 +42,7 @@ export const put_action = async (token,body,paths,params) => {
                 Authorization: token
             }
         }
-      const response = await axios.post(`${config.base_url}/api/${paths}?${params}`,body,options);
+      const response = await axios.post(`${config.base_url}/api/${paths}${params}`,body,options);
       return response.data
     }
     catch (error) {
@@ -58,7 +58,7 @@ export const put_action = async (token,body,paths,params) => {
                 Authorization: token
             }
         }
-      const response = await axios.get(`${config.base_url}/api/${paths}?${params}`,options);
+      const response = await axios.get(`${config.base_url}/api/${paths}${params}`,options);
       return response.data
     }
     catch (error) {
