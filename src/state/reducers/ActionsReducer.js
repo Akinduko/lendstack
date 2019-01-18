@@ -26,7 +26,10 @@ const options = {
     UPDATE_NEW_PRODUCT:"update_new_product",
     UPDATE_NEW_PARAMETER:"update_new_parameter",
     EDIT_PRODUCT_FIELDS:"edit_product_fields",
-    EDIT_PRODUCT_GROUPS:"edit_product_groups"
+    EDIT_PRODUCT_GROUPS:"edit_product_groups",
+    GET_ALL_LOANS:"get_all_loans",
+    GET_GROUP_BYPRODUCT:"group_by_product",
+    SET_LOAN_TAB:"loan_group_id"
 }
 export const action = (    
     state = {

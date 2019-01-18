@@ -9,6 +9,7 @@
 // ie fixes
 @import "ie-fix";
 
+
 body {
   font-family: "Work Sans";
   background-size: cover;
@@ -1368,7 +1369,296 @@ body {
     }
 
   }
+  .loan-product-body{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #F4F6F9;
+    display: flex;
+    flex: 2;
 
+    .dashboard-header {
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      width: 100%;
+      height: 50%;
+      /* top: 0px; */
+      background: -webkit-gradient(linear, right top, left top, color-stop(-21.5%, #39CDCC), color-stop(-21.48%, #39CDCC), color-stop(174.75%, #0CA8E5));
+      background: -webkit-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      background: -o-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      mix-blend-mode: multiply;
+  
+
+      .dashboard-header-text {
+        position: relative;
+        height: 38px;
+        left: 35%;
+        width: 100%;
+        top: 25%;
+    
+
+        p {
+          font-family: "Work Sans";
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          font-size: 30px;
+          color: #FFFFFF;
+          width: 100%;      
+        }
+      }
+
+      .dashboard-illustration-text {
+        position: absolute;
+        width: 50%;
+        height: 25%;
+        left: 20%;
+        top: 40%;
+
+        p {
+          font-family: "Work Sans";
+          font-style: normal;
+          font-weight: normal;
+          line-height: 28px;
+          font-size: 16px;
+          text-align: center;
+          color: #FFFFFF;
+        }
+      }
+    }
+
+    .dashboard-card-container {
+      position: absolute;
+      width: 80%;
+      height: 40%;
+      top: 35%;
+      /* left: 40%; */
+      background: transparent;
+      padding-left: 5%;
+      padding-right: 5%;
+      display:flex;
+      overflow-x: auto;
+      flex-direction:row;
+      .card-each {
+        // position: absolute;
+        width: 80% !important;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        left: 8%;
+        border: none;
+        background: #FFFFFF;
+        border: 1px solid #EDF1F5;
+        -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+        border-radius: 5px;
+        -webkit-transition: all .3s ease-out;
+        -o-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+        .card-header {
+          border: none;
+          left: 0px;
+          background: #213F7D;
+        }
+        .product-name{
+          display: flex;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -ms-flex-pack: start;
+          justify-content: flex-start;
+          padding: 5%;
+          width: 100%;
+          height: 30%;
+          a{
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 18px;
+            color: #545F7D;
+            opacity: 0.7;
+          }
+
+        }
+        .min-amount{
+          display:flex;
+          flex-direction:column;
+          padding-left: 5%;
+          padding-top: 5%;
+          padding-right:5%;
+          width: 100%;
+          height: 30%;
+          justify-content: space-between;
+          a{
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 12px;
+            color: #545F7D;
+            opacity: 0.6;
+            padding-bottom: 5%;
+          }
+          p{
+            font-family: "Nunito";
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            font-size: 25px;
+            color: #545F7D;
+          }
+        }
+        .max-amount{
+          display:flex;
+          flex-direction:column;
+          padding-left: 5%;
+          padding-top: 5%;
+          padding-right:5%;
+          width: 100%;
+          height: 30%;
+          justify-content: space-between;
+          
+          a{
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 12px;
+            color: #545F7D;
+            opacity: 0.6;
+            padding-bottom: 5%;
+          }
+          p{
+            font-family: "Nunito";
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            font-size: 25px;
+            color: #0CA8E5;
+          }
+        }
+        .tenor{
+          display:flex;
+          flex-direction:column;
+          padding-left: 5%;
+          padding-top: 5%;
+          padding-right: 5%;
+          width: 100%;
+          height: 30%;
+          justify-content: space-between;
+          a{
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 12px;
+            color: #545F7D;
+            opacity: 0.6;
+            padding-bottom: 5%;
+          }
+          p{
+            font-family: "Nunito";
+            font-style: normal;
+            font-weight: normal;
+            line-height: normal;
+            font-size: 20px;
+            color: #545F7D;
+            opacity: 0.7;
+          }
+        }
+        .card-custom-footer {
+          position: absolute;
+          width: 100%;
+          height: 15%;
+          border: none;
+          display: flex;
+          flex-direction: column;
+          top: 100%;
+          border: none;
+          cursor: pointer;
+          left: 0px;
+          background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%);
+
+          a {
+            position: absolute;
+            height: 22px;
+            /* left: 68px; */
+            // top: 20px;
+            font-family: "Work Sans";
+            width: 100%;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 21px;
+            font-size: 14px;
+            text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #39CDCC;
+          }
+        }
+        &:hover {
+          background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%);
+          box-shadow: 0px 30px 29px rgba(0, 0, 0, 0.07);
+          border-radius: 5px;
+          border: none;
+          transform: translateY(-1rem) scale(1.02);
+        }
+
+        .card-header {
+          position: absolute;
+          width: 300px;
+          height: 10px;
+          left: -1px;
+          top: 0px;
+          border: none;
+          background: #D7F5F5;
+          opacity: 0.5;
+        }
+
+
+        .card-footer {
+          position: absolute;
+          width: 100%;
+          height: 15%;
+          left: 0px;
+          border: none;
+          display: flex;
+          top: 100%;
+          background: #F8FEFE;
+          border: 1px solid #DBDFE9;
+
+          img {
+            position: relative;
+            width: 12px;
+            height: 9px;
+            left: calc(70% - 179px/50 - -70px);
+            top: calc(50% - 149px/2 + 71.5px);
+          }
+
+          a {
+            position: absolute;
+            height: 22px;
+            /* left: 68px; */
+            width: 100%;
+            top: 20px;
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 600;
+            line-height: 21px;
+            font-size: 14px;
+            text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #39CDCC;
+          }
+        }
+      }
+
+    }
+
+  }
   .settings {
     width: 100%;
     height: 100%;

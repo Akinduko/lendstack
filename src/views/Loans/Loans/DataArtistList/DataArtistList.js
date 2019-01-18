@@ -18,13 +18,17 @@ import Guarantor from "./Guarantor";
 import Address from './Address';
 import Employee from './Employee';
 import Loans from "./Loans";
-import data from './_data';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import Slider from "react-slick";
+import { get_action} from  '../../../../controllers/requests';
+import { actions } from '../../../../state/actions';
 
 
 class DataArtistList extends Component {
     constructor(props) {
         super(props);
-        this.table = data.rows;
+        this.table = this.props.get_all_loans;
         this.options = {
             sortIndicator: true,
             hideSizePerPage: true,
@@ -39,6 +43,16 @@ class DataArtistList extends Component {
             activeTab: '1'
           };
 
+    }
+  
+    async componentDidMount(){
+      const profile= this.props.profile;
+      const id = profile.lenders?profile.lenders[0].id:""
+      await this.props.dispatch(actions("GET_ALL_LOANS",get_action(this.props.auth.token,`loans`,`?lender_id=11`)))
+      switch(this.props.get_all_loans_state){
+        case "success":
+        break
+      }
     }
 
      editFormater = (cell, row) => {
@@ -181,4 +195,15 @@ class DataArtistList extends Component {
 }
 
 
-export default DataArtistList;
+
+export default connect(store => {
+  return {
+    state: store.login.state,
+    error: store.login.error,
+    auth: store.token.auth,
+    get_all_loans_state:store.action.get_all_loans_state,
+    get_all_loans:store.action.get_all_loans?store.action.get_all_loans.products:[],
+    profile:store.action.user,
+  };
+})(withRouter(DataArtistList));
+

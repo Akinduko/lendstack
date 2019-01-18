@@ -110,7 +110,10 @@ class Parameters extends Component {
         break;
       }   
     }
-    this.props.history.push('/product')
+    else{
+      this.props.history.push('/product')
+    }
+
   }
 
   toggle(tab) {
@@ -169,7 +172,7 @@ class Parameters extends Component {
       });
       const body={
                   "product_name":_body.name,
-                  "prodct_description": "Lender created product",
+                  "product_description": "Lender created product",
                   "lender_id": id,
                   "is_published": false
                 }

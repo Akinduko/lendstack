@@ -18,6 +18,7 @@ import Documents from './Documents'
 import { connect } from 'react-redux';
 import { actions } from '../../../state/actions';
 import { withRouter } from 'react-router-dom';
+import { get_action} from  '../../../controllers/requests';
 
 class AddLoans extends Component {
     constructor(props) {
@@ -29,14 +30,18 @@ class AddLoans extends Component {
           };
 
     }
-
+    async componentDidMount(){
+      const product = this.props.new_loan.product
+      await this.props.dispatch(actions("GET_GROUP_BYPRODUCT",get_action(this.props.auth.token,`products/${product.id}/groups`,"")))
+    }
       toggleModal(name){
           const action ={}
           action[name]=!this.state[name]
           this.setState(action)
       }
-      toggle(tab) {
+      toggle=async(tab) =>{
         if (this.state.activeTab !== tab) {
+          await this.props.dispatch(actions("SET_LOAN_TAB_FULFILLED",{active:tab}))
           this.setState({
             activeTab: tab,
           });
@@ -45,7 +50,49 @@ class AddLoans extends Component {
       async exitLoan(){
         await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",false))
       }
+renderTabs=()=>{
+  const groups = this.props.group_by_product
+  const each =[]
+  switch(this.props.group_by_product_state){
+    case "success":
+    for(let i=0; i<groups.length; i++){
+      each.push(<NavItem>
+      <NavLink
+        className={classnames({ active: this.state.activeTab === groups[i].id })}
+        onClick={() => { this.toggle(i); }}
+      >
+        {groups[i].code_description}
+      </NavLink>
+    </NavItem>)
+    }
+    return (                
+      <div className="actual-tabs">
+        {each}
+    </div>)
+    case "failed":
+    return <div>Unable to Load Tabs</div>
+    case "pending":
+    return <div>Loading...</div>
+  }
+}
 
+renderTabContent=()=>{
+  const groups = this.props.group_by_product
+  const each =[]
+  switch(this.props.group_by_product_state){
+    case "success":
+    for(let i=0; i<groups.length; i++){
+      each.push(<TabPane tabId={groups[i].id}>
+      <Personal/>
+      </TabPane>)
+    }
+    return (<TabContent activeTab={this.state.activeTab}>{each}</TabContent>)
+    case "failed":
+    return<TabContent>Unable to Load Tabs</TabContent>
+    case "pending":
+    return <TabContent> Loading...</TabContent>
+  }
+}
     render() {
 
         return (
@@ -53,10 +100,10 @@ class AddLoans extends Component {
     <div className="notification"><img src={require('../../../assets/img/brand/notification.svg')}/></div>
      <div className="body-header"> 
       <div className="first">
-      <a>Add New Guarantor</a>
+      <a>Add New Loan</a>
       </div>
       <div className="second">
-      <a onClick={()=>this.exitLoan()}>Loan > </a> <p> Add New Guarantor</p>
+      <a onClick={()=>this.exitLoan()}>Loan > </a> <p> Add New Loan</p>
       </div> 
       </div>
        <div className="add-loan-body">
@@ -65,79 +112,15 @@ class AddLoans extends Component {
                <Nav tabs>
                <div className="block-group">
                <div className="divider-top"/>
-               <div className="actual-tabs">
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '1' })}
-                     onClick={() => { this.toggle('1'); }}
-                   >
-                     Personal
-                   </NavLink>
-                 </NavItem>
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '2' })}
-                     onClick={() => { this.toggle('2'); }}
-                   >
-                     Address
-                   </NavLink>
-                 </NavItem>
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '3' })}
-                     onClick={() => { this.toggle('3'); }}
-                   >
-                     Loans
-                   </NavLink>
-                 </NavItem>
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '4' })}
-                     onClick={() => { this.toggle('4'); }}
-                   >
-                     Employee
-                   </NavLink>
-                 </NavItem>
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '5' })}
-                     onClick={() => { this.toggle('5'); }}
-                   >
-                     Guarantor
-                   </NavLink>
-                 </NavItem>
-                 <NavItem>
-                   <NavLink
-                     className={classnames({ active: this.state.activeTab === '6' })}
-                     onClick={() => { this.toggle('6'); }}
-                   >
-                     Documents
-                   </NavLink>
-                 </NavItem>
-                 </div>
+               
+                  {this.renderTabs()}
+               
                  <div className="divider-bottom"/>
                </div>
                </Nav>
-               <TabContent activeTab={this.state.activeTab}>
-               <TabPane tabId="1">
-                 <Personal/>
-               </TabPane>
-               <TabPane tabId="2">
-               <Address/>
-               </TabPane>
-               <TabPane tabId="3">
-               <Loans/>
-               </TabPane>
-               <TabPane tabId="4">
-               <Employee/>
-               </TabPane>
-               <TabPane tabId="5">
-               <Guarantor/>
-               </TabPane>
-               <TabPane tabId="6">
-               <Documents/>
-               </TabPane>
-               </TabContent>
+               
+                {this.renderTabContent()}
+
              </Col>
            </Row>
        </div>      
@@ -150,6 +133,9 @@ export default connect(store => {
   return {
     state: store.validate.state,
     error: store.validate.error,
-    new_loan:store.action.new_loan
+    new_loan:store.action.new_loan,
+    auth: store.token.auth,
+    group_by_product:store.action.group_by_product?store.action.group_by_product.groups:[],
+    group_by_product_state: store.action.group_by_product_state
   };
 })(withRouter(AddLoans));

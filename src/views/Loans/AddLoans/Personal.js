@@ -61,20 +61,8 @@ class Personal extends Component {
   }
 
   async componentDidMount(){
-    await this.props.dispatch(actions("GET_USER",get_action(this.props.auth.token,"users/me/profile","")))
-    switch(this.props.profileState){
-      case "success":
-      const profile = this.props.profile
-      this.setState({
-        email: profile?this.props.profile.email:"",
-        firstname:profile && profile.user_name?profile.user_name.split(" ")[0]:"",
-        lastname:profile && profile.user_name?profile.user_name.split(" ")[1]:"",
-        phonenumber:profile&&profile.mobile?this.props.profile.mobile:"",
-        password:""
-      })
-      break
-    }
-  }
+  //   await this.props.dispatch(actions("GET_GROUP_BYPRODUCT",get_action(this.props.auth.token,"products/81/groups","")))
+}
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -333,7 +321,31 @@ class Personal extends Component {
   redirect(link){
     this.props.history.push(link)
   }
-
+  renderPersonal=()=>{
+    if(this.props.new_loan.product){
+      const product = this.props.new_loan.product
+     return (
+     <div className="first-name">
+     <div className="first">
+     <a>First Name</a>
+     </div>
+     <div className="second">
+     {/* <FormGroup>
+                       <Input value={this.state[`${name}`]} onChange={this.handleUserInput} name={`${name}`}
+                         type="text"
+                         maxLength="30"
+                         placeholder=""
+                         onBlur={this.handleUserValidation}
+                         valid={this.state.validFields[`${name}`] === true}
+                         invalid={this.state.validFields[`${name}`] !== true}
+                         required
+                       />
+                    {this.state.formErrors[`${name}`]? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors[`${name}`]}`}</FormFeedback>:null}
+            </FormGroup>   */}
+     </div>
+     </div>) 
+    }
+  }
   render() {
     return (
       <div className="personal-page" >
@@ -347,62 +359,9 @@ class Personal extends Component {
      </div>
 
       <div className="right-details">
-      <div className="left">
-      <div className="first-name">
-      <div className="first">
-      <a>First Name</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="last-name">
-      <div className="first">
-      <a>Last Name</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="phone-number">
-      <div className="first">
-      <a>Phone Number</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="submit">
-      <Input  type="submit" value="SAVE"/>
-      </div>
-      </div>
-      <div className="right">
-      <div className="middle-name">
-      <div className="first">
-      <a>Middle Name</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="email">
-      <div className="first">
-      <a>Email</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      <div className="dob">
-      <div className="first">
-      <a>Date of Birth</a>
-      </div>
-      <div className="second">
-      <Input></Input>
-      </div> 
-      </div>
-      </div>
-     </div>
+      {this.renderPersonal()}
+      
+    </div>
     </div>
     );
   }
@@ -414,6 +373,9 @@ export default connect(store => {
     error: store.login.error,
     auth: store.token.auth,
     profile:store.getuser.user,
-    profileState:store.getuser.state
+    profileState:store.getuser.state,
+    new_loan:store.action.new_loan,
+    loan_group_id:store.action.loan_group_id?store.action.loan_group_id.active:"",
+    loan_group_id_state:store.action.loan_group_id_state
   };
 })(withRouter(Personal));

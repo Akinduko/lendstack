@@ -34,10 +34,12 @@
     "react-loadable": "^5.4.0",
     "react-loader-spinner": "^2.3.0",
     "react-redux": "^6.0.0",
+    "react-responsive-carousel": "^3.1.45",
     "react-router": "^4.2.0",
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.2.2",
     "react-simple-maps": "^0.12.1",
+    "react-slick": "^0.23.2",
     "react-step-wizard": "^2.0.0",
     "react-test-renderer": "^16.3.2",
     "react-toggle-switch": "^3.0.4",
@@ -47,7 +49,8 @@
     "redux-persist": "^5.10.0",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.3.0",
-    "simple-line-icons": "^2.4.1"
+    "simple-line-icons": "^2.4.1",
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "babel-jest": "^22.4.3",

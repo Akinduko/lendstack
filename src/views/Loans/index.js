@@ -3,7 +3,7 @@ import classnames from 'classnames';
 // import Management from './UserManagement'
 // import Profile from './Profile'
 import Approval from './Approval'
-import AddLoans from './AddLoans'
+import SelectProduct from './SelectProduct'
 import Loans from './Loans'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -46,7 +46,7 @@ renderPage(){
 
 renderMain(){
   if(this.props.new_loan){
-    return <AddLoans/>
+    return <SelectProduct/>
   }
   return <div className="main-page">
             <div className="sidebar-nav-custom">

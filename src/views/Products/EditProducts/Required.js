@@ -77,7 +77,10 @@ class Required extends Component {
         break
       }
     }
-    this.props.history.push('/product')
+    else{
+      this.props.history.push('/product')
+    }
+
 
   }
 
