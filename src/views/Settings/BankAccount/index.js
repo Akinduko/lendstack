@@ -28,7 +28,9 @@ class Accounts extends Component {
     async componentDidMount(){
 
       try{
-      await this.props.dispatch(actions("GET_USER_BANKS",get_action(this.props.auth.token,"users/me/bank_accounts","")))
+        const profile= this.props.profile;
+        const id = profile.lenders?profile.lenders[0].id:""
+      await this.props.dispatch(actions("GET_USER_BANKS",get_action(this.props.auth.token,`lenders/${id}/bank_accounts`,"")))
       switch(this.props.user_banks_state){
         case "success":
         const _profile = this.props.user_banks
@@ -65,7 +67,7 @@ class Accounts extends Component {
                     <div className="section-1">
                     <div className="bank-name">
                     <a>Bank</a>
-                    <p>GTBank</p>
+                    <p>{each.bank.code_description}</p>
                     </div>
                     <div className="bank-logo">
                     <img src={each.avatar}  alt="" />
@@ -74,16 +76,12 @@ class Accounts extends Component {
                     <div className="section-2"> 
                     <div className="bank-number">
                     <a>Account Number</a>
-                    <p>0123456789</p>
-                    </div>
-                    <div className="bank-bvn">
-                    <a>BVN</a>
-                    <p>0123456789</p>
+                    <p>{each.account_number}</p>
                     </div>
                     </div>
                     <div className="divider"/>
                     <div className="business-name">
-                    <a>Pay Finance Limited</a>
+                    <a>{each.account_name}</a>
                     </div>
                     </div>
                       <div className="card-footer">
@@ -91,7 +89,8 @@ class Accounts extends Component {
                      <p>₦</p>
                     <a>Naira</a>
                     </div>
-                    <div className="toggle"><a>active</a><AppSwitch className={'mx-1'} color={'success'} checked /></div>
+                    <div className="toggle"><a>{each.status===0?"inactive":"active"}</a></div>
+                    {/* <div className="toggle"><a>{each.status===0?"inactive":"active"}</a><AppSwitch className={'mx-1'} color={'success'} checked={each.status===0?false:true} /></div> */}
                     </div>
                     </div>)
     }
@@ -129,6 +128,7 @@ export default connect(store => {
   return {
     user_banks_state: store.action.user_banks_state,
     auth: store.token.auth,
+    profile:store.action.user,
     user_banks: store.action.user_banks?store.action.user_banks.bankAccounts:""
   };
 })(withRouter(Accounts));

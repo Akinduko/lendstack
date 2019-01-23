@@ -29,7 +29,7 @@ const validFields ={
   password:false
 }
 
-class Personal extends Component {
+class Location extends Component {
 
   constructor(props) {
 
@@ -45,7 +45,6 @@ class Personal extends Component {
       loader: false,
       code: false,
       errortext: "",
-      inputs:{},
       formErrors: fields,
       validFields:validFields,
       value: '',
@@ -61,13 +60,22 @@ class Personal extends Component {
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
-  // async componentDidMount(){
-  //   const product = this.props.new_loan.product
-  //   const group_id = this.props.loan_group_id.id
-  //   await this.props.dispatch(actions("GET_FIELD_BYPRODUCT",get_action(this.props.auth.token,`products/${product.id}/groups/${group_id}`,"")))
-    
-  // }
-  
+  async componentDidMount(){
+    await this.props.dispatch(actions("GET_USER",get_action(this.props.auth.token,"users/me/profile","")))
+    switch(this.props.profileState){
+      case "success":
+      const profile = this.props.profile
+      this.setState({
+        email: profile?this.props.profile.email:"",
+        firstname:profile && profile.user_name?profile.user_name.split(" ")[0]:"",
+        lastname:profile && profile.user_name?profile.user_name.split(" ")[1]:"",
+        phonenumber:profile&&profile.mobile?this.props.profile.mobile:"",
+        password:""
+      })
+      break
+    }
+  }
+
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -89,7 +97,7 @@ class Personal extends Component {
   handleUserInput = async (e) => {
     const value = e.target.value;
     const name = e.target.name;
-    await this.setState({ ["inputs"[name]]: value });
+    await this.setState({ [name]: value });
   }
 
 
@@ -104,16 +112,6 @@ class Personal extends Component {
     return setTimeout(async () => {
       await operation()
     }, time);
-  }
-
-  handleSubmits(){
-    const states =Object.keys(this.state)
-    for(let each of states ){
-      console.log(Object.keys(this.state))
-      if (typeof each ==="number"){
-        console.log(each)
-      }
-    }
   }
 
   async handleSubmit(event) {
@@ -335,53 +333,39 @@ class Personal extends Component {
   redirect(link){
     this.props.history.push(link)
   }
-  renderPersonal=()=>{
-    switch(this.props.field_by_group_state){
-      case "success":
-      const fields = this.props.field_by_group
-      const body = []
-      for(let each of fields){
-        body.push(     <div key={each.id} className="first-name">
-        <div className="second"><FormGroup>
-          <Input value={this.state["inputs"][`${each.id}`]} onChange={this.handleUserInput} name={`${each.id}`}
-            type="text"
-            maxLength="30"
-            placeholder={each.field_name}
-            onBlur={this.handleUserValidation}
-            valid={this.state.validFields[`${each.id}`] === true}
-            invalid={this.state.validFields[`${each.id}`] !== true}
-            required
-          />
-       {this.state.formErrors[`${each.id}`]? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors[`${each.id}`]}`}</FormFeedback>:null}
-</FormGroup></div></div> )
-      }
-     return (body)
-     case "pending":
-     return <div>Loading fields...Please wait</div>
-     case "failed":
-     return <div>An error occured please try again</div>
-    }
-}
 
   render() {
     return (
-      <div className="personal-page" >
-      <div className="left-details">
-      <div className="first">
-      <a>{this.props.loan_group_id.code_description}</a>
-      </div>
-      <div className="second">
-      <a>Enter borrower’s {this.props.loan_group_id.code_description}</a>
-      </div> 
-     </div>
-
-      <div className="right-details">
-      {this.renderPersonal()} 
-    </div>
-    <div className="submit">
-      <Input  onClick={()=>this.handleSubmits()} type="submit" value="SAVE"/>
-      </div> 
-    </div>
+        <div className="parent d-flex flex-column justify-content-between">
+        <div className="p-text-2">Location Details</div>
+        <div className="d-flex flex-row justify-content-start h-10">
+        <div className="d-flex flex-column justify-content-center h-100 w-25">
+        <p className="p-text-3">Business Address</p>
+        <a className="p-text-4">Add business location details</a>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-75">
+        <Input className="form-control w-75 h-100"/>
+        </div>
+        </div> 
+        <div className="d-flex flex-row justify-content-start h-10 ">
+        <div className="d-flex h-100 w-75 justify-content-start ml-25">
+        <Input className="form-control w-75 h-100"/>
+        </div>  
+        </div>    
+        <div className="d-flex flex-row justify-content-start h-10 ">
+        <div className="d-flex h-100 w-75 justify-content-start ml-25">
+        <Input className="form-control w-75 h-100"/>
+        </div>  
+        </div>    
+        <div className="d-flex flex-row justify-content-start h-10 ">
+        <div className="d-flex h-100 justify-content-start h-100 w-75 ml-25">
+        <Input className="form-control w-75 h-100"/>
+        </div>  
+        </div>    
+        <div className="ml-25 h-10 w-25">
+          <Input className="submit" disabled={!this.state.formValid} type="submit" value="Save Changes"/>
+        </div>
+        </div>
     );
   }
 }
@@ -392,11 +376,6 @@ export default connect(store => {
     error: store.login.error,
     auth: store.token.auth,
     profile:store.getuser.user,
-    profileState:store.getuser.state,
-    new_loan:store.action.new_loan,
-    loan_group_id:store.action.loan_group_id?store.action.loan_group_id.active:"",
-    loan_group_id_state:store.action.loan_group_id_state,
-    field_by_group:store.action.field_by_group?store.action.field_by_group.fields:[],
-    field_by_group_state:store.action.field_by_group_state
+    profileState:store.getuser.state
   };
-})(withRouter(Personal));
+})(withRouter(Location));

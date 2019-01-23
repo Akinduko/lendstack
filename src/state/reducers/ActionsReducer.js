@@ -29,7 +29,24 @@ const options = {
     EDIT_PRODUCT_GROUPS:"edit_product_groups",
     GET_ALL_LOANS:"get_all_loans",
     GET_GROUP_BYPRODUCT:"group_by_product",
-    SET_LOAN_TAB:"loan_group_id"
+    SET_LOAN_TAB:"loan_group_id",
+    GET_FIELD_BYPRODUCT:"field_by_group",
+    CREATE_NEW_LOAN: "create_new_loan",
+    GET_FIELD_TYPES:"all_field_types",
+    GET_SELECTION_VALUES: "get_selection_values",
+    GET_ALL_TRANSACTIONS:"get_all_transactions",
+    GET_PENDING_LOANS:"get_pending_loans",
+    UPDATE_LOAN_FIELD:"update_loan_field",
+    GET_CURRENT_PRODUCT:"get_current_product",
+    GET_ALL_SCHEDULE:"get_all_schedule",
+    CREATE_LENDER_ACCOUNT:"create_lender_account",
+    GET_ALL_ROLES:"get_roles",
+    GET_ALL_USERS:"get_all_users",
+    UPDATE_USER_PROFILE:"update_user_profile",
+    CREATE_LENDER_USER:"create_lender_user",
+    SET_PENDING_LOAN:"set_pending_loan",
+    APPROVE_LOAN_STATUS:"approve_loan_status",
+    GET_LENDER_DASHBOARD:"lender_dashboard"
 }
 export const action = (    
     state = {
@@ -81,6 +98,8 @@ export const action = (
           failed: false,
           [`${options[entity]}_state`]: 'pending',
         };
+        case `USER_LOGOUT_FULFILLED`:
+        return {};
       default:
         return state;
     }

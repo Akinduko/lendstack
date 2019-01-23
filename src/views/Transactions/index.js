@@ -1,31 +1,38 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import DataArtistList from './DataArtistList';
 import {
   Input,
   FormFeedback,
   FormGroup,
-  Form
+  Form,
+  Modal
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { post_action ,get_action} from  '../../../../controllers/requests';
-import { actions } from '../../../../state/actions';
+import { post_action ,get_action} from  '../../controllers/requests';
+import { actions } from '../../state/actions';
 import Loader from 'react-loader-spinner'
 
 
-const validField =["account_number","bank_name"]
+const validField =["first_name","last_name","role","email","phone_number"]
 
 const fields = {
-  bank_name: "",
-  account_number: ""
+  first_name: "",
+  last_name: "",
+  role:"",
+  email:"",
+  phone_number:""
 }
 
 const validFields ={
-  bank_name: false,
-  account_number: false
+  first_name: false,
+  last_name: false,
+  role:false,
+  email:false,
+  phone_number:false
 }
 
-
-class First extends Component {
+class Transactions extends Component {
 
   constructor(props) {
 
@@ -88,10 +95,8 @@ class First extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
     const body = {
-      "bank_id":parseInt(this.state.bank_name),
+      "bank_id":this.state.bank_name,
       "account_number":this.state.account_number
      }
     
@@ -105,8 +110,8 @@ class First extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("CREATE_LENDER_ACCOUNT",post_action(this.props.auth.token,body,`lenders/${id}/bank_accounts`,"")))
-      switch(this.props.create_lender_account_state){
+      await this.props.dispatch(actions("GET_AUTH",post_action("",body,"auth/signin","")))
+      switch(this.props.state){
         case "success":
         this.setState({
           headertext: "Login Successful",
@@ -115,7 +120,6 @@ class First extends Component {
           success:true,
           color: "green"
         });
-        this.props.nextStep()
         await this.setTimedNotification(3000)
         break;
         case "failed":
@@ -152,7 +156,6 @@ class First extends Component {
         await this.setTimedNotification(5000)
       }
     }
-    
     try{
       this.setState({
         headertext: "Verifying your details.",
@@ -162,7 +165,7 @@ class First extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      const start = pre_action()
+      this.props.nextStep()
     }
     catch(error){
       this.setState({
@@ -174,7 +177,6 @@ class First extends Component {
       }); 
       await this.setTimedNotification(5000)    
     }
-    
   }
 
   checkNum = (value) => {
@@ -239,19 +241,18 @@ class First extends Component {
     const _state = Object.values(state);
     const result = _state.reduce((sum, next) => sum && next, true);
     await this.setState({ formValid: result });
-    console.log(result)
   }
 
   redirect(link){
     this.props.history.push(link)
   }
 
-  renderBanks = banks => {
+  renderRoles = roles => {
     let array = [];
-    if (banks) {
-      for (let each of banks) {
+    if (roles) {
+      for (let each of roles) {
         array.push(
-          <option value={each.id}>{each.code_description}</option>
+          <option value={each.additional_code}>{each.code_description}</option>
         );
       }
       return array;
@@ -260,77 +261,32 @@ class First extends Component {
     }
   };
 
+  toggleModal(name){
+    const action ={}
+    action[name]=!this.state[name]
+    this.setState(action)
+}
+
+async addLoan(){
+  await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",true))
+}
   render() {
     return (
-        <div className="add-account-page">
-        <div className="add-account-left">
-        <p>Add Bank Account.</p>
-        <a>Add your bank account</a>
-        </div>
-        <div className="add-account-right">
-        <div className="form-content">
-        <Form onSubmit={this.handleSubmit}>
-        <div className="input-groups">
-        <div className="account_number">
-        <p>Account Number</p>
-            <FormGroup>
-                      <Input value={this.state.account_number} onChange={this.handleUserInput} name="account_number"
-                        type="account_number"
-                        maxLength="30"
-                        placeholder=""
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.account_number === true}
-                        invalid={this.state.validFields.account_number !== true}
-                        required
-                      />
-                   {this.state.formErrors.account_number? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.account_number}`}</FormFeedback>:null}
-           </FormGroup>                    
-            </div>
-        <div className="bank_name"> 
-        <p>Select Bank</p>
-            <FormGroup>
-                      <Input value={this.state.bank_name} onChange={this.handleUserInput} name="bank_name"
-                        type="select"
-                        maxLength="30"
-                        className="select-group"
-                        placeholder=""
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.bank_name === true}
-                        invalid={this.state.validFields.bank_name !== true}
-                        required
-                      >
-                    <option value=""></option>
-                    {this.renderBanks(this.props.all_banks)}
-                    </Input>
-                   {this.state.formErrors.bank_name? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.bank_name}`}</FormFeedback>:null }
-                    </FormGroup>
-            </div>
-           </div> 
-            { this.state.response?null:this.state.loader ?
-                      <div className="login-loader">
-                      <Loader type="Watch" color="black" height="50" width="60"/>
-                      </div>:<Input className="submit" disabled={!this.state.formValid} type="submit" value="VERIFY"/>}
-                           {this.state.loader ?null :this.state.response ?                       
-            <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-              {this.state.headertext}
-            </div>:null}   
-           </Form>
-           </div>    
-          </div>    
-        </div>
-      )
+      <div className="transactions-page">
+      <div className="add-loan-button"><button onClick={()=>this.addLoan()} >ADD NEW LOAN</button></div>
+      <div className="transactions-table-container">
+      <DataArtistList/>
+      </div>
+      </div>
+    );
   }
 }
 
+
 export default connect(store => {
   return {
-    state: store.login.state,
-    error: store.login.error,
-    all_banks: store.action.all_banks?store.action.all_banks.codes:[],
-    all_banks_state: store.action.all_banks_state,
-    create_lender_account:store.action.create_lender_account,
-    profile:store.action.user,
-    auth: store.token.auth,
-    create_lender_account_state:store.action.create_lender_account_state
+    state: store.validate.state,
+    error: store.validate.error,
+    auth:store.validate.auth,
   };
-})(withRouter(First));
+})(withRouter(Transactions));

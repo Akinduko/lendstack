@@ -11,7 +11,6 @@ import {
 import classnames from 'classnames';
 import Account from './Account'
 import ChangePassword from './ChangePassword'
-
 class Profile extends Component {
 
   constructor(props) {
@@ -34,8 +33,7 @@ class Profile extends Component {
   render() {
     return (
       <div className="settings-page">
-    
-      <Row>
+          <Row>
           <Col className="main-container">
             <Nav tabs>
               <NavItem>
@@ -66,7 +64,7 @@ class Profile extends Component {
             </TabPane>
             </TabContent>
           </Col>
-        </Row>
+        </Row> 
         </div>
     );
   }

@@ -14,12 +14,11 @@ import { actions } from '../../../state/actions';
 import Loader from 'react-loader-spinner'
 
 
-const validField =["first_name","last_name","role","email","phone_number"]
+const validField =["first_name","last_name","email","phone_number"]
 
 const fields = {
   first_name: "",
   last_name: "",
-  role:"",
   email:"",
   phone_number:""
 }
@@ -27,7 +26,6 @@ const fields = {
 const validFields ={
   first_name: false,
   last_name: false,
-  role:false,
   email:false,
   phone_number:false
 }
@@ -64,6 +62,14 @@ class Management extends Component {
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
+  async componentDidMount(){
+    await this.props.dispatch(actions("GET_ALL_ROLES",get_action(this.props.token,`roles`,``)))
+    switch(this.props.all_products_state){
+      case "success":
+      break
+    }
+  }
+
   handleUserValidation = async (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -96,10 +102,11 @@ class Management extends Component {
 
   async handleSubmit(event) {
     event.preventDefault()
-    const body = {
-      "bank_id":this.state.bank_name,
-      "account_number":this.state.account_number
-     }
+    const body ={
+      "user_name": `${this.state.first_name} ${this.state.last_name}`,
+      "email": `${this.state.email}`,
+      "role_id": parseInt(this.state.role)
+    }
     
     const pre_action = async () =>{
       try{
@@ -111,8 +118,10 @@ class Management extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("GET_AUTH",post_action("",body,"auth/signin","")))
-      switch(this.props.state){
+      const profile= this.props.profile;
+      const id = profile.lenders?profile.lenders[0].id:""
+      await this.props.dispatch(actions("CREATE_LENDER_USER",post_action(this.props.token,body,`lenders/${id}/users`,"")))
+      switch(this.props.create_lender_user_state){
         case "success":
         this.setState({
           headertext: "Login Successful",
@@ -121,6 +130,10 @@ class Management extends Component {
           success:true,
           color: "green"
         });
+        this.toggleModal("addusermodal")
+        const profile= this.props.profile;
+        const id = profile.lenders?profile.lenders[0].id:""
+        await this.props.dispatch(actions("GET_ALL_USERS",get_action(this.props.token,`lenders/${id}/users`,``)))
         await this.setTimedNotification(3000)
         break;
         case "failed":
@@ -166,9 +179,7 @@ class Management extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      // const start = pre_action()
-      console.log(body)
-      this.props.nextStep()
+      const start = pre_action()
     }
     catch(error){
       this.setState({
@@ -192,7 +203,7 @@ class Management extends Component {
     if (patd.test(value) || pats.test(value)) {
       return 'That number is strange. Please check it again.'
     }
-    if (value.length > 10) {
+    if (value.length > 13) {
       return 'That number is strange and long. Please check it again.'
     }
     if (value.length < 10) {
@@ -236,7 +247,6 @@ class Management extends Component {
     }, this.validateForm);
     
   }
-
   async validateForm() {
     let state ={}
       for(let each of validField){
@@ -256,7 +266,7 @@ class Management extends Component {
     if (roles) {
       for (let each of roles) {
         array.push(
-          <option value={each.additional_code}>{each.code_description}</option>
+          <option value={each.id}>{each.user_role}</option>
         );
       }
       return array;
@@ -264,6 +274,7 @@ class Management extends Component {
       return [<option value="" />];
     }
   };
+
   toggleModal(name){
     const action ={}
     action[name]=!this.state[name]
@@ -315,13 +326,12 @@ class Management extends Component {
                         type="select"
                         maxLength="30"
                         className="select-group"
-                        placeholder=""
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.role === true}
-                        invalid={this.state.validFields.role !== true}
+                        
                         required
                       >
-                    <option value="admin">admin</option>
+                    <option value=""></option>
+                    {this.renderRoles(this.props.get_roles)}
+                    
                     </Input>
                    {this.state.formErrors.role? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.role}`}</FormFeedback>:null }
                     </FormGroup>
@@ -360,7 +370,7 @@ class Management extends Component {
       { this.state.response?null:this.state.loader ?
                       <div className="login-loader">
                       <Loader type="Watch" color="black" height="50" width="60"/>
-                      </div>:<Input className="submit" disabled={!this.state.formValid} type="submit" value="Add NEW USER"/>}
+                      </div>:<Input className="submit"  type="submit" value="ADD NEW USER"/>}
                            {this.state.loader ?null :this.state.response ?                       
             <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
               {this.state.headertext}
@@ -384,5 +394,12 @@ export default connect(store => {
     state: store.validate.state,
     error: store.validate.error,
     auth:store.validate.auth,
+    get_roles:store.action.get_roles?store.action.get_roles.roles:[],
+    get_roles_state:store.action.get_roles,
+    profile:store.action.user,
+    create_lender_user_state:store.action.create_lender_user_state,
+    create_lender_user:store.action.create_lender_user,
+    token:store.token.auth?store.token.auth.token:"",
+    error:store.action.create_lender_user_error,
   };
 })(withRouter(Management));

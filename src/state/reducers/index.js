@@ -8,11 +8,6 @@ import {
 } from './AuthReducer';
 import {action} from './ActionsReducer'
 
-import {
-  updateuser,
-  getuser
-} from './UserReducer';
-
 import storage from 'redux-persist/lib/storage';
 
 const persistConfig = {
@@ -27,7 +22,5 @@ export default persistCombineReducers(persistConfig, {
   register,
   getreset,
   validate,
-  updateuser,
-  getuser,
   token
 });

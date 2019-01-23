@@ -24,12 +24,6 @@ class DeclineLoan extends Component {
       <div className="add-guarantor-page">
       <div className="notification"><img src={require('../../../assets/img/brand/notification.svg')}/></div>
       <div className="body-header"> 
-      <div className="first">
-      <a>Add New Guarantor</a>
-      </div>
-      <div className="second">
-      <a>Loan > </a> <p> Add New Guarantor</p>
-      </div> 
       </div>
       
       <div className="add-guarantor">

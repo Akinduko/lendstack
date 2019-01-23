@@ -4,9 +4,10 @@ import Header from './Header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Slider from "react-slick";
-import { get_action,put_action} from  '../../../controllers/requests';
+import { get_action,post_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
-import AddLoans from '../AddLoans'
+import AddLoans from '../AddLoans';
+import moment from 'moment';
 // import "react-responsive-carousel/lib/styles/carousel.min.css";
 // import { Carousel } from 'react-responsive-carousel';
 
@@ -29,10 +30,7 @@ class SelectProduct extends Component {
     const profile= this.props.profile;
     const id = profile.lenders?profile.lenders[0].id:""
     await this.props.dispatch(actions("GET_ALL_PRODUCTS",get_action(this.props.auth.token,`products`,`?lender_id=${id}`)))
-    switch(this.props.all_products_state){
-      case "success":
-      break
-    }
+    await this.props.dispatch(actions("GET_FIELD_TYPES",get_action(this.props.auth.token,`codes/fetch/field-type`,``)))
   }
   async componentWillUnmount(){
     await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",false))
@@ -55,8 +53,22 @@ class SelectProduct extends Component {
   }
 
   handleRequest=async(body)=>{
+    const _body = {
+      "lender_id": body.lender_id,
+      "product_id": body.id
+    }
+    // await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",{active:true,product:body}))
+    await this.props.dispatch(actions("CREATE_NEW_LOAN",post_action(this.props.auth.token,_body,`loans`,``)))
+    switch(this.props.create_new_loan_state){
+      case "success":
       await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",{active:true,product:body}))
+      break
+    }
+      
   }
+
+
+
   renderProducts=()=>{
      
     const Params= (variable,row)=>{
@@ -93,7 +105,7 @@ class SelectProduct extends Component {
         </div>
         <div className="tenor">
         <a>Repayment period</a>
-        <p>{tenor_values["parameter_maximum_value"]}-{tenor_values["parameter_maximum_value"]} Months</p>
+        <p>{tenor_values["parameter_minimum_value"]}-{tenor_values["parameter_maximum_value"]} Months</p>
         </div>
           <div onClick={()=>this.handleRequest(each)} className="card-custom-footer">
           <a>APPLY FOR LOAN</a>
@@ -149,6 +161,10 @@ export default connect(store => {
     all_products_state:store.action.all_products_state,
     all_products:store.action.all_products?store.action.all_products.products:[],
     profile:store.action.user,
-    new_loan:store.action.new_loan
+    new_loan:store.action.new_loan,
+    create_new_loan: store.action.create_new_loan,
+    create_new_loan_state:store.action.create_new_loan_state,
+    all_field_types: store.action.all_field_types,
+    all_field_types_state: store.action.all_field_types_state
   };
 })(withRouter(SelectProduct));

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { AppHeaderDropdown} from '@coreui/react';
-import { DropdownMenu, DropdownItem,DropdownToggle } from 'reactstrap';
+// import { AppHeaderDropdown} from '@coreui/react';
+// import { DropdownMenu, DropdownItem,DropdownToggle } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {  get_action} from  '../../controllers/requests';
@@ -26,42 +26,28 @@ class SideBarProfile extends Component {
         case "success":
         const _profile = this.props.user_profile
         this.setState({
-          email: _profile?_profile.email:"",
+          avatar_url: _profile?_profile.avatar_url:"",
           company:_profile?_profile.lenders[0].id:"",
-          name:_profile?_profile.lenders[0].name:"",
+          name:_profile?_profile.lenders[0].business_name:"",
         })
         break
+        case "failed":
+        console.log(this.props.error,'here')
+        if(this.props.error==="401"){
+          this.props.history.push("/login")
+        }
       }
     }
     catch(error){
-      console.log("error")
+      await this.props.dispatch(actions("USER_LOGOUT_FULFILLED"))
+      this.props.history.push("/login")
     }
   }
   render() {
-    const profile =this.props.lender_profile
-    
     return (
       <div className="d-flex pt-5 pb-5 pl-4  custom-side-profile">
-          <img className="" src={profile?profile.avatar:""}/>
-          <p className="profile-name">{profile && profile.lender?profile.lender.business_name:""}</p>
-          <AppHeaderDropdown>
-            <DropdownToggle className="toggle" >
-            <i className="fa fa-chevron-left"></i>
-            </DropdownToggle>
-            <DropdownMenu>
-            <div  className="profile-body">
-            <div className="profile-header">
-            <img className="" src={profile?profile.avatar:""}/>
-            <p className="profile-name">{profile && profile.lender?profile.lender.business_name:""}</p>
-            </div>
-            <DropdownItem className="close-container"><i className="fa fa-close close"></i></DropdownItem>
-            <div className="divider"></div>
-            <div className="header-text">You're signed in as {this.state.email}</div>
-            <div className="manage-profile"><img src={require('../../assets/Icons/manage-profile.svg')}/><a>Manage Profile</a></div>
-            <div className="log-out"><img src={require('../../assets/Icons/logout.svg')}/><a>Log out</a></div>
-            </div>
-            </DropdownMenu>
-          </AppHeaderDropdown>
+          <img className="" src={this.state.avatar_url}/>
+          <p className="profile-name">{this.state.name}</p>
       </div>
     );
   }
@@ -72,7 +58,7 @@ export default connect(store => {
     lender_state: store.action.lender_state,
     user_state: store.action.user_state,
     auth: store.token.auth,
-    lender_profile: store.action.lender,
-    user_profile: store.action.user
+    user_profile: store.action.user,
+    error: store.action.user_error && store.action.user_error.response?store.action.user_error.response.status:""
   };
 })(withRouter(SideBarProfile));

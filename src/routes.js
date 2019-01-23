@@ -31,6 +31,10 @@ const DeclineLoan = Loadable({
   loader: () => import('./views/Loans/DeclineLoan'),
   loading: Loading,
 });
+const ApproveLoan= Loadable({
+  loader: () => import('./views/Loans/ApproveLoan'),
+  loading: Loading,
+});
 
 const Products = Loadable({
   loader: () => import('./views/Products'),
@@ -39,6 +43,11 @@ const Products = Loadable({
 
 const EditProducts = Loadable({
   loader: () => import('./views/Products/EditProducts'),
+  loading: Loading,
+});
+
+const Transactions = Loadable({
+  loader: () => import('./views/Transactions'),
   loading: Loading,
 });
 
@@ -53,7 +62,9 @@ const routes = [
   {path: '/loans',exact: true, name: 'Loans', component: Loans},
   {path: '/add-guarantor',exact: true, name: 'AddGuarantors', component: AddGuarantors},
   {path: '/decline-loan',exact: true, name: 'DeclineLoan', component: DeclineLoan},
-  {path: '/edit-product',exact: true, name: 'EditProducts', component: EditProducts}
+  {path: '/approve-loan',exact: true, name: 'ApproveLoan', component: ApproveLoan},
+  {path: '/edit-product',exact: true, name: 'EditProducts', component: EditProducts},
+  {path: '/transactions',exact: true, name: 'Transactions', component: Transactions}
 ];
 
 export default routes;

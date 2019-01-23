@@ -253,3 +253,21 @@ export const token = (
       return state;
   }
 };
+
+export const logout = (
+  state = {
+    auth: {},
+    fetching: false,
+    fetched: false,
+    error: null,
+    state: 'default'
+  },
+  action
+) => {
+  switch (action.type) {
+    case 'USER_LOGOUT_FULFILLED':
+      return state
+    default:
+      return state;
+  }
+};

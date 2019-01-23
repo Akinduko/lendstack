@@ -7,29 +7,25 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { put_action ,get_action} from  '../../../controllers/requests';
+import { post_action ,get_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
 import Loader from 'react-loader-spinner'
 
-const validField =["email","password","phonenumber","firstname","lastname"]
+const validField =["retype_password","password","new_password"]
 
 const fields = {
-  email: "",
-  firstname:"",
-  lastname:"",
-  phonenumber:"",
-  password:""
+  password: "",
+  retype_password:"",
+  new_password:"",
 }
 
 const validFields ={
-  email: false,
-  firstname:false,
-  lastname:false,
-  phonenumber:false,
+  new_password: false,
+  retype_password:false,
   password:false
 }
 
-class Personal extends Component {
+class Contact extends Component {
 
   constructor(props) {
 
@@ -45,7 +41,6 @@ class Personal extends Component {
       loader: false,
       code: false,
       errortext: "",
-      inputs:{},
       formErrors: fields,
       validFields:validFields,
       value: '',
@@ -61,13 +56,22 @@ class Personal extends Component {
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
-  // async componentDidMount(){
-  //   const product = this.props.new_loan.product
-  //   const group_id = this.props.loan_group_id.id
-  //   await this.props.dispatch(actions("GET_FIELD_BYPRODUCT",get_action(this.props.auth.token,`products/${product.id}/groups/${group_id}`,"")))
-    
-  // }
-  
+  async componentDidMount(){
+    await this.props.dispatch(actions("GET_USER_PROFILE",get_action(this.props.auth.token,"users/me/profile","")))
+    switch(this.props.user_state){
+      case "success":
+      const profile = this.props.profile;
+      this.setState({
+        email: profile?profile.email:"",
+        firstname:profile && profile.user_name?profile.user_name.split(" ")[0]:"",
+        lastname:profile && profile.user_name?profile.user_name.split(" ")[1]:"",
+        phonenumber:profile&&profile.mobile?this.props.profile.mobile:"",
+        password:""
+      })
+      break
+    }
+  }
+
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -89,7 +93,7 @@ class Personal extends Component {
   handleUserInput = async (e) => {
     const value = e.target.value;
     const name = e.target.name;
-    await this.setState({ ["inputs"[name]]: value });
+    await this.setState({ [name]: value });
   }
 
 
@@ -106,16 +110,6 @@ class Personal extends Component {
     }, time);
   }
 
-  handleSubmits(){
-    const states =Object.keys(this.state)
-    for(let each of states ){
-      console.log(Object.keys(this.state))
-      if (typeof each ==="number"){
-        console.log(each)
-      }
-    }
-  }
-
   async handleSubmit(event) {
     event.preventDefault()
     const _body={}
@@ -123,8 +117,9 @@ class Personal extends Component {
       _body[each]=this.state[each]
     }
     const body={}
-    body["mobile"]= _body["phonenumber"];
-    body["user_name"]=`${_body["firstname"]} ${_body["lastname"]}`;
+    body["password"]= _body["password"];
+    body["newPassword"]=_body["new_password"];
+    body["confirmNewPassword"]=_body["retype_password"];
 
     const pre_action = async () =>{
       try{
@@ -136,11 +131,11 @@ class Personal extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("UPDATE_USER",put_action(this.props.auth.token,body,"users/me/profile","")))
-      switch(this.props.state){
+      await this.props.dispatch(actions("CHANGE_USER_PASSWORD",post_action(this.props.auth.token,body,"users/me/change_password","")))
+      switch(this.props.auth_state){
         case "success":
         this.setState({
-          headertext: "Update Successful",
+          headertext: "Password has been Changed",
           loader: false,
           response: true,
           success:true,
@@ -150,7 +145,7 @@ class Personal extends Component {
         break;
         case "failed":
         this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
+          headertext: this.props.auth_error.response?this.props.auth_error.response.data.message:"Request failed, Please try again",
           loader: false,
           response: true,
           success:false,
@@ -173,7 +168,7 @@ class Personal extends Component {
     }
       catch (error) {
         this.setState({
-          headertext: this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again",
+          headertext: this.props.auth_error.response?this.props.auth_error.response.data.message:"Request failed, Please try again",
           loader: false,
           response: true,
           success:false,
@@ -268,6 +263,31 @@ class Personal extends Component {
     return true
   }
 
+  _checkPassword = (value) => {
+
+    if (this.state.new_password !== this.state.retype_password) {
+      return "Hey! Your password did not match the new password."
+    }
+
+    if (value.length === 0) {
+      return "We need to have a password, else you will not be able to access your account?"
+    }
+
+    if (value.split('').length < 8) {
+      return 'Hmmm. Your password is surprisingly too short.'
+    }
+
+    if (value.split('').length > 15) {
+      return 'Whoops! You have such a long password.'
+    }
+
+    if (value.split('').length === 0) {
+      return true
+    }
+
+    return true
+  }
+
   checkEmail = (value) => {
     const pate = /^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/
     if (value.length === 0) {
@@ -307,6 +327,14 @@ class Personal extends Component {
           fieldValidationErrors[fieldName] = checkpass === true ? null : ` ${checkpass}`
         }        
       }
+      if(fieldName.includes("retype")){
+        switch (fieldName){
+          case fieldName:
+          const checkpass = this._checkPassword(value)
+          fieldValidationState[fieldName] = this._checkPassword(value) === true ? true : false
+          fieldValidationErrors[fieldName] = checkpass === true ? null : ` ${checkpass}`
+        }        
+      }
       if(fieldName.includes("number")){
         switch (fieldName){
           case fieldName:
@@ -335,68 +363,80 @@ class Personal extends Component {
   redirect(link){
     this.props.history.push(link)
   }
-  renderPersonal=()=>{
-    switch(this.props.field_by_group_state){
-      case "success":
-      const fields = this.props.field_by_group
-      const body = []
-      for(let each of fields){
-        body.push(     <div key={each.id} className="first-name">
-        <div className="second"><FormGroup>
-          <Input value={this.state["inputs"][`${each.id}`]} onChange={this.handleUserInput} name={`${each.id}`}
-            type="text"
-            maxLength="30"
-            placeholder={each.field_name}
-            onBlur={this.handleUserValidation}
-            valid={this.state.validFields[`${each.id}`] === true}
-            invalid={this.state.validFields[`${each.id}`] !== true}
-            required
-          />
-       {this.state.formErrors[`${each.id}`]? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors[`${each.id}`]}`}</FormFeedback>:null}
-</FormGroup></div></div> )
-      }
-     return (body)
-     case "pending":
-     return <div>Loading fields...Please wait</div>
-     case "failed":
-     return <div>An error occured please try again</div>
-    }
-}
+
 
   render() {
     return (
-      <div className="personal-page" >
-      <div className="left-details">
-      <div className="first">
-      <a>{this.props.loan_group_id.code_description}</a>
-      </div>
-      <div className="second">
-      <a>Enter borrower’s {this.props.loan_group_id.code_description}</a>
-      </div> 
-     </div>
-
-      <div className="right-details">
-      {this.renderPersonal()} 
-    </div>
-    <div className="submit">
-      <Input  onClick={()=>this.handleSubmits()} type="submit" value="SAVE"/>
-      </div> 
-    </div>
+        <div className="parent d-flex flex-column justify-content-between">
+        <div className="p-text-2">Contact Details</div>
+        <div className="d-flex flex-row justify-content-between h-10">
+        <div className="d-flex flex-column justify-content-center h-100 w-25">
+        <p className="p-text-3">Business Contact</p>
+        <a className="p-text-4">Add business contact info</a>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        </div> 
+        <div className="d-flex flex-row justify-content-between h-10">
+        <div className="d-flex flex-column justify-content-center h-100 w-25">
+        <p className="p-text-3">Contact Person</p>
+        <a className="p-text-4">Add details of whom to contact</a>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        </div>     
+        <div className="d-flex flex-row justify-content-end h-10  w-100">
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center ml-12 w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        </div>    
+        <div className="d-flex flex-row justify-content-end h-10 w-100">
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center ml-12 w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        </div>    
+        <div className="d-flex flex-row justify-content-between h-10">
+        <div className="d-flex flex-column justify-content-center h-100 w-25">
+        <p className="p-text-3">Support Information</p>
+        <a className="p-text-4">Add support info.</a>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        <div className="d-flex flex-column h-100 justify-content-center  w-25">
+        <Input className="form-control w-100 h-100"/>
+        </div>
+        </div>     
+        <div className="h-10 w-100 d-flex flex-row justify-content-center">
+          <Input className="submit w-25" disabled={!this.state.formValid} type="submit" value="Save Changes"/>
+        </div>
+         </div>
     );
   }
 }
 
+
 export default connect(store => {
   return {
-    state: store.login.state,
-    error: store.login.error,
+    auth_state: store.action.auth_state,
+    user_error: store.action.user_error,
+    auth_error: store.action.auth_error,
     auth: store.token.auth,
-    profile:store.getuser.user,
-    profileState:store.getuser.state,
-    new_loan:store.action.new_loan,
-    loan_group_id:store.action.loan_group_id?store.action.loan_group_id.active:"",
-    loan_group_id_state:store.action.loan_group_id_state,
-    field_by_group:store.action.field_by_group?store.action.field_by_group.fields:[],
-    field_by_group_state:store.action.field_by_group_state
+    user_profile:store.getuser.user,
+    user_state:store.getuser.user_state
   };
-})(withRouter(Personal));
+})(withRouter(Contact));

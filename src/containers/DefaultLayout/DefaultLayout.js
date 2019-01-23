@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { Container,CardGroup,Row,Col ,Card, Button, FormGroup,Input} from 'reactstrap';
-
-import {
-  AppSidebar,
-  AppSidebarFooter,
-  AppSidebarNav,
-} from '@coreui/react';
-// sidebar nav config
-import navigation from '../../_nav';
-// routes config
+import classnames from 'classnames';
 import routes from '../../routes';
 import SideBarProfile from "./SideBarProfile";
-
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { actions } from '../../state/actions';
 
 class DefaultLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeelement:"dashboard",
+      activeTab:"dashboard"
+    };
+
+  }
+  async logout(){
+    await this.props.dispatch(actions("USER_LOGOUT_FULFILLED"))
+    this.props.history.push("/login")
+  }
+  async handleSideBarEvent(name){
+      await this.setState({activeelement:name,activeTab: name})
+      return this.props.history.push(name) 
+    }
   render() {
     return (
       <div className="root-container">
@@ -22,23 +31,26 @@ class DefaultLayout extends Component {
                     <div fixed display="lg" className="custom-side-bar">
                        <SideBarProfile/>
                         <div className="nav-main-custom">
-                          <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/dashboard"><i className="nav-icon"><img src={require('../../assets/img/brand/dashboard-icon.svg')}/></i>Dashboard</a>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'dashboard' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'dashboard' })}`} onClick={()=>this.handleSideBarEvent("dashboard")}><i className="nav-icon"><img src={require('../../assets/img/brand/dashboard-icon.svg')}/></i>Dashboard</a>
                           </div>
-                          <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/loans"><i className="nav-icon"><img src={require('../../assets/img/brand/loans-icon.svg')}/></i>Loans</a>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'loans' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'loans' })}`} onClick={()=>this.handleSideBarEvent("loans")}><i className="nav-icon"><img src={require('../../assets/img/brand/loans-icon.svg')}/></i>Loans</a>
                           </div>
-                          {/* <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"><img src={require('../../assets/img/brand/transactions-icon.svg')}/></i>Transactions</a>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'transactions' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'transactions' })}`} onClick={()=>this.handleSideBarEvent("transactions")}><i className="nav-icon"><img src={require('../../assets/img/brand/transactions-icon.svg')}/></i>Transactions</a>
+                          </div>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'products' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'products' })}`} onClick={()=>this.handleSideBarEvent("products")}><i className="nav-icon"><img src={require('../../assets/img/brand/product-icon.svg')}/></i>Products</a>
+                          </div>
+                          {/* <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'reports' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'reports' })}`} onClick={()=>this.handleSideBarEvent("reports")}><i className="nav-icon"><img src={require('../../assets/img/brand/reports-icon.svg')}/></i>Reports</a>
                           </div> */}
-                          <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom active" href="#/products"><i className="nav-icon"><img src={require('../../assets/img/brand/product-icon.svg')}/></i>Products</a>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'settings' })}`}>
+                            <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'settings' })}`} onClick={()=>this.handleSideBarEvent("settings")} aria-current="page"><i className="nav-icon"><img src={require('../../assets/img/brand/settings-icon.svg')}/></i>Settings</a>
                           </div>
-                          {/* <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/"><i className="nav-icon"><img src={require('../../assets/img/brand/reports-icon.svg')}/></i>Reports</a>
-                          </div> */}
-                          <div className="nav-main-item-custom">
-                            <a className="nav-main-link-custom" href="#/settings" aria-current="page"><i className="nav-icon"><img src={require('../../assets/img/brand/settings-icon.svg')}/></i>Settings</a>
+                          <div onClick={()=>this.logout()} className="nav-main-item-custom">
+                            <a className="nav-main-link-custom" aria-current="page"><i className="nav-icon"><img src={require('../../assets/Icons/logout.svg')}/></i>Logout</a>
                           </div>
                         </div>
                         <div className="side-bar-footer" >
@@ -64,4 +76,7 @@ class DefaultLayout extends Component {
 }
 
 
-export default DefaultLayout;
+export default connect(store => {
+  return {
+  };
+})(withRouter(DefaultLayout));

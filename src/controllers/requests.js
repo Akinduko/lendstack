@@ -66,3 +66,18 @@ export const put_action = async (token,body,paths,params) => {
       throw error;
     }
   }
+
+  export const uploads = async (token,paths,file) => {
+
+      const options ={
+        headers:{
+            Authorization: token,
+            'content-type': 'multipart/form-data'
+        }
+    }
+      const formData = new FormData();
+      formData.append('file',file)
+      formData.append('folder',paths)
+    const response = await axios.post(`${config.base_url}/api/integrations/uploads/file`,formData,options);
+    return response.data;
+  };

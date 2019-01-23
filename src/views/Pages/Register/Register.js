@@ -14,7 +14,6 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { post_action} from  '../../../controllers/requests';
-import { verifyEmail } from  '../../../controllers/email';
 import { actions } from '../../../state/actions';
 import Loader from 'react-loader-spinner'
 import Success from './Success'
@@ -152,19 +151,6 @@ class Register extends Component {
         errortext: ""
       });
   
-      const validate = await verifyEmail(body.email)
-      if (validate.status !== 1) {
-        this.setState({
-          headertext: "Hey, we couldn’t verify your email. Would you like to check it one more time and then hit submit?",
-          loader: false,
-          response: true,
-          success:false,
-          color: "red",
-          fontSize: "12px"
-        });
-        return await this.setTimedNotification(5000)
-      }
-
       await this.props.dispatch(actions("SET_REGISTRATION_AUTH",post_action("",body,"auth/signup","")))
       switch(this.props.state){
         case "success":

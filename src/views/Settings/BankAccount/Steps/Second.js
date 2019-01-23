@@ -55,6 +55,7 @@ class Second extends Component {
     this.handleUserValidation = this.handleUserValidation.bind(this);
   }
 
+
   handleUserValidation = async (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -193,6 +194,7 @@ class Second extends Component {
 
 
 
+
   validateField(fieldName, value) {
     let fieldValidationErrors = this.state.formErrors;
     let fieldValidationState = this.state.validFields;
@@ -306,6 +308,8 @@ export default connect(store => {
     state: store.login.state,
     error: store.login.error,
     all_banks: store.action.all_banks?store.action.all_banks.codes:[],
-    all_banks_state: store.action.all_banks_state
+    all_banks_state: store.action.all_banks_state,
+    create_lender_account_state:store.action.create_lender_account_state,
+    create_lender_account:store.action.create_lender_account
   };
 })(withRouter(Second));
