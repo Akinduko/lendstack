@@ -42,6 +42,11 @@ class DataArtistList extends Component {
 
     }
 
+    async componentDidMount(){
+      const profile =this.props.profile
+      const id = profile.lenders && profile.lenders[0]?this.props.profile.lenders[0].id:this.props.history.push('/login')
+      await this.props.dispatch(actions("GET_PENDING_LOANS",get_action(this.props.token,`loans/pending`,`?lender_id=${id}`)))
+    }
 
      editFormater = (cell, row) => {
         return <div className="edit" onClick={()=>this.toggleModal("editloanmodal",row)}>VIEW DETAILS</div>
@@ -178,6 +183,31 @@ class DataArtistList extends Component {
           return <div>Loading...</div>
         }
       }
+
+      renderTable(data){
+        switch(this.props.get_pending_loans_state){
+                  case "success":
+                  return <BootstrapTable data={ data } pagination version="4" bordered={false} search={true}   hover={true} role="grid"
+                             options={this.options}>
+                    <TableHeaderColumn  dataField="artist-img" width="20%" dataFormat={this.profileFormater}></TableHeaderColumn>
+                    <TableHeaderColumn dataField="loan_amount" isKey  width="20%" dataFormat={this.emailFormater}></TableHeaderColumn>
+                    <TableHeaderColumn dataField="tenor"  width="20%" dataFormat={this.numberFormater}></TableHeaderColumn>
+                    <TableHeaderColumn dataField="created_on"  width="20%" dataFormat={this.dateFormater}></TableHeaderColumn>
+                    <TableHeaderColumn  dataField="id"  width="20%" dataFormat={this.editFormater} ></TableHeaderColumn>
+                    </BootstrapTable>
+                  break;
+                  case "failed":
+                    return <div className="text-center">Unable to fetch Loans</div>
+                  break;
+                  case "pending":
+                    return <div className="text-center">Fetching Loans...</div>
+                  break;
+                  default:
+                  return <div className="text-center">No Loans found</div>
+                  break;
+                }
+        }
+
     render() {
 
         return (
@@ -206,14 +236,14 @@ class DataArtistList extends Component {
         <div className="modal-footer">
           <Input className="approve" onClick={()=>this.redirect("/approve-loan")} type="submit" value="APPROVE"/>
           <Input className="decline" onClick={()=>this.redirect("/decline-loan")} type="submit" value="DECLINE"/>
-          <Input className="return" onClick={()=>this.redirect("/loans")} type="submit" value="RETURN"/>
+          <Input className="return" onClick={()=>this.redirect("/loans/all")} type="submit" value="RETURN"/>
         </div>
         </div>
       </Modal>
 
-                    <div className="table-header">
+                    {/* <div className="table-header">
                     <div className="inputs">
-                    {/* <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div> */}
+                    <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div>
                     </div>
                     <div className="actions">
                     <div className="space-evenly">
@@ -221,21 +251,17 @@ class DataArtistList extends Component {
                     <div className="sort"><img src={require('../../../../assets/img/brand/sort-icon.svg')}/><a>Sort</a></div>
                     <div className="search"><img src={require('../../../../assets/img/brand/search-icon.svg')}/><a>Search</a></div>                       
                     </div>
-                    {/* <div className="clear-filter"><a>CLEAR FILTER</a></div> */}
+                    <div className="clear-filter"><a>CLEAR FILTER</a></div>
                     </div>
-                    </div>
-                    <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
-                                    options={this.options}>
-                        <TableHeaderColumn  dataField="artist-img" width="20%" dataFormat={this.profileFormater}></TableHeaderColumn>
-                        <TableHeaderColumn dataField="loan_amount" isKey  width="20%" dataFormat={this.emailFormater}></TableHeaderColumn>
-                        <TableHeaderColumn dataField="tenor"  width="20%" dataFormat={this.numberFormater}></TableHeaderColumn>
-                        <TableHeaderColumn dataField="created_on"  width="20%" dataFormat={this.dateFormater}></TableHeaderColumn>
-                        <TableHeaderColumn  dataField="id"  width="20%" dataFormat={this.editFormater} ></TableHeaderColumn>
-                    </BootstrapTable>
+                    </div> */}
+                    {this.renderTable(this.table)}
+
                 </div>
         );
     }
 }
+
+
 
 export default connect(store => {
   return {
@@ -250,6 +276,7 @@ export default connect(store => {
     get_all_loans:store.action.get_all_loans?store.action.get_all_loans.loans:[],
     get_current_product_state:store.action.get_current_product_state,
     get_current_product:store.action.get_current_product?store.action.get_current_product.groups:[],
-    set_pending_loan_state:store.action.set_pending_loan_state
+    set_pending_loan_state:store.action.set_pending_loan_state,
+    token:store.token.auth?store.token.auth.token:"",
   };
 })(withRouter(DataArtistList));

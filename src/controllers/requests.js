@@ -14,7 +14,6 @@ export const get_action = async (token,paths="",params="") => {
     return response.data
   }
   catch (error) {
-    process.env.NODE_ENV === 'development' ? console.log(error) : null;
     throw error;
   }
 }
@@ -30,7 +29,7 @@ export const put_action = async (token,body,paths,params) => {
       return response.data
     }
     catch (error) {
-      process.env.NODE_ENV === 'development' ? console.log(error) : null;
+
       throw error;
     }
   }
@@ -46,7 +45,7 @@ export const put_action = async (token,body,paths,params) => {
       return response.data
     }
     catch (error) {
-      process.env.NODE_ENV === 'development' ? console.log(error) : null;
+
       throw error;
     }
   }
@@ -62,7 +61,6 @@ export const put_action = async (token,body,paths,params) => {
       return response.data
     }
     catch (error) {
-      process.env.NODE_ENV === 'development' ? console.log(error) : null;
       throw error;
     }
   }

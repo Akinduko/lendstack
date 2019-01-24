@@ -2,27 +2,68 @@ export default {
   items: [
     {
       name: 'Dashboard',
-      url: '/dashboard'
+      url: '/dashboard',
+      icon: 'icon-speedometer',
     },
     {
       name: 'Loans',
-      url: '/front'
+
+      children: [
+        {
+          name: 'Loans',
+          url: '/loans/all',
+          icon: 'icon-note'
+        },
+        {
+          name: 'Pending Loans',
+          url: '/loans/pending',
+          icon: 'icon-note'
+        },
+        {
+          name: 'Loan Schedule',
+          url: '/loans/schedule',
+          icon: 'icon-note',
+        }
+      ]
     },
     {
       name: 'Transactions',
-      url: '/devops'
+      url: '/transactions',
+      icon: 'glyphicon glyphicon-retweet'
     },
     {
       name: 'Products',
-      url: '/designs'
+      url: '/products'
     },
     {
       name: 'Reports',
-      url: '/profile'
+      url: '/reports'
     },
     {
       name: 'Settings',
-      url: '/settings'
+
+      children: [
+        {
+          name: 'Profile',
+          url: '/settings/profile',
+          icon: 'icon-note'
+        },
+        {
+          name: 'Lender Details',
+          url: '/settings/lender-details',
+          icon: 'icon-note'
+        },
+        {
+          name: 'Bank Account',
+          url: '/settings/bank-account',
+          icon: 'icon-note',
+        },
+        {
+          name: 'User Management',
+          url: '/settings/user-management',
+          icon: 'icon-note'
+        }
+      ]
     }
   ],
 };

@@ -284,8 +284,9 @@ class Management extends Component {
 
   render() {
     return (
-      <div className="user-management-page">
+      <div className="pl-5 pr-5 mt-5 d-flex flex-column w-100 h-100 user-management-page">
         <Modal isOpen={this.state.addusermodal} className="edit-user-modal">
+        
       <div className="sub-container">
       <Form onSubmit={this.handleSubmit}>
       <div className="header"><p>Add new user</p> <i onClick={()=>this.toggleModal("addusermodal")}  className="fa fa-close"></i></div>
@@ -379,8 +380,8 @@ class Management extends Component {
       </Form>
       </div>
       </Modal>
-      <div className="add-user-button"><button onClick={()=>this.toggleModal("addusermodal")} >ADD NEW USER</button></div>
-      <div className="user-table-container">
+      <div className="add-user-button  mt-5 d-flex h-10 flex-row justify-content-end w-100"><button onClick={()=>this.toggleModal("addusermodal")} >ADD NEW USER</button></div>
+      <div className="d-flex flex-row w-100 user-table-container">
       <DataArtistList/>
       </div>
       </div>

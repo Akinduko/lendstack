@@ -1,13 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import classnames from 'classnames';
+// import classnames from 'classnames';
 import routes from '../../routes';
 import SideBarProfile from "./SideBarProfile";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { actions } from '../../state/actions';
+import { Container,Nav } from 'reactstrap';
+import DefaultHeaderDropdown  from './DefaultHeaderDropdown'
+
+import {
+  AppHeader,
+  AppSidebar,
+  AppSidebarNav,
+} from '@coreui/react';
+import navigation from '../../_nav';
+
+const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
+  loading = () => <div className="animated fadeIn pt-1 text-center"><div className="sk-spinner sk-spinner-pulse"></div></div>;
   constructor(props) {
     super(props);
     this.state = {
@@ -26,9 +38,20 @@ class DefaultLayout extends Component {
     }
   render() {
     return (
-      <div className="root-container">
-        
-                    <div fixed display="lg" className="custom-side-bar">
+      <div className="app root-container">
+          <AppHeader className="d-lg-none">
+          <Suspense fallback={this.loading()}>
+            <DefaultHeader onLogout={e=>this.logout(e)}/>
+          </Suspense>
+        </AppHeader>
+        <div className="app-body">
+        <AppSidebar fixed display="lg">
+           <SideBarProfile/>
+            <Suspense>
+            <AppSidebarNav className="d-flex flex-row justify-content-center scrollbar-container mt-5 sidebar-nav w-100 ps" navConfig={navigation} {...this.props} />
+            </Suspense>
+          </AppSidebar>
+         {/* <div fixed display="lg" className="custom-side-bar">
                        <SideBarProfile/>
                         <div className="nav-main-custom">
                           <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'dashboard' })}`}>
@@ -43,9 +66,9 @@ class DefaultLayout extends Component {
                           <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'products' })}`}>
                             <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'products' })}`} onClick={()=>this.handleSideBarEvent("products")}><i className="nav-icon"><img src={require('../../assets/img/brand/product-icon.svg')}/></i>Products</a>
                           </div>
-                          {/* <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'reports' })}`}>
+                          <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'reports' })}`}>
                             <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'reports' })}`} onClick={()=>this.handleSideBarEvent("reports")}><i className="nav-icon"><img src={require('../../assets/img/brand/reports-icon.svg')}/></i>Reports</a>
-                          </div> */}
+                          </div>
                           <div className={`nav-main-item-custom ${classnames({ active: this.state.activeTab === 'settings' })}`}>
                             <a className={`nav-main-link-custom ${classnames({ active: this.state.activeTab === 'settings' })}`} onClick={()=>this.handleSideBarEvent("settings")} aria-current="page"><i className="nav-icon"><img src={require('../../assets/img/brand/settings-icon.svg')}/></i>Settings</a>
                           </div>
@@ -59,7 +82,14 @@ class DefaultLayout extends Component {
                         <div className="terms"><a>Terms</a></div>
                         <div className="privacy"><a>Privacy</a></div>
                         </div>
-                    </div> 
+                    </div>  */}
+                    
+          <main className="main">
+          <Container className=" h-100 overflow p-0" fluid>
+            <Suspense fallback={this.loading()}>
+            <Nav className="ml-auto d-flex flex-row w-100 justify-content-end pr-3 notify-navbar-nav" navbar>
+              <DefaultHeaderDropdown notif/>
+           </Nav>            
             <Switch>
                 {routes.map((route, idx) => {
                     return route.component ? (<Route key={idx} path={route.path} exact={route.exact} name={route.name} render={props => (
@@ -68,15 +98,20 @@ class DefaultLayout extends Component {
                       : (null);
                   },
                 )}
-                <Redirect from="/" to="/dashboard" />
+                {this.props.token.length>0?<Redirect from="/" to="/dashboard" />:this.props.history.push('/login')}
+                
               </Switch>
-      </div>
+              </Suspense>
+            </Container>
+            </main>
+        </div>
+</div>
     );
   }
 }
 
-
 export default connect(store => {
   return {
+    token:store.token.auth?store.token.auth.token:"",
   };
 })(withRouter(DefaultLayout));

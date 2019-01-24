@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
-import registerServiceWorker from './registerServiceWorker';
+import * as serviceWorker from './registerServiceWorker';
 //import { unregister } from './registerServiceWorker';
 import getStore from './state/stores/AppStore';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -17,5 +17,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
-registerServiceWorker();
+
+serviceWorker.register();
 

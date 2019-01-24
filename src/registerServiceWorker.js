@@ -18,41 +18,27 @@ const isLocalhost = Boolean(
     )
 );
 
-var cacheName = 'WWW-EXAMPLE-COM-V1';
-
-var filesToCache = [
-    '/',                // index.html
-    '/main.js',
-    '/styles.css',
-    '/assets/logo.png'
-];
-
-export default function register() {
+export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
-      // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
+      // serve assets; see https://github.com/facebook/create-react-app/issues/2374
       return;
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker-custom.js`;
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
-        // This is running on localhost. Lets check if a service worker still exists or not.
-        checkValidServiceWorker(swUrl);
+        // This is running on localhost. Let's check if a service worker still exists or not.
+        checkValidServiceWorker(swUrl, config);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
-          let notification = document.getElementById('notification');
-          notification.innerHTML = "This page is running offline first. Click <a id='reload'>here</a> to continue.";
-          document.getElementById('reload').addEventListener('click', function(){
-            notification.className="hide"
-          });
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://goo.gl/SC7cgQ'
@@ -60,13 +46,13 @@ export default function register() {
         });
       } else {
         // Is not local host. Just register service worker
-        registerValidSW(swUrl);
+        registerValidSW(swUrl, config);
       }
     });
   }
 }
 
-function registerValidSW(swUrl) {
+function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
@@ -79,23 +65,27 @@ function registerValidSW(swUrl) {
               // the fresh content will have been added to the cache.
               // It's the perfect time to display a "New content is
               // available; please refresh." message in your web app.
-              console.log('New content is available; please refresh.');              
               let notification = document.getElementById('notification');
               notification.innerHTML = "A new version of this app is available. Click <a id='reload'>here</a> to update.";
               document.getElementById('reload').addEventListener('click', function(){
                 window.location.reload(); 
               });
+              console.log('New content is available; please refresh.');
+
+              // Execute callback
+              if (config.onUpdate) {
+                config.onUpdate(registration);
+              }
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              
               console.log('Content is cached for offline use.');
-              let notification = document.getElementById('notification');
-              notification.innerHTML = "Content is cached for offline use. Click <a id='reload'>here</a> to continue.";
-              document.getElementById('reload').addEventListener('click', function(){
-                notification.className="hide"
-              });
+
+              // Execute callback
+              if (config.onSuccess) {
+                config.onSuccess(registration);
+              }
             }
           }
         };
@@ -106,7 +96,7 @@ function registerValidSW(swUrl) {
     });
 }
 
-function checkValidServiceWorker(swUrl) {
+function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then(response => {
@@ -123,18 +113,17 @@ function checkValidServiceWorker(swUrl) {
         });
       } else {
         // Service worker found. Proceed as normal.
-        registerValidSW(swUrl);
+        registerValidSW(swUrl, config);
       }
     })
     .catch(() => {
-      console.log(
-        'No internet connection found. App is running in offline mode.'
-      );
-      let notification = document.getElementById('notification');
-      notification.innerHTML = "No internet connection found. App is running in offline mode. Click <a id='reload'>here</a> to continue.";
-      document.getElementById('reload').addEventListener('click', function(){
-        notification.className="hide"
-      });
+            navigator.serviceWorker.ready.then(() => {
+          let notification = document.getElementById('notification');
+          notification.innerHTML = "No internet connection found. App is running in offline mode. Click <a id='reload'>here</a> to continue.";
+          document.getElementById('reload').addEventListener('click', function(){
+            notification.className="hide"
+          });
+        });
     });
 }
 

@@ -114,7 +114,7 @@ return (
 }
   render() {
     return (
-      <div className="bank-account-page">
+      <div className="pl-5 pr-5 mt-5 bank-account-page">
       <div className="add-account"><button onClick={()=>this.toggle("addaccount")} >ADD BANK ACCOUNT</button></div>
       <div className="account-content">
         {this.renderPage()}

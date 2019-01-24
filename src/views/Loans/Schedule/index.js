@@ -14,9 +14,11 @@ class Schedule extends Component {
  
   render() {
     return (
-      <div className="schedule-page">
-      <div className="add-loan-button"></div>
-      <div className="transactions-table-container">
+      <div className="mt-5 schedule-page">
+      <div className="d-flex flex-row justify-content-between w-100"> 
+      <div className="ml-5 w-100 mt-5 side-header">Loans Schedule</div>
+      </div>
+      <div className="mt-5 transactions-table-container">
       <DataArtistList/>
       </div>
       </div>

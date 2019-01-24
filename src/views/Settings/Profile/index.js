@@ -32,7 +32,7 @@ class Profile extends Component {
 
   render() {
     return (
-      <div className="settings-page">
+      <div className="pl-5 pr-5 settings-page">
           <Row>
           <Col className="main-container">
             <Nav tabs>

@@ -90,7 +90,7 @@ class DataArtistList extends Component {
     renderTable(){
       switch(this.props.get_all_transactions_state){
                 case "success":
-                return <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                return <BootstrapTable search={true} data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
                 options={this.options}>
                   <TableHeaderColumn  dataField="status" width="20%" dataFormat={this.profileFormater}>STATUS</TableHeaderColumn>
                   <TableHeaderColumn dataField="amount"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>
@@ -100,20 +100,13 @@ class DataArtistList extends Component {
                   </BootstrapTable>
                 break;
                 case "failed":
-                  return <div>Unable to fetch Data</div>
+                  return <div className="text-center">Unable to Retrieve Transactions.</div>
                 break;
                 case "pending":
-                  return <div>Fetching Data...</div>
+                  return <div className="text-center">Retrieving Transactions...</div>
                 break;
                 default:
-                return <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
-                            options={this.options}>
-                      <TableHeaderColumn  dataField="status" width="20%" dataFormat={this.profileFormater}>STATUS</TableHeaderColumn>
-                      <TableHeaderColumn dataField="amount"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>
-                      <TableHeaderColumn dataField="amount" isKey  width="20%" dataFormat={this.tenorFormater}>AMOUNT</TableHeaderColumn>
-                      <TableHeaderColumn dataField="created_on"  width="20%" dataFormat={this.dateFormater}></TableHeaderColumn>
-                      <TableHeaderColumn  dataField="status"  width="20%" dataFormat={this.viewFormater} ></TableHeaderColumn>
-                      </BootstrapTable>
+                return <div className="text-center">Retrieving Transactions...</div>
                 break;
               }
       }
@@ -176,7 +169,7 @@ class DataArtistList extends Component {
      </div>
 </Modal>
 
-                    <div className="table-header">
+                    {/* <div className="table-header">
                     <div className="inputs">
                     <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div>
                     </div>
@@ -189,7 +182,7 @@ class DataArtistList extends Component {
                     </div>
                     <div className="clear-filter"><a>CLEAR FILTER</a></div>
                     </div>
-                    </div>
+                    </div> */}
                     {this.renderTable()}
                 </div>
         );

@@ -1,0 +1,49 @@
+    <div>
+    <nav className="navbar navbar-expand-lg navbar-light bg-transparent px-0">
+      <a className="navbar-brand" href="#">
+        <img src="assets/images/logo/Logo.svg" alt="LendStack Logo">
+      </a>
+    </nav>
+
+    <div className="content">
+      <div className="illustration-div">
+        <p className="title">Software to run your loan business</p>
+        <p className="subtitle">Your everyday tasks feel light. More time with Borrowers, <br> less time with paper and spreadsheets. </p>
+        <img src="assets/images/svg/user-with-laptop.svg" alt="Illustration" className="auth-illustration">
+      </div>
+      <div className="form-div">
+        <div className="card auth-card login">
+          <p className="title">Log In</p>
+          <div className="dash"></div>
+          <form>
+            <p className="text-center"><span className="error-message">Email or password is incorrect</span></p>
+            <fieldset className="form-group">
+              <span className="label label-default" for="Email"></span>
+              <input type="email" className="form-control form-control-lg" id="Email" placeholder="Email">
+            </fieldset>
+            <fieldset className="form-group">
+              <div className="input-group mb-0">
+                <span className="label label-default" for="Password"></span>
+                <input type="password" className="form-control form-control-lg border-right-0" id="Password" placeholder="Password" aria-label="Password" aria-describedby="button-addon2">
+                <div className="input-group-append">
+                  <button className="btn bg-transparent border border-left-0" type="button" id="button-addon2">Show</button>
+                </div>
+              </div>
+            </fieldset>
+            <p className="text-right"><a href="forgot-password.html">Forgot Password?</a></p>
+            <button type="submit" className="btn btn-gradient-blue w-100">
+              <i className="fas fa-circle-notch fa-spin fa-lg d-none"></i>
+              LOG IN
+            </button>
+            <div className="error-btn d-flex justify-content-center">
+              <p className="error-message">Communication Error</p>
+              <div className="">
+                <button type="submit" className="btn bg-transparent p-0">RETRY</button>
+              </div>
+            </div>
+            <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+    </div>

@@ -159,12 +159,12 @@ async componentDidMount(){
       <div className=" d-flex  h-100 card card-1 flex-column justify-content-around">
       <div className=" d-flex  h-10 w-100 flex-row justify-content-around">
       <div className=" d-flex  h-100 counts flex-column justify-content-start">
-      <a className="txt-1">₦ {this.props.lender_dashboard.total_approved_loan_amount}</a>
+      <a className="txt-1">₦ {this.props.lender_dashboard?this.props.lender_dashboard.total_approved_loan_amount:""}</a>
       <a className="txt-2">Total Loan Amount</a>
       </div>
      
       <div className=" d-flex  h-100 counts flex-column justify-content-start">
-      <a className="txt-1">{this.props.lender_dashboard.total_registered_borrowers?this.props.lender_dashboard.total_registered_borrowers:0}</a>
+      <a className="txt-1">{this.props.lender_dashboard&& this.props.lender_dashboard.total_registered_borrowers?this.props.lender_dashboard.total_registered_borrowers:0}</a>
       <a className="txt-2">Total Registered Borrowers</a>
       </div>
      </div>

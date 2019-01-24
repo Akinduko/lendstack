@@ -35,7 +35,7 @@ class Details extends Component {
 
   render() {
     return (
-      <div className="business-details-page">
+      <div className="pl-5 pr-5 h-100 business-details-page">
         <Row>
           <Col className="main-container">
             <Nav tabs>

@@ -1,4 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { post_action } from  '../../../controllers/requests';
+import { actions } from '../../../state/actions';
+import Loader from 'react-loader-spinner';
 import {
   Nav,
   NavItem,
@@ -6,90 +12,164 @@ import {
   TabContent,
   TabPane,
   Input,
+  Container,
   FormFeedback,
   Form,
+  Col,
+  Card,
+  Row,
   FormGroup,
 } from 'reactstrap';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 import classnames from 'classnames';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { post_action} from  '../../../controllers/requests';
-import { actions } from '../../../state/actions';
-import Loader from 'react-loader-spinner'
-import Success from './Success'
-
-const individual_fields=["password_individual","firstname","email_individual","lastname"]
+const individual_fields=["password_individual","fullname","email_individual"]
 const bussiness_fields=["name_bussiness","email_bussiness","password_bussiness"]
-const validFields ={
-  password_individual: false,
-  firstname: false,
-  email_individual: false,
-  lastname: false,
-  name_bussiness: false,
-  email_bussiness: false,
-  password_bussiness: false
+const validationSchema = function (values) {
+   
+  return Yup.object().shape({
+
+    email_individual: Yup.string()
+    .email('That email is strange. Please check it again.\n')
+    .required('Hey, we need your email.'),
+    fullname: Yup.string()
+    .min(2, `Name has to be at least 2 characters`)
+    .max(30, `Name has to be at most 30 characters`)
+    .required("We need to have your name, don't you think so?"),
+    password_individual: Yup.string()
+    .min(6, `Password has to be at least ${6} characters!`)
+    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, upper and lower case letters\n')
+    .required('Password is required')
+  })
+}
+const _validationSchema = function (values) {
+   
+  return Yup.object().shape({
+    email_bussiness: Yup.string()
+    .email('That email is strange. Please check it again.\n')
+    .required('Hey, we need your email.'),
+    name_bussiness: Yup.string()
+    .min(2, `Name has to be at least 2 characters`)
+    .max(30, `Name has to be at most 30 characters`)
+    .required("We need to have your name, don't you think so?"),
+    password_bussiness: Yup.string()
+    .min(6, `Password has to be at least ${6} characters!`)
+    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, upper and lower case letters\n')
+    .required('Password is required')
+  })
 }
 
-const fields = {
-  password_individual: "",
-  firstname: "", 
-  lastname: "", 
-  email_individual: "", 
-  name_bussiness: '', 
-  email_bussiness: '', 
-  password_bussiness: ''
+const validate = (getValidationSchema) => {
+  return (values) => {
+    
+    const validationSchema = getValidationSchema(values)
+
+    try {
+      validationSchema.validateSync(values, { abortEarly: false })
+      return {}
+    } catch (error) {
+      return getErrorsFromValidationError(error)
+    }
+  }
 }
+
+const getErrorsFromValidationError = (validationError) => {
+  const FIRST_ERROR = 0
+  return validationError.inner.reduce((errors, error) => {
+    return {
+      ...errors,
+      [error.path]: error.errors[FIRST_ERROR],
+    }
+  }, {})
+}
+
+
+const onSubmit = (values, { setSubmitting, setErrors }) => {
+  setTimeout(() => {
+    alert(JSON.stringify(values, null, 2))
+    // console.log('User has been successfully saved!', values)
+    setSubmitting(false)
+  }, 2000)
+}
+const _onSubmit = (values, { setSubmitting, setErrors }) => {
+  setTimeout(() => {
+    alert(JSON.stringify(values, null, 2))
+    // console.log('User has been successfully saved!', values)
+    setSubmitting(false)
+  }, 2000)
+}
+
+
+
+const initialValues = {
+  password_individual: "",
+  email_individual: "",
+  fullname:""
+}
+
+const _initialValues = {
+
+  password_bussiness:"",
+  email_bussiness:"",
+  name_bussiness:""
+}
+
 class Register extends Component {
 
   constructor(props) {
 
     super(props);
     this.state = {
-      activeTab: '1',
       timeout: 0,
       response:false,
+      color:"red",
       success:false,
-      name_bussiness: "",
-      email_bussiness: "",
-      password_bussiness: "",
-      firstname: "",
-      lastname: "",
-      email_individual: "",
-      password_individual: "",
-      type:"bussiness",
+      email: "",
+      password: "",
       loader: false,
       code: false,
       errortext: "",
-      formErrors: fields,
-      validFields:validFields,
       value: '',
       suggestions: [],
       fontSize: "",
       modal: false,
       button:false,
       headertext:"",
-      formValid: false
+      activeTab: '1',
+      success:false,
+      type:"bussiness",
     };
-    this.toggle = this.toggle.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleUserInput = this.handleUserInput.bind(this);
-    this.handleUserValidation = this.handleUserValidation.bind(this);
+
   }
 
-  handleUserValidation = async (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    await this.setState(
-      { [name]: value },
-      () => {
-        this.validateField(name, value)
-      });
+  findFirstError (formName, hasError) {
+    const form = document.forms[formName]
+    for (let i = 0; i < form.length; i++) {
+      if (hasError(form[i].name)) {
+        form[i].focus()
+        break
+      }
+    }
   }
 
-  handleUserInput = async (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
-    await this.setState({ [name]: value });
+  validateForm (errors) {
+    this.findFirstError('simpleForm', (fieldName) => {
+      return Boolean(errors[fieldName])
+    })
+  }
+
+  touchAll(setTouched, errors) {
+    setTouched({
+        firstName: true,
+        lastName: true,
+        userName: true,
+        email: true,
+        password: true,
+        confirmPassword: true,
+        accept: true
+      }
+    )
+    this.validateForm(errors)
   }
 
 
@@ -106,13 +186,28 @@ class Register extends Component {
     }, time);
   }
 
-  async handleSubmit(event) {
+  redirect(link){
+    this.props.history.push(link)
+  }
+
+  async handleSubmit(value,event){
+
     event.preventDefault()
+
+     const _body={
+      password_individual: value.password_individual,
+      email_individual:value.email_individual,
+      fullname:value.fullname,
+      password_bussiness:value.password_bussiness,
+      email_bussiness:value.email_bussiness,
+      name_bussiness:value.name_bussiness
+    }
+  
     const body = {}
     if(this.state.type==="bussiness"){
 
       for(let each of bussiness_fields){
-        body[each]=this.state[each]
+        body[each]=_body[each]
       }
       body["password"]=body["password_bussiness"];
       body["confirmPassword"]=body["password_bussiness"];
@@ -127,30 +222,28 @@ class Register extends Component {
 
     if(this.state.type==="individual"){
       for(let each of individual_fields){
-        body[each]=this.state[each]
+        body[each]=_body[each]
       }
       body["password"]=body["password_individual"];
       body["confirmPassword"]=body["password_individual"];
       body["email"]=body["email_individual"];
-      body["user_name"]=`${body["firstname"]} ${body["lastname"]}`;
+      body["user_name"]=_body["fullname"]
       body["entity_name"]="lender";
-      delete body["password_individual"];
+      delete body["email_individual"];
       delete body["email_individual"];
       delete body["firstname"];
       delete body["lastname"];
-    }
-    
+    } 
     const pre_action = async () =>{
       try{
       this.setState({
-        headertext: "Submitting your details.",
+        headertext: "Verifying your details.",
         loader: true,
         response: false,
         success:false,
         color: "#213F7D",
         errortext: ""
       });
-  
       await this.props.dispatch(actions("SET_REGISTRATION_AUTH",post_action("",body,"auth/signup","")))
       switch(this.props.state){
         case "success":
@@ -190,7 +283,7 @@ class Register extends Component {
     }
       catch (error) {
         this.setState({
-          headertext: "Ooops!! Something went wrong.",
+          headertext: this.props.error.response?this.props.error.response.data.message:"Login failed, Please try again",
           loader: false,
           response: true,
           success:false,
@@ -201,7 +294,7 @@ class Register extends Component {
     }
     try{
       this.setState({
-        headertext: "Submitting your details.",
+        headertext: "Verifying your details.",
         loader: true,
         response: false,
         success:false,
@@ -223,132 +316,6 @@ class Register extends Component {
     
   }
 
-  checkNum = (value) => {
-    const patd = /[a-zA-Z]/
-    const pats = /[ !@#$%^&*()_\-=\[\]{};':"\\|,.<>\/?]/
-    if (value.length === 0) {
-      return "We need your number else we won't be able to call."
-    }
-    if (patd.test(value) || pats.test(value)) {
-      return 'That number is strange. Please check it again.'
-    }
-    if (value.length > 14) {
-      return 'That number is strange and long. Please check it again.'
-    }
-    if (value.length < 11) {
-      return 'That number is strange and short. Please check it again.'
-    }
-
-    return true
-  }
-
-  checkName = (value) => {
-    const patd = /\d/
-    const pats = /[!@#$%^&*()_+\=\[\]{};':"\\|,.<>\/?]/
-    if (value.length === 0) {
-      return "We need to have your name, don't you think so?"
-    }
-    if (patd.test(value) || pats.test(value)) {
-      return 'That name appears strange, Please check it again.'
-    }
-    if (value.split('').length < 3) {
-      return 'Hmmm. Your name is surprisingly too short.'
-    }
-    if (value.split('').length > 30) {
-      return 'Whoops! You have such a long name.'
-    }
-    if (value.split('').length === 0) {
-      return true
-    }
-
-    return true
-  }
-
-  checkPassword = (value) => {
-
-    if (value.length === 0) {
-      return "We need to have a password, else you will not be able to access your account?"
-    }
-
-    if (value.split('').length < 8) {
-      return 'Hmmm. Your password is surprisingly too short.'
-    }
-
-    if (value.split('').length > 15) {
-      return 'Whoops! You have such a long password.'
-    }
-
-    if (value.split('').length === 0) {
-      return true
-    }
-
-    return true
-  }
-
-  checkEmail = (value) => {
-    const pate = /^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/
-    if (value.length === 0) {
-      return "Hey, we need your email."
-    }
-    if (pate.test(value) === false) {
-      return 'That Email is strange. Please check it again.'
-    }
-    return true
-  }
-
-  validateField(fieldName, value) {
-    let fieldValidationErrors = this.state.formErrors;
-    let fieldValidationState = this.state.validFields;
-      if(fieldName.includes("email")){
-        switch (fieldName){
-          case fieldName:
-          const checkemail = this.checkEmail(value)
-          fieldValidationState[fieldName] = this.checkEmail(value) === true ? true : false
-          fieldValidationErrors[fieldName] = checkemail === true ? null : `${checkemail}`
-        }
-      }
-      if(fieldName.includes("name")){
-        switch (fieldName){
-          case fieldName:
-          const checkname = this.checkName(value)
-          fieldValidationState[fieldName] = this.checkName(value) === true ? true : false
-          fieldValidationErrors[fieldName] = checkname === true ? null : ` ${checkname}`
-        }       
-      }
-      if(fieldName.includes("password")){
-        switch (fieldName){
-          case fieldName:
-          const checkpass = this.checkPassword(value)
-          fieldValidationState[fieldName] = this.checkPassword(value) === true ? true : false
-          fieldValidationErrors[fieldName] = checkpass === true ? null : ` ${checkpass}`
-        }        
-      }
-    this.setState({
-      formErrors: fieldValidationErrors,
-      validFields:fieldValidationState
-    }, this.validateForm);
-    
-  }
-
-  async validateForm() {
-
-    let state ={}
-    if(this.state.type==="bussiness" ){
-      for(let each of bussiness_fields){
-        state[each] = this.state.validFields[each]
-      }
-    }
-    if(this.state.type==="individual" ){
-      for(let each of individual_fields){
-        state[each] = this.state.validFields[each]
-      }
-    }
-    const _state =Object.values(state);
-    const result = _state.reduce((sum, next) => sum && next, true);
-    await this.setState({ formValid: result });
-  }
-
-
   toggle(tab) {
     const tabs ={
       1:"bussiness",
@@ -364,207 +331,272 @@ class Register extends Component {
   redirect(link){
     this.props.history.push(link)
   }
+
   render() {
     return (
-      <div>
-      {this.state.registered?<Success/>: 
-      <div className="access-container">
-        <div className="header-row-flex">
-          <div className="lend-logo">
-            <img src={require('../../../assets/img/brand/logo.svg')} />
-          </div>
+      <div style={{"overflowX":"hidden"}} className="access-container">
+      <Container fluid>
+      <Row className="w-100 mt-5">
+      <div className="header-row-flex">
+        <Col  xs="6" md="6">
+        <div className="w-xs-50 h-xs-50 lend-logo">
+        <img src={require('../../../assets/img/brand/logo.svg')}/>
+        </div>  
+        </Col>
+        <Col className="d-flex flex-row justify-content-end" xs="6" md="6">
           <div className="socials">
-            <a href="https://web.facebook.com/Lendstack/" target="_blank" className="facebook">
-              <i className="fa fa-facebook"></i>
-            </a>
-            <a href="https://www.linkedin.com/company/lendstack/" target="_blank" className="facebook">
-              <i className="fa fa-linkedin"></i>
-            </a>
-            <a href="https://twitter.com/lendstack" target="_blank" className="twitter">
-              <i className="fa fa-twitter"></i>
-            </a>
+          <a href="https://web.facebook.com/Lendstack/" target="_blank" className="facebook">
+            <i className="fa fa-facebook"></i>
+          </a>
+          <a href="https://www.instagram.com/lendstack/" target="_blank" className="facebook">
+            <i className="fa fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/lendstack/" target="_blank" className="facebook">
+            <i className="fa fa-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/lendstack" target="_blank" className="twitter">
+            <i className="fa fa-twitter"></i>
+          </a>               
           </div>
-        </div>
-        <div className="body-row-flex">
-          <div className="left-column-flex">
-            <div className="page-communication">
-              <p>Software to run your loan business</p>
-              <a>Your everyday tasks feel light. More time with Borrowers, less time with paper and spreadsheets. </a>
-            </div>
-            <div className="page-illustration">
-              <img src={require('../../../assets/img/brand/illustration.svg')} />
-            </div>
-          </div>
-          <div className="right-column-flex">
-            <div className="register-form">
-              <div className="header"><p>Join Lendstack !</p></div>
-              <div className="divider" />
-              <div className="form-content">
-                <Nav tabs>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '1' })}
-                      onClick={() => { this.toggle('1'); }}
-                    >
-                      Business Lender
-                </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '2' })}
-                      onClick={() => { this.toggle('2'); }}
-                    >
-                      Individual Lender
-                </NavLink>
-                  </NavItem>
-                </Nav>
-                <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="1">
-                  <Form onSubmit={this.handleSubmit}>
-                  <div className="bizname">
-                  <FormGroup>
-                      <Input value={this.state.name_bussiness} onChange={this.handleUserInput} name="name_bussiness"
-                        type="text"
-                        maxLength="30"
-                        placeholder="Business Name"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.name_bussiness === true}
-                        invalid={this.state.validFields.name_bussiness !== true}
-                        required
-                      />
-                   {this.state.formErrors.name_bussiness? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.name_bussiness}`}</FormFeedback>:null}
-                    </FormGroup>
-                    </div>
-                    <div className="email">
-                    <FormGroup>
-                      <Input value={this.state.email_bussiness} onChange={this.handleUserInput} name="email_bussiness"
-                        type="email"
-                        maxLength="30"
-                        placeholder="Email"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.email_bussiness === true}
-                        invalid={this.state.validFields.email_bussiness !== true}
-                        required
-                      />
-                   {this.state.formErrors.email_bussiness? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.email_bussiness}`}</FormFeedback>:null}
-                    </FormGroup>
-                    </div>
+      </Col>
+      </div>
+      </Row>
 
-                    <div className="password">
-                    <FormGroup>
-                      <Input value={this.state.password_bussiness} onChange={this.handleUserInput} name="password_bussiness"
-                        type="password"
-                        maxLength="30"
-                        placeholder="Password"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.password_bussiness === true}
-                        invalid={this.state.validFields.password_bussiness !== true}
-                        required
-                      />
-                   {this.state.formErrors.password_bussiness? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password_bussiness}`}</FormFeedback>:null }
-                    </FormGroup>
+      <div className="body-row-flex">
+            <Row className="ml-1 w-100">
+              <Col  xs="12" sm="6" md="6">
+              <div className="left-column-flex w-100 text-center">
+                  <div className="page-communication">
+                    <p>Software to run your loan business</p>
+                    <a>Your everyday tasks feel light. More time with Borrowers, less time with paper and spreadsheets. </a>
                     </div>
-                    { this.state.response?null:this.state.loader ?
-                      <div className="main-loader">
-                      <Loader type="Watch" color="black" height="50" width="60"/>
-                      </div>:<Input className="submit" disabled={!this.state.formValid} type="submit" value="GET STARTED"/>}
-                    {this.state.loader ?null :this.state.response ?                       
-                    <div className="text-center loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-                      {this.state.headertext}
-                    </div>:null}
-                    <div className="footer-1">
-                      Already have an account? <a onClick={()=>this.redirect("/login")}>Sign in</a>
+                    <div className="page-illustration">
+                    <img src={require('../../../assets/img/brand/illustration.svg')}/>
                     </div>
-                    <div className="divider" />
-                    <div className="footer-2">
-                      <a>Terms of Use </a>and<a> Privacy Policy.</a>
+                  </div>
+              </Col>
+              <Col xs="12" sm="6" md="6" className="h-100">
+              <div className="h-100 right-column-flex justify-content-center flex-row w-100">
+              <Card className="register-form h-xs-100 h-md-75 justify-content-around flex-column" >
+                    <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Join Lendstack !</p></div>
+                      <div className="d-flex mb-3 flex-row w-100 justify-content-center">
+                      <div className="divider w-75"/>
                     </div>
-                  </Form>
-                  </TabPane>
-                  <TabPane tabId="2">
-                  <Form onSubmit={this.handleSubmit}>
-                    <div className="firstname">
-                    <FormGroup>
-                      <Input value={this.state.firstname} onChange={this.handleUserInput} name="firstname"
-                        type="text"
-                        maxLength="30"
-                        placeholder="First Name"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.firstname === true}
-                        invalid={this.state.validFields.firstname !== true}
-                        required
-                      />
-                   {this.state.formErrors.firstname? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.firstname}`}</FormFeedback>:null}
-                    </FormGroup>                      
-                    </div>
-
-                    <div className="lastname">
-                    <FormGroup>
-                      <Input value={this.state.lastname} onChange={this.handleUserInput} name="lastname"
-                        type="text"
-                        maxLength="30"
-                        placeholder="Last Name"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.lastname === true}
-                        invalid={this.state.validFields.lastname !== true}
-                        required
-                      />
-                   {this.state.formErrors.lastname? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.lastname}`}</FormFeedback>:null}
-                    </FormGroup>                      
-                    </div>
-                    <div className="email">
-                    <FormGroup>
-                      <Input value={this.state.email_individual} onChange={this.handleUserInput} name="email_individual"
-                        type="email"
-                        maxLength="30"
-                        placeholder="Email"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.email_individual === true}
-                        invalid={this.state.validFields.email_individual !== true}
-                        required
-                      />
-                   {this.state.formErrors.email_individual? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.email_individual}`}</FormFeedback>:null}
-                    </FormGroup>                      
-                    </div>
-                    <div className="password">
-                    <FormGroup>
-                      <Input value={this.state.password_individual} onChange={this.handleUserInput} name="password_individual"
-                        type="password"
-                        maxLength="30"
-                        placeholder="Password"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.password_individual === true}
-                        invalid={this.state.validFields.password_individual !== true}
-                        required
-                      />
-                    {this.state.formErrors.password_individual? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password_individual}`}</FormFeedback>:null}
-                    </FormGroup>
-                    </div>
-
-                    { this.state.response?null:this.state.loader ?
-                      <div className="main-loader">
-                      <Loader type="Watch" color="black" height="50" width="60"/>
-                      </div>:<Input className="submit" disabled={!this.state.formValid} type="submit" value="GET STARTED"/>}
-                    {this.state.loader ?null :this.state.response ?                       
-                    <div className="text-center loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-                      {this.state.headertext}
-                    </div>:null}
-                    
-                    <div className="footer-1">
-                      Already have an account? <a>Sign in</a>
-                    </div>
-                    <div className="divider" />
-                    <div className="footer-2">
-                      <a>Terms of Use </a>and<a> Privacy Policy.</a>
-                    </div>
-                    </Form>
-                  </TabPane>
-                </TabContent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>}
+                    <div style={{height: "84%"}} className="form-content w-100 flex-row justify-content-center">
+                      <Row className="h-100">
+                      <Col xs="12" sm="12" md="12" style={{height: "80%"}} className="flex-column d-flex justify-content-center">
+    
+                              <Nav tabs>
+                                <NavItem>
+                                  <NavLink
+                                    className={classnames({ active: this.state.activeTab === '1' })}
+                                    onClick={() => { this.toggle('1'); }}
+                                  >
+                                    Business Lender
+                              </NavLink>
+                                </NavItem>
+                                <NavItem>
+                                  <NavLink
+                                    className={classnames({ active: this.state.activeTab === '2' })}
+                                    onClick={() => { this.toggle('2'); }}
+                                  >
+                                    Individual Lender
+                              </NavLink>
+                                </NavItem>
+                              </Nav>
+                              <TabContent activeTab={this.state.activeTab}>
+                                <TabPane className="h-100"  tabId="1">
+                                <Formik
+                                  initialValues={_initialValues}
+                                  validate={validate(_validationSchema)}
+                                  onSubmit={_onSubmit}
+                                  render={
+                                    ({
+                                      values,
+                                      errors,
+                                      touched,
+                                      handleChange,
+                                      handleBlur,
+                                      isSubmitting,
+                                      isValid,
+                                    }) => (
+                                <Form className="h-100 d-flex flex-column justify-content-around" onSubmit={this.handleSubmit.bind(this,values)}>
+                                <div className="d-flex w-100 flex-row justify-content-center bizname">
+                                <FormGroup className="w-75">
+                                  <Input  
+                                    type="text"
+                                    maxLength="30"
+                                    placeholder="Business Name"
+                                    name="name_bussiness"
+                                    id="name_bussiness"
+                                    autoComplete="Business Name"
+                                    valid={!errors.name_bussiness}
+                                    invalid={touched.name_bussiness && !!errors.name_bussiness}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.name_bussiness} 
+                                    />
+                                    <FormFeedback>{errors.name_bussiness}</FormFeedback>
+                                  </FormGroup>
+                                  </div>
+                                  <div className="d-flex w-100 flex-row justify-content-center email">
+                                  <FormGroup className="w-75">
+                                  <Input  
+                                    type="email"
+                                    maxLength="30"
+                                    placeholder="Email"
+                                    name="email_bussiness"
+                                    id="email_bussiness"
+                                    autoComplete="Email"
+                                    valid={!errors.email_bussiness}
+                                    invalid={touched.email_bussiness && !!errors.email_bussiness}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email_bussiness} 
+                                    />
+                                    <FormFeedback>{errors.email_bussiness}</FormFeedback>
+                                  </FormGroup>
+                                  </div>
+              
+                                  <div className="d-flex w-100 flex-row justify-content-center password">
+                                  <FormGroup className="w-75">
+                                  <Input  
+                                    type="password"
+                                    maxLength="30"
+                                    placeholder="Password"
+                                    name="password_bussiness"
+                                    id="password_bussiness"
+                                    autoComplete="Password"
+                                    valid={!errors.password_bussiness}
+                                    invalid={touched.password_bussiness && !!errors.password_bussiness}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password_bussiness} 
+                                    />
+                                    <FormFeedback>{errors.password_bussiness}</FormFeedback>
+                                  </FormGroup>
+                                  </div>
+                                  { this.state.response?null:this.state.loader ?
+                                    <div className="main-loader">
+                                    <Loader type="Watch" color="black" height="50" width="60"/>
+                                    </div>:<div style={{height: "15%"}} className="d-flex  flex-row justify-content-center w-100"><Input className="w-75 submit" disabled={isSubmitting || !isValid} type="submit"  value="GET STARTED"/></div>}
+                                  {this.state.loader ?null :this.state.response ?                       
+                                  <div className="text-center loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                                    {this.state.headertext}
+                                  </div>:null}
+                                  
+                                </Form>
+                                    )}/>
+                                </TabPane>
+                                <TabPane className="h-100"  tabId="2">
+                                <Formik
+                          initialValues={initialValues}
+                          validate={validate(validationSchema)}
+                          onSubmit={onSubmit}
+                          render={
+                            ({
+                              values,
+                              errors,
+                              touched,
+                              handleChange,
+                              handleBlur,
+                              isSubmitting,
+                              isValid,
+                            }) => (
+                                <Form className="h-100 d-flex flex-column justify-content-around" onSubmit={this.handleSubmit.bind(this,values)}>
+                                  <div className="d-flex w-100 flex-row justify-content-center firstname">
+                                  <FormGroup className="w-75">
+                                  <Input  
+                                    type="text"
+                                    maxLength="30"
+                                    placeholder="Full Name"
+                                    name="fullname"
+                                    id="fullname"
+                                    autoComplete="Full Name"
+                                    valid={!errors.fullname}
+                                    invalid={touched.fullname && !!errors.fullname}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.fullname} 
+                                    />
+                                    <FormFeedback>{errors.fullname}</FormFeedback>
+                                  </FormGroup>                      
+                                  </div>
+                                  <div className="d-flex w-100 flex-row justify-content-center email">
+                                  <FormGroup className="w-75">
+                                  <Input  
+                                    type="email"
+                                    maxLength="30"
+                                    placeholder="Email"
+                                    name="email_individual"
+                                    id="email_individual"
+                                    autoComplete="email"
+                                    valid={!errors.email_individual}
+                                    invalid={touched.email_individual && !!errors.email_individual}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email_individual} 
+                                    />
+                                    <FormFeedback>{errors.email_individual}</FormFeedback>
+                                  </FormGroup>                      
+                                  </div>
+                                  <div className="d-flex w-100 flex-row justify-content-center password">
+                                  <FormGroup className="w-75">
+                                  <Input  
+                                    type="password"
+                                    maxLength="30"
+                                    placeholder="Password"
+                                    name="password_individual"
+                                    id="password_individual"
+                                    autoComplete="password_individual"
+                                    valid={!errors.password_individual}
+                                    invalid={touched.password_individual && !!errors.password_individual}
+                                    required
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password_individual} 
+                                    />
+                                    <FormFeedback>{errors.password_individual}</FormFeedback>
+                                  </FormGroup>
+                                  </div>
+                                  { this.state.response?null:this.state.loader ?
+                                  <div className="main-loader">
+                                  <Loader type="Watch" color="black" height="50" width="60"/>
+                                  </div>:<div  style={{height: "15%"}} className="d-flex flex-row justify-content-center w-100"><Input className="w-75 submit" disabled={isSubmitting || !isValid} type="submit"  value="GET STARTED"/></div>}
+                                {this.state.loader ?null :this.state.response ?                       
+                                <div className="text-center loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                                  {this.state.headertext}
+                                </div>:null}
+                                </Form>
+                                )} />   
+                                </TabPane>
+                              </TabContent>
+              
+                      </Col>
+                      <Col xs="12" sm="12" md="12" className="h-10">
+                      <div className="footer-1">
+                                  Already have an account? <a onClick={()=>this.redirect("/login")}>Sign in</a>
+                                </div>
+                                <div className="d-flex flex-row w-100 justify-content-center">
+                                  <div className="divider w-75"/>
+                                </div>
+                                <div className="footer-2">
+                                  <a>Terms of Use </a>and<a> Privacy Policy.</a>
+                                </div>
+                      </Col> 
+                      </Row>
+                    </div>            
+              </Card>           
+              </div>       
+              </Col>
+            </Row>
+      </div>
+      </Container>
       </div>
     );
   }
@@ -573,6 +605,7 @@ class Register extends Component {
 export default connect(store => {
   return {
     state: store.action.registration_auth_state,
+    error: store.action.registration_auth_error,
  
   };
 })(withRouter(Register));

@@ -8,3 +8,8 @@
 @import "custom";
 // ie fixes
 @import "ie-fix";
+
+// Spinkit
+$spinkit-spinner-color: $body-color;
+@import 'spinkit/scss/spinkit.scss';
+

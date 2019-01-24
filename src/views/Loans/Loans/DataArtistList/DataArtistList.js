@@ -204,9 +204,9 @@ class DataArtistList extends Component {
                     </div>
                 </Modal>
 
-                    <div className="table-header">
+                    {/* <div className="table-header">
                     <div className="inputs">
-                    {/* <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div> */}
+                    <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div> 
                     </div>
                     <div className="actions">
                     <div className="space-evenly">
@@ -214,10 +214,10 @@ class DataArtistList extends Component {
                     <div className="sort"><img src={require('../../../../assets/img/brand/sort-icon.svg')}/><a>Sort</a></div>
                     <div className="search"><img src={require('../../../../assets/img/brand/search-icon.svg')}/><a>Search</a></div>                       
                     </div>
-                    {/* <div className="clear-filter"><a>CLEAR FILTER</a></div> */}
+                    <div className="clear-filter"><a>CLEAR FILTER</a></div> 
                     </div>
-                    </div>
-                    <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                    </div> */}
+                    <BootstrapTable data={ this.table } pagination={true} version="4" bordered={false}  search={true} hover={true} role="grid"
                                     options={this.options}>
                         <TableHeaderColumn  dataField="artist-img" width="20%" dataFormat={this.profileFormater}></TableHeaderColumn>
                         <TableHeaderColumn dataField="loan_amount" isKey  width="20%" dataFormat={this.emailFormater}></TableHeaderColumn>

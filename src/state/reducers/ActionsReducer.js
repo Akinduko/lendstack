@@ -46,7 +46,8 @@ const options = {
     CREATE_LENDER_USER:"create_lender_user",
     SET_PENDING_LOAN:"set_pending_loan",
     APPROVE_LOAN_STATUS:"approve_loan_status",
-    GET_LENDER_DASHBOARD:"lender_dashboard"
+    GET_LENDER_DASHBOARD:"lender_dashboard",
+    GET_ALL_REPORTS:"report"
 }
 export const action = (    
     state = {

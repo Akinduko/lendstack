@@ -10,8 +10,17 @@ import {
     NavItem, 
     NavLink,
     TabContent,
-    TabPane
+    TabPane,
+    Button,
+    ButtonDropdown,
+    ButtonGroup,
+    ButtonToolbar,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
             } from 'reactstrap';
+
 import { get_action,put_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
 import classnames from 'classnames';
@@ -36,7 +45,8 @@ class DataArtistList extends Component {
         }
         this.state = {
             viewusermodal: false,
-            activeTab: '1'
+            activeTab: '1',
+            card1:{}
           };
 
     }
@@ -66,7 +76,7 @@ class DataArtistList extends Component {
           return   this.setState({[row.id]:1})
         }
         if(this.props.update_product_status_state==="failed"){
-          console.log("here")
+
           return   this.setState({[row.id]:0})
         }
         
@@ -75,7 +85,6 @@ class DataArtistList extends Component {
         }
       
       handleToggle= async (row,e)=>{
-        console.log(e,row)
         const body = {
           product_name:row.product_name,
           product_description:row.product_description,
@@ -92,20 +101,37 @@ class DataArtistList extends Component {
       }
       }
 
+      setToggle=(row)=>{
+        const state = this.state.card1;
+        state[row.id]= !this.state["card1"][row.id]
+        this.setState({ card1:state}); 
+      }
       toggleFormater =  (cell, row) => {
-        if(typeof this.state[row.id] !== 'number'){
-           this.setState({[row.id]:row.status})
-        }
-        switch(this.props.update_product_status_state){
-          case "succcess":
-          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} checked={this.state[row.id]==0?false:true} /></div></div>
-          break;
-          case "failed":
-          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
-          default:
-          return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} handleToggle={this.handleToggle.bind(this,row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
+        // if(typeof this.state[row.id] !== 'number'){
+        //    this.setState({[row.id]:row.status})
+        // }
+        // switch(this.props.update_product_status_state){
+        //   case "succcess":
+        //   return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} checked={this.state[row.id]==0?false:true} /></div></div>
+        //   break;
+        //   case "failed":
+        //   return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} onClick={()=>this.handleToggle(row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
+        //   default:
+        //   return <div className="toggle"><a>{this.state[row.id]==0?"Inactive":"Active"}</a><div className="switch"><AppSwitch className={'mx-1'} handleToggle={this.handleToggle.bind(this,row)} color={'success'} isOn={this.state[row.id]==0?false:true} /></div></div>
 
-        }
+        // }
+        return (<ButtonGroup key={row.id} className="float-right">
+        <ButtonDropdown id='card1' isOpen={this.state["card1"][row.id]} toggle={() => this.setToggle(row)}>
+          <DropdownToggle caret className="p-0" color="">
+            <i className="icon-settings"></i>
+          </DropdownToggle>
+          <DropdownMenu className="h-100" right>
+            <DropdownItem>{this.state[row.id]==0?<div className="edit" onClick={()=>this.handleToggle(row)}>Activate</div>:<div className="edit" onClick={()=>this.handleToggle(row)}>Activate</div>}</DropdownItem>
+            <DropdownItem><div className="edit" onClick={()=>this.toggleModal("editusermodal",row)}>EDIT</div></DropdownItem>
+            <DropdownItem><div className="edit" onClick={()=>this.toggleModal("viewusermodal",row.id)}>VIEW</div></DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+      </ButtonGroup>)
       };
 
       profileFormater = (cell, row) => {
@@ -167,27 +193,28 @@ class DataArtistList extends Component {
       redirect(link){
         this.props.history.push(link)
       }
+
     renderTable(){
       switch(this.props.all_products_state){
                 case "success":
-                return <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                return <BootstrapTable search={true} data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
                             options={this.options}>
                       <TableHeaderColumn  dataField="product_name" width="25%" dataFormat={this.profileFormater}>NAME</TableHeaderColumn>
                       <TableHeaderColumn dataField="product_name" isKey  width="25%" dataFormat={this.tenorFormater}>TENOR</TableHeaderColumn>
-                      <TableHeaderColumn dataField="status"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>
-                      <TableHeaderColumn dataField="status"  width="15%" dataFormat={this.toggleFormater}></TableHeaderColumn>
-                      <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.editFormater} ></TableHeaderColumn>
-                      <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.viewFormater} ></TableHeaderColumn>
+                      <TableHeaderColumn dataField="status"  width="25%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>
+                      <TableHeaderColumn dataField="status"  width="25%" dataFormat={this.toggleFormater}></TableHeaderColumn>
+                      {/* <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.editFormater} ></TableHeaderColumn>
+                      <TableHeaderColumn  dataField="status"  width="15%" dataFormat={this.viewFormater} ></TableHeaderColumn> */}
                       </BootstrapTable>
                 break;
                 case "failed":
-                  return <div>Unable to fetch Data</div>
+                  return <div className="text-center">Unable to retrieve products</div>
                 break;
                 case "pending":
-                  return <div>Fetching Data...</div>
+                  return <div className="text-center">Retrieve products...</div>
                 break;
                 default:
-        
+                  return <div className="text-center">Retrieve products...</div>
                 break;
               }
       }
@@ -242,7 +269,7 @@ class DataArtistList extends Component {
      </div>
                 </Modal>
 
-                    <div className="table-header">
+                    {/* <div className="table-header">
                     <div className="inputs">
                     <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div>
                     </div>
@@ -255,7 +282,7 @@ class DataArtistList extends Component {
                     </div>
                     <div className="clear-filter"><a>CLEAR FILTER</a></div>
                     </div>
-                    </div>
+                    </div> */}
                     {this.renderTable()}
                 </div>
         );

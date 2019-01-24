@@ -291,7 +291,10 @@ renderPage(){
   render() {
     return (
       <div className="products-page">
+      <div className="d-flex mt-5 flex-row justify-content-between w-100"> 
+      {this.state.addproduct?null:<div className="ml-5 w-100 mt-5 side-header">Products</div>}
       {this.state.addproduct?null:<div className="add-user-button"><button onClick={()=>this.toggleModal("addproduct")} >ADD A NEW PRODUCT</button></div>}
+      </div>
         {this.renderPage()}
       </div>
     );

@@ -322,7 +322,7 @@ class DataArtistList extends Component {
       renderTable(){
         switch(this.props.get_all_users_state){
                   case "success":
-                  return <BootstrapTable data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                  return <BootstrapTable classname="w-100" data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
                   options={this.options}>
                         <TableHeaderColumn  dataField="user_name" width="25%" dataFormat={this.profileFormater}></TableHeaderColumn>
                         <TableHeaderColumn dataField="email" isKey  width="25%" dataFormat={this.emailFormater}></TableHeaderColumn>
@@ -352,7 +352,7 @@ class DataArtistList extends Component {
     render() {
 
         return (
-                <div className="full-user-list">
+                <div className="full-user-list w-100 pl-5 pr-5">
                 <Modal isOpen={this.state.editusermodal} className="edit-user-modal">
                     <div className="sub-container">
                     <div className="header"><p>Edit user details</p> <i onClick={()=>this.toggleModal("editusermodal",{})} className="fa fa-close"></i></div>
@@ -434,7 +434,7 @@ class DataArtistList extends Component {
                     </div>   
                 </Modal>
 
-                    <div className="table-header">
+                    {/* <div className="table-header">
                     <div className="inputs">
                     <div className="role"><a>Role</a><Input/></div> <div className="status"><a>Status</a><Input/></div>
                     </div>
@@ -446,7 +446,7 @@ class DataArtistList extends Component {
                     </div>
                     <div className="clear-filter"><a>CLEAR FILTER</a></div>
                     </div>
-                    </div>
+                    </div> */}
                     {this.renderTable()}
                 </div>
         );

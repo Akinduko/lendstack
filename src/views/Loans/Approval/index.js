@@ -275,6 +275,9 @@ async addLoan(){
   render() {
     return (
       <div className="loans-page">
+      <div className="d-flex flex-row justify-content-between w-100"> 
+      <div className="ml-5 w-100 mt-5 side-header">Pending Loans</div>
+      </div>
       <div className="loans-table-container">
       <DataArtistList/>
       </div>

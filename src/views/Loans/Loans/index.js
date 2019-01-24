@@ -273,7 +273,10 @@ async addLoan(){
   render() {
     return (
       <div className="loans-page">
+      <div className="d-flex flex-row justify-content-between w-100"> 
+      <div className="ml-5 side-header">Loans</div>
       <div className="add-loan-button"><button onClick={()=>this.addLoan()} >ADD NEW LOAN</button></div>
+      </div>
       <div className="loans-table-container">
       <DataArtistList/>
       </div>
