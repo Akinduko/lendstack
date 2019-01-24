@@ -375,7 +375,7 @@ export default connect(store => {
     state: store.login.state,
     error: store.login.error,
     auth: store.token.auth,
-    profile:store.getuser.user,
-    profileState:store.getuser.state
+    user_profile:store.action.user,
+    user_state:store.action.user_state
   };
 })(withRouter(Location));

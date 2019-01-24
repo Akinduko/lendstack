@@ -454,7 +454,7 @@ export default connect(store => {
     user_error: store.action.user_error,
     auth_error: store.action.auth_error,
     auth: store.token.auth,
-    user_profile:store.getuser.user,
-    user_state:store.getuser.user_state
+    user_profile:store.action.user,
+    user_state:store.action.user_state
   };
 })(withRouter(ChangePassword));

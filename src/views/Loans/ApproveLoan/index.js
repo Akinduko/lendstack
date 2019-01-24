@@ -294,8 +294,8 @@ export default connect(store => {
       state: store.login.state,
       error: store.login.error,
       token:store.token.auth?store.token.auth.token:"",
-      profile:store.getuser.user,
-      profileState:store.getuser.state,
+      profile:store.action.user,
+      profileState:store.action.user_state,
       set_pending_loan:store.action.set_pending_loan,
       approve_loan_status_state:store.action.approve_loan_status_state
     };
