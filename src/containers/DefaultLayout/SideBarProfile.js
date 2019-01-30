@@ -52,6 +52,7 @@ class SideBarProfile extends Component {
   render() {
     return (
       <div className="d-flex pt-5 pb-5 justify-content-around custom-side-profile">
+
           <Nav className=".d-md-down-none-info" navbar>
           <NavItem className="px-3 w-50 h-100 nav-item">
           <AppHeaderDropdown direction="down">
@@ -78,6 +79,7 @@ export default connect(store => {
     user_state: store.action.user_state,
     auth: store.token.auth,
     user_profile: store.action.user,
+    token:store.token.auth?store.token.auth.token:"",
     error: store.action.user_error && store.action.user_error.response?store.action.user_error.response.status:""
   };
 })(withRouter(SideBarProfile));

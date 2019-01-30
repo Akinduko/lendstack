@@ -10549,6 +10549,23 @@ body {
     cursor: pointer;
     padding: 0px 4px 0px; }
 
+.modal-content {
+  height: 100% !important; }
+
+.table-responsive {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: row; }
+
+.button-color {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 5px !important;
+  height: 100% !important;
+  color: #FFFFFF !important;
+  background: #213F7D !important;
+  border: none; }
+
 .socials {
   display: -ms-flexbox;
   display: flex; }
@@ -10570,6 +10587,16 @@ body {
 .overflow {
   overflow-y: auto;
   overflow-x: hidden; }
+
+.sidebar .nav-link:hover {
+  color: #545F7D;
+  background: none;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 15px !important;
+  width: 100%; }
 
 .sidebar {
   color: rgba(84, 95, 125, 0.6);
@@ -10746,8 +10773,7 @@ body {
   display: flex !important;
   flex-direction: row;
   justify-content: center !important;
-  width: 100%;
-  height: 16%; }
+  width: 100%; }
   .custom-side-profile .navbar-nav {
     display: flex !important;
     flex-direction: row !important;
@@ -10774,13 +10800,20 @@ body {
     font-size: 16px; }
 
 html:not([dir="rtl"]) .sidebar {
-  margin-left: -300px; }
+  margin-left: 0px; }
 
 html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main,
 html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .app-footer,
 html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main,
 html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
-  margin-left: 300px; }
+  margin-left: 0px; }
+
+.main-fluid {
+  width: 80%;
+  margin-left: 20% !important; }
+
+.appside-fluid {
+  width: 20%; }
 
 .sidebar .nav-link.active {
   background: rgba(57, 205, 204, 0.1) !important;
@@ -11708,14 +11741,12 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
             top: unset !important;
             left: unset !important; }
   .root-container .dashboard-body {
-    width: 100%;
     height: 100%;
     overflow: auto;
     background: #F4F6F9;
     display: flex;
     flex: 2;
-    margin-left: 100px;
-    width: 95% !important; }
+    width: 100% !important; }
     .root-container .dashboard-body .dashboard-header {
       background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
       mix-blend-mode: multiply; }
@@ -11741,20 +11772,16 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
             color: #FFFFFF !important;
             background: #213F7D !important;
             border: none; }
-      .root-container .dashboard-body .dashboard-header .dashboard-header-text {
-        position: relative;
-        height: 36px;
-        left: 357.5px;
-        width: 515px;
-        top: 110px; }
-        .root-container .dashboard-body .dashboard-header .dashboard-header-text p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: 500;
-          line-height: normal;
-          font-size: 30px;
-          color: #FFFFFF;
-          width: 650px; }
+            .root-container .dashboard-body .dashboard-header .dashboard-return-header-text .add-new-loan .submit-button:hover {
+              cursor: pointer; }
+      .root-container .dashboard-body .dashboard-header .dashboard-header-text p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        font-size: 30px;
+        color: #FFFFFF;
+        width: 650px; }
       .root-container .dashboard-body .dashboard-header .dashboard-return-illustration-text {
         height: 50%; }
         .root-container .dashboard-body .dashboard-header .dashboard-return-illustration-text p {
@@ -11765,20 +11792,14 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
           font-size: 16px;
           text-align: center;
           color: #FFFFFF; }
-      .root-container .dashboard-body .dashboard-header .dashboard-illustration-text {
-        position: absolute;
-        width: 699px;
-        height: 57px;
-        left: 264.5px;
-        top: 166px; }
-        .root-container .dashboard-body .dashboard-header .dashboard-illustration-text p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: normal;
-          line-height: 28px;
-          font-size: 16px;
-          text-align: center;
-          color: #FFFFFF; }
+      .root-container .dashboard-body .dashboard-header .dashboard-illustration-text p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: normal;
+        line-height: 28px;
+        font-size: 16px;
+        text-align: center;
+        color: #FFFFFF; }
     .root-container .dashboard-body .views {
       margin-top: -5%; }
       .root-container .dashboard-body .views .card-1 {
@@ -11832,12 +11853,82 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
           font-size: 14px;
           color: #545F7D; }
     .root-container .dashboard-body .dashboard-card-container {
-      position: fixed;
-      width: 1219px;
-      height: 322px;
-      top: 273px;
-      margin-bottom: 305px;
       background: transparent; }
+      .root-container .dashboard-body .dashboard-card-container .card-custom {
+        width: 25%;
+        height: 100%;
+        top: -25%;
+        background: #FFFFFF;
+        border: 1px solid #EDF1F5;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+        border-radius: 5px;
+        transition: all .3s ease-out; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom:hover {
+          background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%);
+          box-shadow: 0px 30px 29px rgba(0, 0, 0, 0.07);
+          border-radius: 5px;
+          border: none;
+          transform: translateY(-1rem) scale(1.02); }
+          .root-container .dashboard-body .dashboard-card-container .card-custom:hover .card-header {
+            border: none;
+            left: 0px;
+            background: #213F7D; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom:hover a {
+            color: #FFFFFF; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom:hover p {
+            color: #FFFFFF; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom:hover .card-footer {
+            border: none;
+            left: 0px;
+            background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%); }
+            .root-container .dashboard-body .dashboard-card-container .card-custom:hover .card-footer a {
+              color: #FFFFFF; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom .card-header {
+          border: none;
+          background: #D7F5F5;
+          opacity: 0.5; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom .card-image {
+          background: #D7FFFF;
+          border-radius: 20px; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom .card-image img {
+            left: 25%;
+            right: 50%;
+            top: 28%;
+            bottom: 50%; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom a {
+          text-align: center;
+          font-family: "Work Sans";
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          font-size: 18px;
+          color: #545F7D; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom p {
+          font-family: "Work Sans";
+          font-style: normal;
+          font-weight: normal;
+          line-height: 25px;
+          font-size: 14px;
+          text-align: center;
+          color: #545F7D; }
+        .root-container .dashboard-body .dashboard-card-container .card-custom .card-footer {
+          border: none;
+          display: flex;
+          background: #F8FEFE;
+          border: 1px solid #DBDFE9; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom .card-footer img {
+            width: 12px;
+            height: 9px; }
+          .root-container .dashboard-body .dashboard-card-container .card-custom .card-footer a {
+            font-family: "Work Sans";
+            font-style: normal;
+            font-weight: 600;
+            line-height: 21px;
+            font-size: 14px;
+            text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #39CDCC; }
       .root-container .dashboard-body .dashboard-card-container .card-1 {
         position: relative;
         width: 300px;
@@ -12192,34 +12283,22 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       background: -o-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
       background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
       mix-blend-mode: multiply; }
-      .root-container .loan-product-body .dashboard-header .dashboard-header-text {
-        position: relative;
-        height: 38px;
-        left: 35%;
-        width: 100%;
-        top: 25%; }
-        .root-container .loan-product-body .dashboard-header .dashboard-header-text p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: 500;
-          line-height: normal;
-          font-size: 30px;
-          color: #FFFFFF;
-          width: 100%; }
-      .root-container .loan-product-body .dashboard-header .dashboard-illustration-text {
-        position: absolute;
-        width: 50%;
-        height: 25%;
-        left: 20%;
-        top: 40%; }
-        .root-container .loan-product-body .dashboard-header .dashboard-illustration-text p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: normal;
-          line-height: 28px;
-          font-size: 16px;
-          text-align: center;
-          color: #FFFFFF; }
+      .root-container .loan-product-body .dashboard-header .dashboard-header-text p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        font-size: 30px;
+        color: #FFFFFF;
+        width: 100%; }
+      .root-container .loan-product-body .dashboard-header .dashboard-illustration-text p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: normal;
+        line-height: 28px;
+        font-size: 16px;
+        text-align: center;
+        color: #FFFFFF; }
     .root-container .loan-product-body .dashboard-card-container {
       position: absolute;
       width: 80%;
@@ -12496,7 +12575,6 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
         flex-direction: column;
         width: 59%;
         height: 100%;
-        overflow-y: auto;
         position: absolute; }
         .root-container .user-management-page .user-table-container .full-user-list .table-header {
           display: flex;
@@ -13392,7 +13470,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
                     .root-container .bank-account-page .account-content .step-wizard_2cyMY .step_2fNHT .add-account-page .add-account-right .form-content form .input-groups .invalid-feedback {
                       width: 100%;
                       margin-top: 0.25rem;
-                      font-size: 11px;
+                      font-size: 50%;
                       color: #f86c6b;
                       left: 3%;
                       position: absolute; }
@@ -14359,7 +14437,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       display: -ms-flexbox;
       display: flex;
       height: 35px;
-      margin-right: 10%; }
+      margin-right: 5%; }
       .access-container .header-row-flex .socials .twitter {
         color: #fff;
         font-size: 22px;
@@ -14376,8 +14454,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
         -webkit-transition: all 0.4s;
         -o-transition: all 0.4s;
         -moz-transition: all 0.4s;
-        transition: all 0.4s;
-        text-decoration: underline; }
+        transition: all 0.4s; }
       .access-container .header-row-flex .socials .facebook {
         color: #fff;
         font-size: 22px;
@@ -14394,16 +14471,10 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
         -webkit-transition: all 0.4s;
         -o-transition: all 0.4s;
         -moz-transition: all 0.4s;
-        transition: all 0.4s;
-        text-decoration: underline; }
+        transition: all 0.4s; }
   .access-container .body-row-flex {
     display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 112px;
-    width: 92.8%;
-    left: 50px;
-    height: 83%; }
+    flex-direction: row; }
     .access-container .body-row-flex .left-column-flex {
       display: flex;
       flex-direction: column;
@@ -14444,8 +14515,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       background: #FFFFFF;
       box-shadow: 0px 15px 90px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
-      width: 80%;
-      height: 90%; }
+      width: 80% !important; }
       .access-container .right-column-flex .register-form .header p {
         font-family: "Work Sans";
         font-style: normal;
@@ -14783,470 +14853,6 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
             .access-container .right-column-flex .login-form .form-content .footer a:hover {
               cursor: pointer; }
 
-.container {
-  font-family: "Work Sans";
-  background: url("assets/img/brand/bacground.svg") no-repeat;
-  background-color: rgba(0, 0, 0, 0);
-  background-position-x: 0%;
-  background-position-y: 0%;
-  background-attachment: scroll;
-  background-size: auto auto;
-  background-size: cover;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  -ms-background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  font-size: 15px;
-  color: #666666;
-  background-color: #fff;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  display: -ms-flexbox;
-  display: flex;
-  position: absolute;
-  flex: 1; }
-  .container .header-row-flex {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    width: 92.68%;
-    height: 37px;
-    top: 30px;
-    position: absolute;
-    left: 50px;
-    height: 10%;
-    justify-content: space-between; }
-    .container .header-row-flex .lend-logo img {
-      width: 262.67px;
-      height: 35px; }
-    .container .header-row-flex .socials {
-      display: -ms-flexbox;
-      display: flex;
-      height: 35px;
-      height: 35px; }
-      .container .header-row-flex .socials .twitter {
-        color: #fff;
-        font-size: 22px;
-        background-color: transparent;
-        border: 2px solid #fff;
-        border-radius: 2px;
-        width: 36px;
-        height: 36px;
-        justify-content: center;
-        -ms-align-items: center;
-        align-items: center;
-        margin-right: 6px;
-        display: flex;
-        -webkit-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        -moz-transition: all 0.4s;
-        transition: all 0.4s;
-        text-decoration: underline; }
-      .container .header-row-flex .socials .facebook {
-        color: #fff;
-        font-size: 22px;
-        background-color: transparent;
-        border: 2px solid #fff;
-        border-radius: 2px;
-        width: 36px;
-        height: 36px;
-        justify-content: center;
-        -ms-align-items: center;
-        align-items: center;
-        margin-right: 6px;
-        display: flex;
-        -webkit-transition: all 0.4s;
-        -o-transition: all 0.4s;
-        -moz-transition: all 0.4s;
-        transition: all 0.4s;
-        text-decoration: underline; }
-  .container .body-row-flex {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    top: 112px;
-    width: 92.8%;
-    left: 50px;
-    height: 83%; }
-    .container .body-row-flex .left-column-flex {
-      display: flex;
-      flex-direction: column;
-      width: 50%;
-      height: 84%; }
-      .container .body-row-flex .left-column-flex .page-communication {
-        width: 100%;
-        height: 20%;
-        display: flex;
-        flex-direction: column; }
-        .container .body-row-flex .left-column-flex .page-communication p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-          font-size: 30px;
-          color: #FFFFFF; }
-        .container .body-row-flex .left-column-flex .page-communication a {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: normal;
-          line-height: 35px;
-          font-size: 20px;
-          color: #FFFFFF; }
-      .container .body-row-flex .left-column-flex .page-illustration {
-        width: 100%;
-        height: 75%; }
-        .container .body-row-flex .left-column-flex .page-illustration img {
-          width: 100%;
-          height: 100%; }
-  .container .right-column-flex {
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    width: 50%;
-    height: 84%; }
-    .container .right-column-flex .register-form {
-      background: #FFFFFF;
-      box-shadow: 0px 15px 90px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      width: 80%;
-      height: 90%; }
-      .container .right-column-flex .register-form .header p {
-        font-family: "Work Sans";
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        font-size: 20px;
-        text-align: center;
-        color: #213F7D; }
-      .container .right-column-flex .register-form .divider {
-        width: 100%;
-        height: 0px;
-        border: 1px solid rgba(0, 0, 0, 0.05); }
-      .container .right-column-flex .register-form .form-content {
-        height: 80%;
-        width: 79%; }
-        .container .right-column-flex .register-form .form-content .nav {
-          display: flex;
-          -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-          list-style: none; }
-        .container .right-column-flex .register-form .form-content .nav-tabs {
-          margin-top: 10px !important;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-          margin-bottom: 25px !important;
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between; }
-          .container .right-column-flex .register-form .form-content .nav-tabs .nav-item {
-            margin-bottom: 0px !important; }
-          .container .right-column-flex .register-form .form-content .nav-tabs .nav-link {
-            background: transparent;
-            border: none;
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-            font-size: 16px;
-            color: #545F7D; }
-          .container .right-column-flex .register-form .form-content .nav-tabs .nav-link.active {
-            color: #2f353a;
-            background: transparent;
-            border: none;
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 500;
-            line-height: normal;
-            font-size: 16px;
-            color: #545F7D;
-            border-bottom: 3px solid #39cdcc; }
-        .container .right-column-flex .register-form .form-content .tab-content {
-          margin-top: 0px !important;
-          background: transparent !important;
-          border: none;
-          height: 82%;
-          width: 100%; }
-          .container .right-column-flex .register-form .form-content .tab-content .tab-pane {
-            padding: 0px !important; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .fullname .form-control {
-              width: 100%;
-              height: 50px;
-              background: #FFFFFF;
-              border: 1px solid rgba(84, 95, 125, 0.15);
-              box-sizing: border-box;
-              border-radius: 5px; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .fullname .form-control ::placeholder {
-                color: rgba(84, 95, 125, 0.6);
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: normal;
-                line-height: normal;
-                font-size: 14px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .firstname .form-control {
-              width: 100%;
-              height: 50px;
-              background: #FFFFFF;
-              border: 1px solid rgba(84, 95, 125, 0.15);
-              box-sizing: border-box;
-              border-radius: 5px; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .firstname .form-control ::placeholder {
-                color: rgba(84, 95, 125, 0.6);
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: normal;
-                line-height: normal;
-                font-size: 14px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .lastname .form-control {
-              width: 100%;
-              height: 50px;
-              background: #FFFFFF;
-              border: 1px solid rgba(84, 95, 125, 0.15);
-              box-sizing: border-box;
-              border-radius: 5px; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .lastname .form-control ::placeholder {
-                color: rgba(84, 95, 125, 0.6);
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: normal;
-                line-height: normal;
-                font-size: 14px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .bizname {
-              color: rgba(84, 95, 125, 0.6);
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: normal;
-              line-height: normal;
-              font-size: 14px;
-              text-align: "center"; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .bizname .form-control {
-                width: 100%;
-                height: 50px;
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .email {
-              color: rgba(84, 95, 125, 0.6);
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: normal;
-              line-height: normal;
-              font-size: 14px;
-              text-align: "center"; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .email .form-control {
-                width: 100%;
-                height: 50px;
-                background: #FFFFFF;
-                border: 1px solid rgba(84, 95, 125, 0.15);
-                box-sizing: border-box;
-                border-radius: 5px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .password .form-control {
-              width: 100%;
-              height: 50px;
-              background: #FFFFFF;
-              border: 1px solid rgba(84, 95, 125, 0.15);
-              box-sizing: border-box;
-              border-radius: 5px; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .password .form-control ::placeholder {
-                color: rgba(84, 95, 125, 0.6);
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: normal;
-                line-height: normal;
-                font-size: 14px; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .submit {
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: 600;
-              line-height: 21px;
-              font-size: 14px;
-              text-align: center;
-              letter-spacing: 0.1em;
-              text-transform: uppercase;
-              color: #FFFFFF;
-              text-align: center;
-              width: 100%;
-              height: 50px;
-              background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
-              box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
-              border-radius: 5px; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .submit:hover {
-                cursor: pointer; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .footer-1 {
-              width: 100%;
-              height: 17px;
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: normal;
-              line-height: normal;
-              font-size: 14px;
-              text-align: center;
-              color: #545F7D; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .footer-1 a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                font-size: 14px;
-                text-align: center;
-                color: #39CDCC; }
-                .container .right-column-flex .register-form .form-content .tab-content .tab-pane .footer-1 a:hover {
-                  cursor: pointer; }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .divider {
-              width: 100%;
-              height: 0px;
-              left: 68px;
-              top: 410px;
-              border: 1px solid rgba(0, 0, 0, 0.05); }
-            .container .right-column-flex .register-form .form-content .tab-content .tab-pane .footer-2 {
-              width: 100%;
-              height: 17px;
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: normal;
-              line-height: normal;
-              font-size: 14px;
-              text-align: center;
-              color: #545F7D; }
-              .container .right-column-flex .register-form .form-content .tab-content .tab-pane .footer-2 a {
-                font-family: "Work Sans";
-                font-style: normal;
-                font-weight: 600;
-                line-height: normal;
-                font-size: 14px;
-                text-align: center;
-                color: #39CDCC; }
-    .container .right-column-flex .login-form {
-      position: absolute;
-      width: 480px;
-      height: 420px;
-      background: #FFFFFF;
-      box-shadow: 0px 15px 90px rgba(0, 0, 0, 0.1);
-      border-radius: 10px;
-      top: 0px;
-      right: 0px; }
-      .container .right-column-flex .login-form .header {
-        position: absolute;
-        top: 30px;
-        left: 210px; }
-        .container .right-column-flex .login-form .header p {
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: 600;
-          line-height: normal;
-          font-size: 20px;
-          text-align: center;
-          color: #213F7D; }
-      .container .right-column-flex .login-form .divider {
-        position: absolute;
-        left: 140px;
-        width: 200px;
-        height: 0px;
-        border: 1px solid rgba(0, 0, 0, 0.05); }
-      .container .right-column-flex .login-form .form-content {
-        position: absolute;
-        left: 50px; }
-        .container .right-column-flex .login-form .form-content .email {
-          position: absolute;
-          top: 114px;
-          color: rgba(84, 95, 125, 0.6);
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: normal;
-          line-height: normal;
-          font-size: 14px;
-          text-align: "center"; }
-          .container .right-column-flex .login-form .form-content .email .form-control {
-            width: 380px;
-            height: 50px;
-            background: #FFFFFF;
-            border: 1px solid rgba(84, 95, 125, 0.15);
-            box-sizing: border-box;
-            border-radius: 5px; }
-        .container .right-column-flex .login-form .form-content .password {
-          position: absolute;
-          top: 184px; }
-          .container .right-column-flex .login-form .form-content .password .form-control {
-            width: 380px;
-            height: 50px;
-            background: #FFFFFF;
-            border: 1px solid rgba(84, 95, 125, 0.15);
-            box-sizing: border-box;
-            border-radius: 5px; }
-            .container .right-column-flex .login-form .form-content .password .form-control ::placeholder {
-              color: rgba(84, 95, 125, 0.6);
-              font-family: "Work Sans";
-              font-style: normal;
-              font-weight: normal;
-              line-height: normal;
-              font-size: 14px; }
-        .container .right-column-flex .login-form .form-content .forgot {
-          position: absolute;
-          top: 254px;
-          left: 238px;
-          width: 143px;
-          height: 19px; }
-          .container .right-column-flex .login-form .form-content .forgot a {
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 600;
-            line-height: 18px;
-            font-size: 12px;
-            text-align: center;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #39CDCC; }
-            .container .right-column-flex .login-form .form-content .forgot a:hover {
-              cursor: pointer; }
-        .container .right-column-flex .login-form .form-content .submit {
-          position: absolute;
-          top: 293px;
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: 600;
-          line-height: 21px;
-          font-size: 14px;
-          text-align: center;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: #FFFFFF;
-          text-align: center;
-          width: 380px;
-          height: 50px;
-          background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
-          box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
-          border-radius: 5px; }
-          .container .right-column-flex .login-form .form-content .submit:hover {
-            cursor: pointer; }
-        .container .right-column-flex .login-form .form-content .footer {
-          position: absolute;
-          top: 373px;
-          left: 74px;
-          width: 250px;
-          height: 17px;
-          font-family: "Work Sans";
-          font-style: normal;
-          font-weight: normal;
-          line-height: normal;
-          font-size: 14px;
-          text-align: center;
-          color: #545F7D; }
-          .container .right-column-flex .login-form .form-content .footer a {
-            font-family: "Work Sans";
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-            font-size: 14px;
-            text-align: center;
-            color: #39CDCC; }
-            .container .right-column-flex .login-form .form-content .footer a:hover {
-              cursor: pointer; }
-
 .forgot-container {
   font-family: "Work Sans";
   width: 100%;
@@ -15403,6 +15009,106 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       top: 10px;
       left: 13px; }
 
+.validate-page {
+  display: flex;
+  flex-direction: column; }
+  .validate-page .forgot-card {
+    background: #FFF;
+    border: 1px solid #EDF1F5;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+    border-radius: 5px; }
+  .validate-page .success-logo {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: center;
+    justify-content: center; }
+    .validate-page .success-logo img {
+      width: 100%;
+      height: 100%; }
+  .validate-page .form-communication p {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 600;
+    line-height: 46px;
+    font-size: 30px;
+    text-align: center;
+    color: #213F7D; }
+  .validate-page .form-communication a {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 24px;
+    font-size: 16px;
+    text-align: center;
+    color: #545F7D; }
+  .validate-page .forgot a {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px;
+    font-size: 12px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #39CDCC; }
+    .validate-page .forgot a:hover {
+      cursor: pointer; }
+  .validate-page .success-form {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column; }
+    .validate-page .success-form .submit {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 600;
+      line-height: 21px;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      text-align: center;
+      justify-content: center;
+      padding-left: 5%;
+      width: 100%;
+      background: -webkit-gradient(linear, right top, left top, color-stop(-21.5%, #39CDCC), color-stop(-21.48%, #39CDCC), color-stop(174.75%, #0CA8E5));
+      background: -webkit-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      background: -o-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+      -webkit-box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
+      border-radius: 5px; }
+      .validate-page .success-form .submit input {
+        width: 100%;
+        height: 60px;
+        background: -webkit-gradient(linear, right top, left top, color-stop(-21.5%, #39CDCC), color-stop(-21.48%, #39CDCC), color-stop(174.75%, #0CA8E5));
+        background: -webkit-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+        background: -o-linear-gradient(right, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+        background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+        -webkit-box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 17px 34px rgba(0, 0, 0, 0.1);
+        border-radius: 5px; }
+    .validate-page .success-form .success-communication {
+      width: 100%;
+      height: 60%;
+      display: flex;
+      flex-direction: column; }
+      .validate-page .success-form .success-communication p {
+        font-family: "Work Sans";
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        font-size: 35px;
+        text-align: center;
+        color: #545F7D;
+        width: 100%; }
+      .validate-page .success-form .success-communication a {
+        color: inherit;
+        text-decoration: none;
+        text-align: center; }
+
 .success-container {
   width: 100%;
   height: 100%;
@@ -15424,12 +15130,10 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       -ms-flex-direction: row;
       flex-direction: row;
       -ms-flex-pack: center;
-      justify-content: center;
-      width: 100%;
-      height: 35%; }
+      justify-content: center; }
       .success-container .bank-account-success-page .success-logo img {
-        width: 105px;
-        height: 100px; }
+        width: 100%;
+        height: 100%; }
     .success-container .bank-account-success-page .success-form {
       width: 100%;
       height: 50%;
@@ -16021,7 +15725,6 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       flex-direction: column;
       width: 90%;
       height: 100%;
-      overflow-y: auto;
       position: absolute; }
       .transactions-page .transactions-table-container .full-user-list .table-header {
         display: flex;
@@ -16310,7 +16013,6 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
       flex-direction: column;
       width: 90%;
       height: 100%;
-      overflow-y: auto;
       position: absolute; }
       .schedule-page .transactions-table-container .full-user-list .table-header {
         display: flex;
@@ -16988,6 +16690,36 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
         height: 45px;
         border: none; }
 
+.invite-borrower {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 25%;
+  height: 150%;
+  background: #FFFFFF;
+  -ms-flex-direction: flex-end;
+  justify-content: right;
+  position: absolute;
+  top: -30px;
+  right: 0px;
+  max-width: unset !important; }
+  .invite-borrower .modal-head {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5%;
+    width: 100%;
+    height: 25%; }
+    .invite-borrower .modal-head a {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      font-size: 20px;
+      color: #213F7D; }
+
 .edit-loan-modal {
   display: -ms-flexbox;
   display: flex;
@@ -17008,7 +16740,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     display: flex;
     -ms-flex-direction: column;
     flex-direction: column;
-    width: 100%;
+    width: 25%;
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
@@ -22892,6 +22624,27 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
   outline: none;
   background: darkturquoise; }
 
+.access-container .body-row-flex .left-column-flex .page-communication a {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 35px;
+  font-size: 20px;
+  color: #FFFFFF;
+  text-align: left; }
+
+.access-container .body-row-flex .left-column-flex .page-communication p {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  font-size: 30px;
+  color: #FFFFFF;
+  text-align: left; }
+
+.access-container .header-row-flex .lend-logo {
+  margin-left: 6%; }
+
 @media (max-width: 1280px) {
   .root-container .dashboard-body {
     margin-left: 0px;
@@ -22903,6 +22656,41 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     margin-left: 0px; } }
 
 @media (max-width: 769px) {
+  .access-container .header-row-flex .socials {
+    display: none;
+    height: 35px;
+    margin-right: 10%; }
+  .root-container .dashboard-body .dashboard-header .dashboard-return-illustration-text {
+    height: 50%;
+    width: 100% !important; }
+  .root-container .dashboard-body .dashboard-header {
+    background: linear-gradient(270deg, #39CDCC -21.5%, #39CDCC -21.48%, #0CA8E5 174.75%);
+    mix-blend-mode: multiply; }
+  .custom-reg {
+    justify-content: center !important; }
+  .mob-log-h {
+    height: 100% !important; }
+  .access-container .right-column-flex .register-form {
+    background: #FFFFFF;
+    box-shadow: 0px 15px 90px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 100% !important; }
+  .access-container .body-row-flex .left-column-flex .page-communication p {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 30px;
+    color: #FFFFFF;
+    text-align: center; }
+  .access-container .body-row-flex .left-column-flex .page-communication a {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 35px;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center; }
   .access-container .right-column-flex .register-form .form-content .nav-tabs .nav-link {
     background: transparent;
     border: none;
@@ -22923,16 +22711,25 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     font-size: 8px;
     color: #545F7D;
     border-bottom: 3px solid #39cdcc; }
-  .access-container .right-column-flex .register-form {
-    background: #FFFFFF;
-    box-shadow: 0px 15px 90px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    width: 80%;
-    height: 60%; } }
+  .mobile-validate-page {
+    width: 100% !important; }
+  .validate-page .forgot-card {
+    height: 100% !important; }
+  .mobile-form {
+    width: 100%; } }
 
 @media (max-width: 767px) {
+  .main-fluid {
+    width: 100% !important;
+    margin-left: 0% !important; }
+  .appside-fluid {
+    width: 0% !important; }
   .page-illustration {
     display: none; }
+  .access-container .header-row-flex .socials {
+    display: none;
+    height: 35px;
+    margin-right: 10%; }
   .access-container .right-column-flex .register-form .form-content .nav-tabs .nav-link {
     background: transparent;
     border: none;
@@ -22998,13 +22795,10 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     .login-form .form-content .footer a {
       font-size: 10px; }
   .invalid-feedback {
-    font-size: 75%; }
+    font-size: 50%; }
   .access-container .body-row-flex {
     display: flex;
     flex-direction: row;
-    position: absolute;
-    top: 112px;
-    width: 90%;
     left: unset !important;
     height: unset !important; }
   .access-container .header-row-flex .lend-logo img {
@@ -23025,8 +22819,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     align-items: center;
     margin-right: 6px;
     display: flex;
-    transition: all 0.4s;
-    text-decoration: underline; }
+    transition: all 0.4s; }
   .access-container .header-row-flex .socials .twitter {
     color: #fff;
     font-size: 22px;
@@ -23040,8 +22833,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
     align-items: center;
     margin-right: -14px;
     display: flex;
-    transition: all 0.4s;
-    text-decoration: underline; } }
+    transition: all 0.4s; } }
 
 html body .app.flex-row.align-items-center {
   height: 100vh; }

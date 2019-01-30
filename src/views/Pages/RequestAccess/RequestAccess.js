@@ -3,13 +3,17 @@ import {
   Input,
   FormFeedback,
   FormGroup,
-  Form
+  Form,
+  Container,
+  Card
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { post_action } from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
-import Loader from 'react-loader-spinner'
+import Loader from 'react-loader-spinner';
+import * as Yup from 'yup'
+import { Formik } from 'formik';
 
 const validField =["email"]
 
@@ -19,6 +23,53 @@ const fields = {
 
 const validFields ={
   email: false,
+}
+
+const validationSchema = function (values) {
+   
+  return Yup.object().shape({
+    email: Yup.string()
+    .email('That email is strange. Please check it again.\n')
+    .required('Hey, we need your email.')
+  })
+}
+
+const initialValues = {
+  confirmPassword: "",
+  password: ""
+}
+
+const validate = (getValidationSchema) => {
+  return (values) => {
+    
+    const validationSchema = getValidationSchema(values)
+
+    try {
+      validationSchema.validateSync(values, { abortEarly: false })
+      return {}
+    } catch (error) {
+      return getErrorsFromValidationError(error)
+    }
+  }
+}
+
+const getErrorsFromValidationError = (validationError) => {
+  const FIRST_ERROR = 0
+  return validationError.inner.reduce((errors, error) => {
+    return {
+      ...errors,
+      [error.path]: error.errors[FIRST_ERROR],
+    }
+  }, {})
+}
+
+
+const onSubmit = (values, { setSubmitting, setErrors }) => {
+  setTimeout(() => {
+    alert(JSON.stringify(values, null, 2))
+    // console.log('User has been successfully saved!', values)
+    setSubmitting(false)
+  }, 2000)
 }
 
 class RequestAccess extends Component {
@@ -83,10 +134,10 @@ class RequestAccess extends Component {
     }, time);
   }
 
-  async handleSubmit(event) {
+  async handleSubmit(value,event) {
     event.preventDefault()
     const body = {
-      "email":this.state.email
+      "email":value.email
      }
     
     const pre_action = async () =>{
@@ -217,48 +268,82 @@ class RequestAccess extends Component {
 
   render() {
     return (
-      <div className="forgot-container">
-      <div className="lend-logo">
-          <img src={require('../../../assets/img/brand/logo-forgot.svg')}/>
-      </div>            
-          <div className="forgot-form">
-          <div className="form-communication">
+      <Container style={{height:"100vh"}} className="d-flex flex-column justify-content-center w-100">
+      <div className="d-flex flex-row w-100 justify-content-center validate-page h-100" >
+      <div className="d-flex flex-column w-50 justify-content-center mobile-validate-page validate-page h-100" >
+      <Card className="h-50 w-100 forgot-card">
+      <div className="h-25 w-100 flex-row justify-content-center success-logo">
+      <img className="w-50" src={require('../../../assets/img/brand/logo-forgot.svg')}/>
+      </div>      
+      <div className="text-center form-communication">
           <p>Forgot Your Password?</p>
           <a>Enter the email address you registered with and we'll send you instructions on how to reset it.</a>
-          </div>
-          <Form onSubmit={this.handleSubmit}>
-          <div className="email">
-            <FormGroup>
-                      <Input value={this.state.email} onChange={this.handleUserInput} name="email"
-                        type="email"
-                        maxLength="30"
-                        placeholder="Email"
-                        onBlur={this.handleUserValidation}
-                        valid={this.state.validFields.email === true}
-                        invalid={this.state.validFields.email !== true}
-                        required
+      </div>      
+      <div className="d-flex flex-row justify-content-center w-100 h-75 success-form">
+      <Formik
+              initialValues={initialValues}
+              validate={validate(validationSchema)}
+              onSubmit={onSubmit}
+              render={
+                ({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  isSubmitting,
+                  isValid,
+                }) => (
+          <Form onSubmit={this.handleSubmit.bind(this,values)} className="d-flex flex-column justify-content-center h-100 w-75">
+          <div className="h-25 password">
+          <FormGroup className="h-100">
+
+                    <Input  
+                      type="email"
+                      maxLength="30"
+                      placeholder="Email"
+                      name="email"
+                      id="email"
+                      autoComplete="email"
+                      valid={!errors.email}
+                      invalid={touched.email && !!errors.email}
+                      required
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email}
+                      className="h-75" 
                       />
-                   {this.state.formErrors.email? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.email}`}</FormFeedback>:null}
-           </FormGroup>                    
-            </div>
-            { this.state.response?null:this.state.loader ?
-                      <div className="reset-loader">
-                      <Loader type="Watch" color="black" height="50" width="60"/>
-                      </div>:<Input className="submit" disabled={!this.state.formValid} type="submit" value="SEND RESET INSTRUCTIONS"/>}
-           </Form>
-            {this.state.loader ?null :this.state.response ?                       
-                    <div className="text-center reset-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-                      {this.state.headertext}
-                    </div>:null}   
+                      <FormFeedback>{errors.email}</FormFeedback>
+                
+         </FormGroup> 
+
           </div>
+          <div onClick={()=>this.redirect("/login")} className="forgot mb-3">
+            <a>Login</a>
+          </div>
+          {this.state.loader ?null :this.state.response ?                       
+                  <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                    {this.state.headertext}
+                  </div>:null}     
+          { this.state.response?null:this.state.loader ?
+                    <div className="d-flex justify-content-center">
+                    <Loader type="Watch" color="black" height="50" width="60"/>
+                    </div>:<div className="d-flex h-25 flex-row justify-content-center w-100"><Input className="submit h-75" disabled={isSubmitting || !isValid} type="submit" value="SEND RESET INSTRUCTIONS"/></div>}
+         </Form>
+                    )} /> 
+    </div>
+      </Card>
+    
       </div>
+  </div>
+      </Container>
     );
   }
 }
 
 export default connect(store => {
   return {
-    state: store.login.state,
-    error: store.login.error
+    state: store.action.reset_auth_state,
+    error: store.action.reset_auth_error
   };
 })(withRouter(RequestAccess));

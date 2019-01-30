@@ -230,9 +230,8 @@ class Register extends Component {
       body["user_name"]=_body["fullname"]
       body["entity_name"]="lender";
       delete body["email_individual"];
-      delete body["email_individual"];
-      delete body["firstname"];
-      delete body["lastname"];
+      delete body["password_individual"];
+      delete body["fullname"];
     } 
     const pre_action = async () =>{
       try{
@@ -334,17 +333,17 @@ class Register extends Component {
 
   render() {
     return (
-      <div style={{"overflowX":"hidden"}} className="access-container">
-      <Container fluid>
-      <Row className="w-100 mt-5">
-      <div className="header-row-flex">
+      <Container fluid style={{"overflowX":"hidden"}} className="d-flex flex-row justify-content-around w-100 access-container h-100">
+      <Row className="w-100">
+      <Col xs="12" md="12" className="h-10 header-row-flex">
+       <Row className="w-100 mt-5">
         <Col  xs="6" md="6">
         <div className="w-xs-50 h-xs-50 lend-logo">
         <img src={require('../../../assets/img/brand/logo.svg')}/>
         </div>  
         </Col>
-        <Col className="d-flex flex-row justify-content-end" xs="6" md="6">
-          <div className="socials">
+        <Col className="d-flex flex-row pr-0 w-100 justify-content-end" xs="6" md="6">
+          <div className="mr-0 socials">
           <a href="https://web.facebook.com/Lendstack/" target="_blank" className="facebook">
             <i className="fa fa-facebook"></i>
           </a>
@@ -359,13 +358,11 @@ class Register extends Component {
           </a>               
           </div>
       </Col>
-      </div>
-      </Row>
-
-      <div className="body-row-flex">
-            <Row className="ml-1 w-100">
-              <Col  xs="12" sm="6" md="6">
-              <div className="left-column-flex w-100 text-center">
+      </Row> 
+      </Col>
+      <Col style={{height:"80%"}} xs="12" sm="12" md="12">
+      <Row  className="ml-1 w-100 body-row-flex  h-100">
+      <Col  xs="12" sm="6" md="6"  className="left-column-flex w-100 text-center">
                   <div className="page-communication">
                     <p>Software to run your loan business</p>
                     <a>Your everyday tasks feel light. More time with Borrowers, less time with paper and spreadsheets. </a>
@@ -373,15 +370,13 @@ class Register extends Component {
                     <div className="page-illustration">
                     <img src={require('../../../assets/img/brand/illustration.svg')}/>
                     </div>
-                  </div>
-              </Col>
-              <Col xs="12" sm="6" md="6" className="h-100">
-              <div className="h-100 right-column-flex justify-content-center flex-row w-100">
-              <Card className="register-form h-xs-100 h-md-75 justify-content-around flex-column" >
-                    <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Join Lendstack !</p></div>
-                      <div className="d-flex mb-3 flex-row w-100 justify-content-center">
-                      <div className="divider w-75"/>
-                    </div>
+      </Col>
+      <Col xs="12" sm="6" md="6" className="h-100 right-column-flex custom-reg justify-content-end flex-row w-100">
+      <Card className="register-form w-75 h-75  justify-content-around flex-column" >
+        <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Join Lendstack !</p></div>
+          <div className="d-flex mb-3 flex-row w-100 justify-content-center">
+          <div className="divider w-75"/>
+        </div>
                     <div style={{height: "84%"}} className="form-content w-100 flex-row justify-content-center">
                       <Row className="h-100">
                       <Col xs="12" sm="12" md="12" style={{height: "80%"}} className="flex-column d-flex justify-content-center">
@@ -591,13 +586,12 @@ class Register extends Component {
                       </Col> 
                       </Row>
                     </div>            
-              </Card>           
-              </div>       
+              </Card>                 
               </Col>
-            </Row>
-      </div>
+      </Row>
+      </Col>
+      </Row>
       </Container>
-      </div>
     );
   }
 }

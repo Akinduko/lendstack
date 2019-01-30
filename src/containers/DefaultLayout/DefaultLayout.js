@@ -6,7 +6,11 @@ import SideBarProfile from "./SideBarProfile";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { actions } from '../../state/actions';
-import { Container,Nav } from 'reactstrap';
+import { 
+  Container,
+  Nav,  
+  Col,
+  Row } from 'reactstrap';
 import DefaultHeaderDropdown  from './DefaultHeaderDropdown'
 
 import {
@@ -44,13 +48,19 @@ class DefaultLayout extends Component {
             <DefaultHeader onLogout={e=>this.logout(e)}/>
           </Suspense>
         </AppHeader>
-        <div className="app-body">
-        <AppSidebar fixed display="lg">
-           <SideBarProfile/>
+        <div className="d-flex flex-direction-row w-100 app-body ">
+        <AppSidebar fixed display="lg" className="appside-fluid" >
+          <Row style={{"height":"150%", weight:"100%"}} className="h-100 overflow">
+            <Col md="12" className="h-25">
+            <SideBarProfile/>
+            </Col>
+            <Col md="12" className="h-75">
             <Suspense>
-            <AppSidebarNav className="d-flex flex-row justify-content-center scrollbar-container mt-5 sidebar-nav w-100 ps" navConfig={navigation} {...this.props} />
+            <AppSidebarNav className="d-flex flex-row justify-content-center scrollbar-container sidebar-nav w-100 ps" navConfig={navigation} {...this.props} />
             </Suspense>
-          </AppSidebar>
+            </Col>
+          </Row>
+        </AppSidebar>
          {/* <div fixed display="lg" className="custom-side-bar">
                        <SideBarProfile/>
                         <div className="nav-main-custom">
@@ -84,12 +94,10 @@ class DefaultLayout extends Component {
                         </div>
                     </div>  */}
                     
-          <main className="main">
-          <Container className=" h-100 overflow p-0" fluid>
+          <main className="main p-0 main-fluid" >
+          <Container className="h-100 overflow pr-0 pl-0 p-0" fluid>
             <Suspense fallback={this.loading()}>
-            <Nav className="ml-auto d-flex flex-row w-100 justify-content-end pr-3 notify-navbar-nav" navbar>
-              <DefaultHeaderDropdown notif/>
-           </Nav>            
+           
             <Switch>
                 {routes.map((route, idx) => {
                     return route.component ? (<Route key={idx} path={route.path} exact={route.exact} name={route.name} render={props => (
@@ -98,8 +106,7 @@ class DefaultLayout extends Component {
                       : (null);
                   },
                 )}
-                {this.props.token.length>0?<Redirect from="/" to="/dashboard" />:this.props.history.push('/login')}
-                
+                {this.props.token && this.props.token.length>0?<Redirect from="/" to="/dashboard" />:this.props.history.push('/login')}            
               </Switch>
               </Suspense>
             </Container>

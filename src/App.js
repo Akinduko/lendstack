@@ -49,6 +49,10 @@ const Success = Loadable({
   loading
 });
 
+const ResetPassword = Loadable({
+  loader: () => import('./views/Pages/ResetPassword'),
+  loading
+});
 
 class App extends Component {
   render() {
@@ -59,6 +63,7 @@ class App extends Component {
           <Route exact path="/success" name="Success Page" component={Success} />
           <Route  exact path="/reset" name="Reset Password" component={RequestAccess} />
           <Route  path="/validate/:id" name="Validate Page" component={ValidateAccess} />
+          <Route  path="/return/:id" name="ResetPassword Page" component={ResetPassword} />
           <Route exact path="/register" name="Register Page" component={Register} />
           <Route path="/" name="Home" component={DefaultLayout} />
         </Switch>

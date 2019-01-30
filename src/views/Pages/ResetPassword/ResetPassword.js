@@ -4,7 +4,6 @@ import {
   FormFeedback,
   FormGroup,
   Form,
-  Row,
   Container,
   Card
 } from 'reactstrap';
@@ -68,7 +67,7 @@ const initialValues = {
   password: ""
 }
 
-class ValidateAccess extends Component {
+class ResetPassword extends Component {
 
   constructor(props) {
 
@@ -80,13 +79,6 @@ class ValidateAccess extends Component {
     };
   }
 
-  async componentDidMount(){
-    if(this.state.query && this.state.query.includes("invited=true")){
-      return null
-    }
-     return await this.props.dispatch(actions("VALIDATE_AUTH",post_action("",{},`auth/activate/${this.state.token}`,"")))
-
-  }
 
   redirect(link){
     this.props.history.push(link)
@@ -154,11 +146,10 @@ class ValidateAccess extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("SET_REGISTRATION_AUTH",post_action("",body,`/api/auth/activate/${this.state.token}`,"")))
+      await this.props.dispatch(actions("SET_RESET_AUTH",post_action("",body,`auth/password_reset/${this.state.token}`,"")))
       switch(this.props.state){
         case "success":
-        await this.props.dispatch(actions("SET_REGISTERED_EMAIL_FULFILLED",{email:body.email}))
-        this.props.history.push("/")
+        this.props.history.push("/login")
         this.setState({
           headertext: "Password Successfully Changed.",
           loader: false,
@@ -228,56 +219,10 @@ class ValidateAccess extends Component {
     
   }
 
-  renderPage(){
-    const Continue = ()=>{
-
-       return ( 
-         <Row className="validate-page">
-        <div className="success-logo">
-        <img src={require('../../../assets/img/brand/completed.svg')}/>
-        </div>            
-        <div className="success-form">
-        <div className="success-communication">
-        <p>Hurray, you are good to go</p>
-        </div>
-        <div className="submit">
-        <Input  onClick={()=>this.redirect("/dashboard")} type="submit" value="Take me to the dashboard"/>
-        </div>
-      </div>
-    </Row>)
-      
-    }  
-  
-    const Failed = ()=>{
-      return (
-        <div className="validate-page" >
-        <div className="success-logo">
-        <img style={{width:"250px",height:"100px"}} src={require('../../../assets/img/brand/logo-forgot.svg')}/>
-        </div>            
-        <div className="success-form">
-        <div className="success-communication">
-        <p>Good to see you again.</p>
-        <a>Ooops!!! We are not able to validate your account, click <a>here</a> to resend the verification mail </a>
-        {/* <a>{this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again"}</a> */}
-        </div>
-        <div className="submit">
-        <Input className="submit" onClick={()=>this.redirect("/dashboard")} type="submit" value="Go back"/>
-        </div>
-      </div>
-        </div>)
-    }  
- 
-    const Pending = ()=>{
-      return (
-      <div className="main-loader">
-      <Loader type="Watch" color="black" height="50" width="60"/>
-      </div>)
-    }  
-
-  const ChangePassword =()=>{
+   ChangePassword =()=>{
     return (
       <div className="d-flex flex-row w-100 justify-content-center validate-page h-100" >
-      <div className="d-flex flex-column w-50 justify-content-center validate-page h-100" >
+      <div className="d-flex flex-column w-50 justify-content-center  validate-page h-100" >
       <Card className="h-50 w-100 forgot-card">
       <div className="h-25 w-100 flex-row justify-content-center success-logo">
       <img className="w-50" src={require('../../../assets/img/brand/logo-forgot.svg')}/>
@@ -363,33 +308,10 @@ class ValidateAccess extends Component {
   </div>)
   } 
 
-const Loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
-if(this.state.query && this.state.query.includes("invited=true")){
-  return <ChangePassword/>
-}
-
-switch(this.props.state){
-  
-  case "success":
-    return <Continue/>
-  break;
-  case "failed":
-  return  <Failed/>
-  break;
-  case "pending":
-    return <Loading/>
-  break;
-  default:
-  return <Loading/>
-  break;
-}  
-}
-
   render() {
     return (
       <Container style={{height:"100vh"}} className="d-flex flex-column justify-content-center w-100">
-      {this.renderPage()}
+      {this.ChangePassword()}
       </Container>
     );
   }
@@ -397,8 +319,8 @@ switch(this.props.state){
 
 export default connect(store => {
   return {
-    state: store.validate.state,
-    error: store.validate.error,
-    auth:store.validate.auth,
+    state: store.action.set_reset_auth_state,
+    error: store.action.set_reset_auth_serror,
+    auth:store.action.set_reset_auth,
   };
-})(withRouter(ValidateAccess));
+})(withRouter(ResetPassword));

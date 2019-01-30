@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import DataArtistList from './DataArtistList';
-import {
-  Input,
-  FormFeedback,
-  FormGroup,
-  Form,
-  Modal
-} from 'reactstrap';
+
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { post_action ,get_action} from  '../../../controllers/requests';

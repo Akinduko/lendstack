@@ -26,7 +26,7 @@ const validationSchema = function (values) {
     .required('Hey, we need your email.'),
     password: Yup.string()
     .min(6, `Password has to be at least ${6} characters!`)
-    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
+    // .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
     .required('Password is required')
   })
 }
@@ -114,6 +114,10 @@ class Login extends Component {
     })
   }
 
+  async componentDidMount(){
+    await this.props.dispatch(actions("USER_LOGOUT_FULFILLED"))
+  }
+
   touchAll(setTouched, errors) {
     setTouched({
         firstName: true,
@@ -163,7 +167,6 @@ class Login extends Component {
   }
 
   async handleSubmit(value,event){
-console.log("hello",value)
     event.preventDefault()
 
      const body={
@@ -231,7 +234,7 @@ console.log("hello",value)
         color: "#213F7D",
         errortext: ""
       });
-      const start = pre_action()
+      pre_action()
     }
     catch(error){
       this.setState({
@@ -249,17 +252,16 @@ console.log("hello",value)
 
   render() {
     return (
-      <div style={{"overflowX":"hidden"}} className="access-container">
-      <Container fluid>
-      <Row className="w-100 mt-5">
-      <div className="header-row-flex">
-        <Col  xs="6" md="6">
-        <div className="w-xs-50 h-xs-50 lend-logo">
+      <Container style={{"overflowX":"hidden"}} className="d-flex flex-column access-container" fluid>
+      <Row className="w-100 mt-5 h-10">
+      <div className="ml-4 header-row-flex w-100 d-flex justify-content-center h-100">
+        <Col  xs="6" md="6" className="w-100 d-flex flex-row justify-content-start pr-0">
+        <div className="w-xs-50 h-xs-50 ml-0 lend-logo">
         <img src={require('../../../assets/img/brand/logo.svg')}/>
         </div>  
         </Col>
-        <Col className="d-flex flex-row justify-content-end" xs="6" md="6">
-          <div className="socials">
+        <Col className="w-100 d-flex flex-row justify-content-end pr-0" xs="6" md="6">
+          <div className="w-10 mr-0 socials">
           <a href="https://web.facebook.com/Lendstack/" target="_blank" className="facebook">
             <i className="fa fa-facebook"></i>
           </a>
@@ -276,133 +278,131 @@ console.log("hello",value)
       </Col>
       </div>
       </Row>
-
- <div className="body-row-flex">
- <Row className="ml-1 w-100">
-   <Col  xs="12" sm="6" md="6">
-   <div className="left-column-flex w-100 text-center">
-      <div className="page-communication">
-        <p>Software to run your loan business</p>
-        <a>Your everyday tasks feel light. More time with Borrowers, less time with paper and spreadsheets. </a>
+      <div className="h-75 w-100 body-row-flex">
+      <Row className="ml-1 w-100">
+        <Col  xs="12" sm="6" md="6">
+        <div className="left-column-flex w-100 text-center">
+            <div className="page-communication">
+              <p>Software to run your loan business</p>
+              <a>Your everyday tasks feel light. More time with Borrowers, less time with paper and spreadsheets. </a>
+              </div>
+              <div className="page-illustration">
+              <img src={require('../../../assets/img/brand/illustration.svg')}/>
+              </div>
+            </div>
+        </Col>
+        <Col xs="12" sm="6" md="6">
+        <div className="h-75 mob-log-h d-flex flex-row justify-content-end w-100">
+            <Card className="login-form h-xs-100 h-md-75 justify-content-around flex-column">
+              <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Login</p></div>
+                <div className="d-flex mb-3 flex-row w-100 justify-content-center">
+                <div className="divider w-75"/>
+                </div>
+                <div className="form-content h-75 w-100 flex-row justify-row-center">
+                <Row className="h-100">
+                <Col xs="12" sm="12" md="12" className="flex-row d-flex justify-content-center h-75">
+                <Formik
+                    initialValues={initialValues}
+                    validate={validate(validationSchema)}
+                    onSubmit={onSubmit}
+                    render={
+                      ({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        isSubmitting,
+                        isValid,
+                      }) => (
+                <Form onSubmit={this.handleSubmit.bind(this,values)} className=" d-flex flex-column mobile-form justify-content-around h-100 w-75">
+                <div className="h-25 email">
+                <FormGroup className="h-100">
+                          {/* <Input value={this.state.email} onChange={this.handleUserInput} name="email"
+                            type="email"
+                            maxLength="30"
+                            placeholder="Email"
+                            onBlur={this.handleUserValidation}
+                            valid={this.state.validFields.email === true}
+                            invalid={this.state.validFields.email !== true}
+                            required
+                          /> */}
+                          <Input  
+                            type="email"
+                            maxLength="30"
+                            placeholder="Email"
+                            className="h-75"
+                            name="email"
+                            id="email"
+                            autoComplete="email"
+                            valid={!errors.email}
+                            invalid={touched.email && !!errors.email}
+                            required
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email} 
+                            />
+                            <FormFeedback>{errors.email}</FormFeedback>
+              </FormGroup>                    
+                </div>
+                <div className="h-25 password">
+                <FormGroup className="h-100">
+                          {/* <Input value={this.state.password} onChange={this.handleUserInput} name="password"
+                            type="password"
+                            maxLength="30"
+                            placeholder="Password"
+                            onBlur={this.handleUserValidation}
+                            valid={this.state.validFields.password === true}
+                            invalid={this.state.validFields.password !== true}
+                            required
+                          /> */}
+                                  <Input  
+                                      type="password"
+                                      maxLength="30"
+                                      placeholder="Password"
+                                      name="password"
+                                      id="password"
+                                      autoComplete="password"
+                                      valid={!errors.password}
+                                      invalid={touched.password && !!errors.password}
+                                      required
+                                      className="h-75"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.password} 
+                                      />
+                                      
+                                <FormFeedback>{errors.password}</FormFeedback>
+                      {/* {this.state.formErrors.password? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password}`}</FormFeedback>:null } */}
+                        </FormGroup>
+                </div>
+                <div className="forgot mb-3">
+                  <a onClick={()=>this.redirect("/reset")} >FORGOT PASWORD?</a>
+                </div>
+                {this.state.loader ?null :this.state.response ?                       
+                        <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                          {this.state.headertext}
+                        </div>:null}     
+                { this.state.response?null:this.state.loader ?
+                          <div className="d-flex justify-content-center">
+                          <Loader type="Watch" color="black" height="50" width="60"/>
+                          </div>:<div className="d-flex flex-row justify-content-center h-25 w-100"><Input disabled={isSubmitting || !isValid} type="submit" className="submit h-75" value="LOG IN"/></div>}
+              </Form>
+                          )} /> 
+                </Col>
+                <Col xs="12" sm="12" md="12" className="h-10">
+                <div className="footer mt-3 ">
+                  Don't have an account <a onClick={()=>this.redirect("/register")}> Sign up</a>
+                </div> 
+                </Col> 
+                </Row>
+                </div>  
+            </Card>
+            </div>   
+        </Col>
+      </Row>
         </div>
-        <div className="page-illustration">
-        <img src={require('../../../assets/img/brand/illustration.svg')}/>
-        </div>
-      </div>
-   </Col>
-   <Col xs="12" sm="6" md="6">
-   <div className="h-100 right-column-flex justify-content-center flex-row w-100">
-      <Card className="login-form h-xs-100 h-md-75 justify-content-around flex-column">
-        <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Login</p></div>
-          <div className="d-flex mb-3 flex-row w-100 justify-content-center">
-          <div className="divider w-75"/>
-          </div>
-          <div className="form-content h-75 w-100 flex-row justify-row-center">
-          <Row className="h-100">
-          <Col xs="12" sm="12" md="12" className="flex-row d-flex justify-content-center h-75">
-          <Formik
-              initialValues={initialValues}
-              validate={validate(validationSchema)}
-              onSubmit={onSubmit}
-              render={
-                ({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  isSubmitting,
-                  isValid,
-                }) => (
-          <Form onSubmit={this.handleSubmit.bind(this,values)} className=" h-100 w-75">
-          <div className="email">
-          <FormGroup>
-                    {/* <Input value={this.state.email} onChange={this.handleUserInput} name="email"
-                      type="email"
-                      maxLength="30"
-                      placeholder="Email"
-                      onBlur={this.handleUserValidation}
-                      valid={this.state.validFields.email === true}
-                      invalid={this.state.validFields.email !== true}
-                      required
-                    /> */}
-                    <Input  
-                      type="email"
-                      maxLength="30"
-                      placeholder="Email"
-                      name="email"
-                      id="email"
-                      autoComplete="email"
-                      valid={!errors.email}
-                      invalid={touched.email && !!errors.email}
-                      required
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.email} 
-                      />
-                      <FormFeedback>{errors.email}</FormFeedback>
-                 {/* {this.state.formErrors.email? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.email}`}</FormFeedback>:null} */}
-         </FormGroup>                    
-          </div>
-          <div className="password">
-          <FormGroup>
-                    {/* <Input value={this.state.password} onChange={this.handleUserInput} name="password"
-                      type="password"
-                      maxLength="30"
-                      placeholder="Password"
-                      onBlur={this.handleUserValidation}
-                      valid={this.state.validFields.password === true}
-                      invalid={this.state.validFields.password !== true}
-                      required
-                    /> */}
-                             <Input  
-                                type="password"
-                                maxLength="30"
-                                placeholder="Password"
-                                name="password"
-                                id="password"
-                                autoComplete="password"
-                                valid={!errors.password}
-                                invalid={touched.password && !!errors.password}
-                                required
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.password} 
-                                />
-                                 
-                          <FormFeedback>{errors.password}</FormFeedback>
-                 {/* {this.state.formErrors.password? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password}`}</FormFeedback>:null } */}
-                  </FormGroup>
-          </div>
-          <div onClick={()=>this.redirect("/reset")} className="forgot mb-3">
-            <a  >FORGOT PASWORD?</a>
-          </div>
-          {this.state.loader ?null :this.state.response ?                       
-                  <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-                    {this.state.headertext}
-                  </div>:null}     
-          { this.state.response?null:this.state.loader ?
-                    <div className="d-flex justify-content-center">
-                    <Loader type="Watch" color="black" height="50" width="60"/>
-                    {console.log(isValid)}
-                    </div>:<div className="d-flex flex-row justify-content-center w-100"><Input className="submit" disabled={isSubmitting || !isValid} type="submit" value="LOG IN"/></div>}
-         </Form>
-                    )} /> 
-          </Col>
-          <Col xs="12" sm="12" md="12" className="h-10">
-          <div className="footer mt-3 ">
-            Don't have an account <a onClick={()=>this.redirect("/register")}> Sign up</a>
-          </div> 
-          </Col> 
-          </Row>
-          </div>  
-      </Card>
-      </div>   
-   </Col>
- </Row>
-   </div>
       </Container>
-      </div>
     );
   }
 }

@@ -40,7 +40,7 @@ class DefaultHeaderDropdown extends Component {
           <i className="icon-bell"></i><Badge pill color="danger">{itemsCount}</Badge>
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem header tag="div" className="text-center"><strong>You have {itemsCount} notifications</strong></DropdownItem>
+          {/* <DropdownItem header tag="div" className="text-center"><strong>You have {itemsCount} notifications</strong></DropdownItem>
           <DropdownItem><i className="icon-user-follow text-success"></i> New user registered</DropdownItem>
           <DropdownItem><i className="icon-user-unfollow text-danger"></i> User deleted</DropdownItem>
           <DropdownItem><i className="icon-chart text-info"></i> Sales report is ready</DropdownItem>
@@ -67,7 +67,7 @@ class DefaultHeaderDropdown extends Component {
             </div>
             <Progress className="progress-xs" color="danger" value={90} />
             <small className="text-muted">243GB/256GB</small>
-          </DropdownItem>
+          </DropdownItem> */}
         </DropdownMenu>
       </Dropdown>
     );

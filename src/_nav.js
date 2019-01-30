@@ -64,6 +64,11 @@ export default {
           icon: 'icon-note'
         }
       ]
+    },
+    {
+      name: 'Log Out',
+      url: '/login',
+      icon: 'icon-logout'
     }
-  ],
+  ]
 };
