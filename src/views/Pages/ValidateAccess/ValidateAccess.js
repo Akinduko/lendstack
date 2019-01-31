@@ -19,12 +19,16 @@ import { Formik } from 'formik';
 const validationSchema = function (values) {
   return Yup.object().shape({
     password: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
+    .min(8, `Password has to be at least ${8} characters!`)
     .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
     .required('Password is required'),
     confirmPassword: Yup.string()
     .oneOf([values.password], 'Passwords must match')
     .required('Password confirmation is required'),
+    fullname: Yup.string()
+    .min(2, `Name has to be at least 2 characters`)
+    .max(30, `Name has to be at most 30 characters`)
+    .required("We need to have your name, don't you think so?")
   })
 }
 
@@ -84,7 +88,12 @@ class ValidateAccess extends Component {
     if(this.state.query && this.state.query.includes("invited=true")){
       return null
     }
+    if(this.state.query && this.state.query.includes("?invited_borrower=true")){
+      // return await this.props.dispatch(actions("VALIDATE_AUTH",post_action("",{},`auth/activate/borrowers/${this.state.token}`,"")))
+      return null
+    }
      return await this.props.dispatch(actions("VALIDATE_AUTH",post_action("",{},`auth/activate/${this.state.token}`,"")))
+
 
   }
 
@@ -138,13 +147,21 @@ class ValidateAccess extends Component {
   async handleSubmit(value,event){
 
     event.preventDefault()
+    const body={
 
-     const body={
-      confirmPassword: value.confirmPassword,
-      password:value.password
     }
-  
-    const pre_action = async () =>{
+    if(this.state.query && this.state.query.includes("?invited=true")){
+       body["confirmPassword"]=value.confirmPassword;
+       body["password"]=value.confirmPassword;
+    }
+
+    if(this.state.query && this.state.query.includes("?invited_borrower=true")){
+        body["user_name"]=value.fullname;
+        body["confirmPassword"]=value.confirmPassword;
+        body["password"]=value.confirmPassword;
+    }
+
+    const lender_action = async () =>{
       try{
       this.setState({
         headertext: "Verifying your details.",
@@ -154,20 +171,65 @@ class ValidateAccess extends Component {
         color: "#213F7D",
         errortext: ""
       });
-      await this.props.dispatch(actions("SET_REGISTRATION_AUTH",post_action("",body,`/api/auth/activate/${this.state.token}`,"")))
-      switch(this.props.state){
+        await this.props.dispatch(actions("ACTIVATE_REGISTRATION_AUTH",post_action("",body,`/api/auth/activate/${this.state.token}`,"")))
+      
+        switch(this.props.activate_auth_state){
         case "success":
-        await this.props.dispatch(actions("SET_REGISTERED_EMAIL_FULFILLED",{email:body.email}))
+        this.props.dispatch(actions("NEW_USER_STATE_FULFILLED",{state:true}))
+        this.props.dispatch(actions("VALIDATE_AUTH_FULFILLED",this.props.activate_auth))
         this.props.history.push("/")
+        break;
+        case "failed":
         this.setState({
-          headertext: "Password Successfully Changed.",
+          headertext: "User Validation failed.",
           loader: false,
           response: true,
-          success:true,
-          registered:true,
-          color: "green"
+          success:false,
+          color: "red"
         });
         await this.setTimedNotification(3000)
+        break;
+        case "pending":
+        this.setState({
+          response: false,
+          loader: true,
+          color: "#213F7D",
+          headertext: "User Validation in Progress",
+        });
+        break;
+        default:
+
+        break;
+      }
+    }
+      catch (error) {
+        this.setState({
+          headertext: this.props.error.response?this.props.error.response.data.message:"User validation failed, Please try again",
+          loader: false,
+          response: true,
+          success:false,
+          color: "red"
+        });
+        await this.setTimedNotification(5000)
+      }
+    }
+    const borrower_action = async () =>{
+      try{
+      this.setState({
+        headertext: "Verifying your details.",
+        loader: true,
+        response: false,
+        success:false,
+        color: "#213F7D",
+        errortext: ""
+      });
+
+      await this.props.dispatch(actions("ACTIVATE_REGISTRATION_AUTH",post_action("",body,`auth/activate/borrowers/${this.state.token}`,"")))
+      switch(this.props.state){
+        case "success":
+        this.props.dispatch(actions("NEW_USER_STATE_FULFILLED",{state:true}))
+        this.props.dispatch(actions("VALIDATE_AUTH_FULFILLED",this.props.activate_auth))
+        this.props.history.push("/")
         break;
         case "failed":
         this.setState({
@@ -212,8 +274,12 @@ class ValidateAccess extends Component {
         color: "#213F7D",
         errortext: ""
       });
-    
-      const start = pre_action()
+      if(this.state.query && this.state.query.includes("?invited_borrower=true")){
+        borrower_action()
+      }
+      if(this.state.query && this.state.query.includes("?invited=true")){
+        lender_action()
+      }
     }
     catch(error){
       this.setState({
@@ -250,18 +316,18 @@ class ValidateAccess extends Component {
   
     const Failed = ()=>{
       return (
-        <div className="validate-page" >
+        <div className="h-50 validate-page" >
         <div className="success-logo">
         <img style={{width:"250px",height:"100px"}} src={require('../../../assets/img/brand/logo-forgot.svg')}/>
         </div>            
         <div className="success-form">
         <div className="success-communication">
         <p>Good to see you again.</p>
-        <a>Ooops!!! We are not able to validate your account, click <a>here</a> to resend the verification mail </a>
+        <a>Ooops!!! We are not able to validate your account, Please try again, if issue persist. Contact an admin. </a>
         {/* <a>{this.props.error.response?this.props.error.response.data.message:"Request failed, Please try again"}</a> */}
         </div>
-        <div className="submit">
-        <Input className="submit" onClick={()=>this.redirect("/dashboard")} type="submit" value="Go back"/>
+        <div className="justify-content-center d-flex flex-row w-100 h-25">
+        <Input className="submit w-50 h-100" onClick={()=>this.redirect("/login")} type="submit" value="Go TO LOGIN"/>
         </div>
       </div>
         </div>)
@@ -274,114 +340,144 @@ class ValidateAccess extends Component {
       </div>)
     }  
 
-  const ChangePassword =()=>{
-    return (
-      <div className="d-flex flex-row w-100 justify-content-center validate-page h-100" >
-      <div className="d-flex flex-column w-50 justify-content-center validate-page h-100" >
-      <Card className="h-50 w-100 forgot-card">
-      <div className="h-25 w-100 flex-row justify-content-center success-logo">
-      <img className="w-50" src={require('../../../assets/img/brand/logo-forgot.svg')}/>
-      </div>            
-      <div className="d-flex flex-row justify-content-center w-100 mt-5 h-75 success-form">
-      <Formik
-              initialValues={initialValues}
-              validate={validate(validationSchema)}
-              onSubmit={onSubmit}
-              render={
-                ({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  isSubmitting,
-                  isValid,
-                }) => (
-          <Form onSubmit={this.handleSubmit.bind(this,values)} className="d-flex flex-column justify-content-center h-100 w-75">
-          <div className="h-25 password">
-          <FormGroup className="h-100">
+const setPassword =()=>{
+      return (
+        <div className="d-flex flex-row w-100 justify-content-center validate-page h-100" >
+        <div className="d-flex flex-column w-50 justify-content-center  validate-page h-100" >
+        <Card className="h-75 w-100 forgot-card">
+        <div className="h-25 w-100 flex-row justify-content-center success-logo">
+        <img className="w-50" src={require('../../../assets/img/brand/logo-forgot.svg')}/>
+        </div>    
+        <div className="h-25 success-communication">
+        <p>You are almost there!</p>      
+        <a>Kindly fill below details to complete setup.</a>      
+        </div>     
+        <div className="d-flex flex-row justify-content-center w-100 mt-5 h-75 success-form">
+        <Formik
+                initialValues={initialValues}
+                validate={validate(validationSchema)}
+                onSubmit={onSubmit}
+                render={
+                  ({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleBlur,
+                    isSubmitting,
+                    isValid,
+                  }) => (
+            <Form onSubmit={this.handleSubmit.bind(this,values)} className="d-flex flex-column justify-content-center h-100 w-75">
+            {this.state.query && this.state.query.includes("?invited_borrower=true")?
+            <div className="h-25 password">
+            <FormGroup className="h-100">
               <Input  
-                type="password"
-                maxLength="30"
-                placeholder="Password"
-                name="password"
-                id="password"
-                autoComplete="password"
-                valid={!errors.password}
-                invalid={touched.password && !!errors.password}
-                required
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.password} 
-                className="h-75" 
-                />
+              type="text"
+              maxLength="30"
+              placeholder="Full Name"
+              name="fullname"
+              id="fullname"
+              autoComplete="fullname"
+              valid={!errors.fullname}
+              invalid={touched.fullname && !!errors.fullname}
+              required
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.fullname} 
+              className="h-75" 
+              />   
+            <FormFeedback>{errors.fullname}</FormFeedback>
+            </FormGroup>                  
+            </div>:null}
+            <div className="h-25 password">
+            <FormGroup className="h-100">
+            <Input  
+            type="password"
+            maxLength="30"
+            placeholder="Password"
+            name="password"
+            id="password"
+            autoComplete="password"
+            valid={!errors.password}
+            invalid={touched.password && !!errors.password}
+            required
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password} 
+            className="h-75" 
+            />
+              
+            <FormFeedback>{errors.password}</FormFeedback>
+            {/* {this.state.formErrors.password? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password}`}</FormFeedback>:null } */}
+            </FormGroup>                  
+            </div>
+            <div className="h-25 password">
+            <FormGroup className="h-100">
+  
+                      <Input  
+                        type="password"
+                        maxLength="30"
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        autoComplete="confirm password"
+                        valid={!errors.confirmPassword}
+                        invalid={touched.confirmPassword && !!errors.confirmPassword}
+                        required
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.confirmPassword}
+                        className="h-75" 
+                        />
+                        <FormFeedback>{errors.confirmPassword}</FormFeedback>
                   
-              <FormFeedback>{errors.password}</FormFeedback>
-              {/* {this.state.formErrors.password? <FormFeedback className="invalid-feedback-custom" invalid>{`${this.state.formErrors.password}`}</FormFeedback>:null } */}
-              </FormGroup>                  
-          </div>
-          <div className="h-25 password">
-          <FormGroup className="h-100">
+           </FormGroup> 
+  
+            </div>
 
-                    <Input  
-                      type="password"
-                      maxLength="30"
-                      placeholder="Confirm Password"
-                      name="confirmPassword"
-                      id="confirmPassword"
-                      autoComplete="confirm password"
-                      valid={!errors.confirmPassword}
-                      invalid={touched.confirmPassword && !!errors.confirmPassword}
-                      required
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.confirmPassword}
-                      className="h-75" 
-                      />
-                      <FormFeedback>{errors.confirmPassword}</FormFeedback>
-                
-         </FormGroup> 
-
-          </div>
-          <div onClick={()=>this.redirect("/reset")} className="forgot mb-3">
-            <a  >FORGOT PASWORD?</a>
-          </div>
-          {this.state.loader ?null :this.state.response ?                       
-                  <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
-                    {this.state.headertext}
-                  </div>:null}     
-          { this.state.response?null:this.state.loader ?
-                    <div className="d-flex justify-content-center">
-                    <Loader type="Watch" color="black" height="50" width="60"/>
-                    </div>:<div className="d-flex h-25 flex-row justify-content-center w-100"><Input className="submit h-75" disabled={isSubmitting || !isValid} type="submit" value="LOG IN"/></div>}
-         </Form>
-                    )} /> 
-    </div>
-      </Card>
-    
+            {this.state.loader ?null :this.state.response ?                       
+                    <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
+                      {this.state.headertext}
+                    </div>:null}     
+            { this.state.response?null:this.state.loader ?
+                      <div className="d-flex justify-content-center">
+                      <Loader type="Watch" color="black" height="50" width="60"/>
+                      </div>:<div className="d-flex h-25 flex-row justify-content-center w-100"><Input className="submit h-75" disabled={isSubmitting || !isValid} type="submit" value="SUBMIT"/></div>}
+           </Form>
+                      )} /> 
       </div>
-  </div>)
-  } 
+        </Card>
+      
+        </div>
+    </div>)
+    } 
+
 
 const Loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
 if(this.state.query && this.state.query.includes("invited=true")){
-  return <ChangePassword/>
+  return setPassword()
+}
+
+if(this.state.query && this.state.query.includes("invited_borrower=true")){
+  return setPassword()
 }
 
 switch(this.props.state){
   
   case "success":
+    this.props.dispatch(actions("SET_TOKEN_FULFILLED",this.props.auth))
+    this.props.dispatch(actions("NEW_USER_STATE_FULFILLED",{state:true}))
     return <Continue/>
   break;
   case "failed":
   return  <Failed/>
   break;
   case "pending":
-    return <Loading/>
+    return <Loading/>  
   break;
   default:
-  return <Loading/>
+  return <Loading/> 
   break;
 }  
 }
@@ -400,5 +496,7 @@ export default connect(store => {
     state: store.validate.state,
     error: store.validate.error,
     auth:store.validate.auth,
+    activate_auth:store.action.activate_auth,
+    activate_auth_state:store.action.activate_auth
   };
 })(withRouter(ValidateAccess));

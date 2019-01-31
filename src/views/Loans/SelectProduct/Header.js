@@ -6,14 +6,14 @@ class Header extends Component {
   render() {
 
     return (
-      <div className="dashboard-header">
-        <div className="dashboard-header-text">
-        <p>Choose a loan product</p>
-        </div>
-        <div className="dashboard-illustration-text">
-        <p>Your everyday tasks feel light. More time with borrowing clients, less time with paper and spreadsheets.</p>
-        </div>
-       </div>
+             <div className="dashboard-header w-100 h-100">
+             <div className="justify-content-end d-flex flex-column h-25 w-100 text-center dashboard-header-text">
+             <p className="w-100 h-50">Choose a loan product</p>
+             </div>
+             <div className="justify-content-end d-flex flex-column h-25 w-100 text-center dashboard-illustration-text">
+             <p className="h-50">Your everyday tasks feel light. More time with borrowing clients, less time with paper and spreadsheets. Your Borrowers can even connect and request loans from you online</p>
+             </div>
+            </div>
     );
   }
 }

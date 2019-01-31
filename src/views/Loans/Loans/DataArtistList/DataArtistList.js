@@ -42,7 +42,7 @@ class DataArtistList extends Component {
   
     async componentDidMount(){
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("GET_ALL_LOANS",get_action(this.props.auth.token,`loans`,`?lender_id=${id}`)))
       switch(this.props.get_all_loans_state){
         case "success":
@@ -97,10 +97,6 @@ class DataArtistList extends Component {
             activeTab: tab.id,
           });
         }
-      }
-
-      hs(){
-        console.log(this.state)
       }
       renderTabContent=()=>{
         
@@ -217,7 +213,7 @@ class DataArtistList extends Component {
                     <div className="clear-filter"><a>CLEAR FILTER</a></div> 
                     </div>
                     </div> */}
-                    <BootstrapTable data={ this.table } pagination={true} version="4" bordered={false}  search={true} hover={true} role="grid"
+                    <BootstrapTable data={ this.props.get_all_loans } pagination={true} version="4" bordered={false}  search={true} hover={true} role="grid"
                                     options={this.options}>
                         <TableHeaderColumn  dataField="artist-img" width="20%" dataFormat={this.profileFormater}></TableHeaderColumn>
                         <TableHeaderColumn dataField="loan_amount" isKey  width="20%" dataFormat={this.emailFormater}></TableHeaderColumn>

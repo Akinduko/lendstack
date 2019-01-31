@@ -25,7 +25,7 @@ const validationSchema = function (values) {
     .email('That email is strange. Please check it again.\n')
     .required('Hey, we need your email.'),
     password: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
+        .min(8, `Password has to be at least ${8} characters!`)
     // .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
     .required('Password is required')
   })
@@ -293,7 +293,7 @@ class Login extends Component {
         </Col>
         <Col xs="12" sm="6" md="6">
         <div className="h-75 mob-log-h d-flex flex-row justify-content-end w-100">
-            <Card className="login-form h-xs-100 h-md-75 justify-content-around flex-column">
+            <Card className="login-form h-xs-100 h-md-75 w-75 justify-content-around flex-column">
               <div className="header d-flex mt-2 h-10 justify-content-center align-items-center flex-column"><p>Login</p></div>
                 <div className="d-flex mb-3 flex-row w-100 justify-content-center">
                 <div className="divider w-75"/>
@@ -316,7 +316,7 @@ class Login extends Component {
                         isValid,
                       }) => (
                 <Form onSubmit={this.handleSubmit.bind(this,values)} className=" d-flex flex-column mobile-form justify-content-around h-100 w-75">
-                <div className="h-25 email">
+                <div className="h-25 w-100 email">
                 <FormGroup className="h-100">
                           {/* <Input value={this.state.email} onChange={this.handleUserInput} name="email"
                             type="email"
@@ -345,7 +345,7 @@ class Login extends Component {
                             <FormFeedback>{errors.email}</FormFeedback>
               </FormGroup>                    
                 </div>
-                <div className="h-25 password">
+                <div className="h-25 w-100 password">
                 <FormGroup className="h-100">
                           {/* <Input value={this.state.password} onChange={this.handleUserInput} name="password"
                             type="password"

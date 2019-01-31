@@ -18,8 +18,8 @@ import { Formik } from 'formik';
 const validationSchema = function (values) {
   return Yup.object().shape({
     password: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
-    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
+        .min(8, `Password has to be at least ${8} characters!`)
+  //  .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, uppercase and lowercase letters\n')
     .required('Password is required'),
     confirmPassword: Yup.string()
     .oneOf([values.password], 'Passwords must match')

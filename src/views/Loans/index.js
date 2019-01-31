@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
-// import Management from './UserManagement'
-// import Profile from './Profile'
 import Approval from './Approval'
 import SelectProduct from './SelectProduct'
 import Schedule from './Schedule'
@@ -34,7 +32,7 @@ async handleSideBarEvent(name){
     if(names[name]){
     if(name==="approvals"){
       const profile =this.props.profile
-      const id = profile.lenders && profile.lenders[0]?this.props.profile.lenders[0].id:this.props.history.push('/login')
+      const id = profile.companies && profile.companies[0]?this.props.profile.companies[0].id:this.props.history.push('/login')
       await this.props.dispatch(actions("GET_PENDING_LOANS",get_action(this.props.token,`loans/pending`,`?lender_id=${id}`)))
       switch(this.props.get_pending_loans_state){
         case "success":
@@ -63,9 +61,6 @@ renderPage(){
 }
 
 renderMain(){
-  if(this.props.new_loan){
-    return <SelectProduct/>
-  }
   return <div className="main-page">
             <div className="sidebar-nav-custom">
             <div className="side-header">Loans</div>

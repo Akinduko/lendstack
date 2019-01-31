@@ -474,7 +474,7 @@ class Profitability extends Component {
                         "reports/outstanding_loans",
                         "reports/product_profitability"]
     const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
+    const id = profile.companies?profile.companies[0].id:""
     const _paths = paths.map(each=>{return get_action(this.props.token,`${each}`,`?lender_id=${id}`)})
     await this.props.dispatch(actions("GET_ALL_REPORTS",Promise.all(_paths)))
     switch(this.props.report_state){

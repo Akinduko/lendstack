@@ -36,9 +36,9 @@ class Details extends Component {
   render() {
     return (
       <div className="pl-5 pr-5 h-100 business-details-page">
-        <Row>
-          <Col className="main-container">
-            <Nav tabs>
+        <Row className="w-100 h-100">
+          <Col md="12" className="w-100 h-100 main-container">
+            <Nav className="w-100 h-25" tabs>
               <NavItem>
                 <NavLink
                   className={classnames({ active: this.state.activeTab === '1' })}
@@ -72,7 +72,7 @@ class Details extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <TabContent activeTab={this.state.activeTab}>
+            <TabContent className="w-100 h-100"  activeTab={this.state.activeTab}>
   
             <TabPane tabId="1">
               <Business/>

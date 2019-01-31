@@ -37,7 +37,7 @@ const validationSchema = function (values) {
     .max(30, `Name has to be at most 30 characters`)
     .required("We need to have your name, don't you think so?"),
     password_individual: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
+    .min(8, `Password has to be at least ${8} characters!`)
     .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, upper and lower case letters\n')
     .required('Password is required')
   })
@@ -53,7 +53,7 @@ const _validationSchema = function (values) {
     .max(30, `Name has to be at most 30 characters`)
     .required("We need to have your name, don't you think so?"),
     password_bussiness: Yup.string()
-    .min(6, `Password has to be at least ${6} characters!`)
+    .min(8, `Password has to be at least ${8} characters!`)
     .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/, 'Password must contain: numbers, upper and lower case letters\n')
     .required('Password is required')
   })

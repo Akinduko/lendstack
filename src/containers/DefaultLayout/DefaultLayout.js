@@ -7,56 +7,62 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { actions } from '../../state/actions';
 import { 
-  Container,
-  Nav,  
+  Container,  
   Col,
-  Row } from 'reactstrap';
-import DefaultHeaderDropdown  from './DefaultHeaderDropdown'
-
+  Row 
+} from 'reactstrap';
 import {
   AppHeader,
   AppSidebar,
   AppSidebarNav,
 } from '@coreui/react';
 import navigation from '../../_nav';
+import _navigation from '../../_nav_borrow';
 
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
+  
   loading = () => <div className="animated fadeIn pt-1 text-center"><div className="sk-spinner sk-spinner-pulse"></div></div>;
   constructor(props) {
     super(props);
     this.state = {
       activeelement:"dashboard",
-      activeTab:"dashboard"
+      activeTab:"dashboard",
+      entity: this.props.current_company&&this.props.current_company.entity_name?this.props.current_company.entity_name:this.props.user_profile&&this.props.user_profile.companies?
+      this.props.user_profile.companies[0].entity_name:""
     };
-
+    // console.log(this.state.entity,this.props.user_profile.companies[0].entity_name)
   }
+  
   async logout(){
     await this.props.dispatch(actions("USER_LOGOUT_FULFILLED"))
     this.props.history.push("/login")
   }
+
   async handleSideBarEvent(name){
       await this.setState({activeelement:name,activeTab: name})
       return this.props.history.push(name) 
     }
+
   render() {
     return (
       <div className="app root-container">
-          <AppHeader className="d-lg-none">
+        <AppHeader className="d-lg-none">
           <Suspense fallback={this.loading()}>
             <DefaultHeader onLogout={e=>this.logout(e)}/>
           </Suspense>
         </AppHeader>
         <div className="d-flex flex-direction-row w-100 app-body ">
-        <AppSidebar fixed display="lg" className="appside-fluid" >
+        <AppSidebar fixed display="lg" className="h-100 appside-fluid" >
           <Row style={{"height":"150%", weight:"100%"}} className="h-100 overflow">
             <Col md="12" className="h-25">
             <SideBarProfile/>
             </Col>
-            <Col md="12" className="h-75">
+            <Col md="12" className="h-100">
             <Suspense>
-            <AppSidebarNav className="d-flex flex-row justify-content-center scrollbar-container sidebar-nav w-100 ps" navConfig={navigation} {...this.props} />
+            {this.state.entity==="borrower"?<AppSidebarNav className="mt-5 h-100 d-flex flex-row justify-content-center scrollbar-container sidebar-nav w-100 ps" navConfig={_navigation} {...this.props} />:
+            <AppSidebarNav className="mt-5 h-100 d-flex flex-row justify-content-center scrollbar-container sidebar-nav w-100 ps" navConfig={navigation} {...this.props} />}
             </Suspense>
             </Col>
           </Row>
@@ -120,5 +126,7 @@ class DefaultLayout extends Component {
 export default connect(store => {
   return {
     token:store.token.auth?store.token.auth.token:"",
-  };
+    current_company:store.action.current_company,
+    user_profile:store.action.user
+    };
 })(withRouter(DefaultLayout));

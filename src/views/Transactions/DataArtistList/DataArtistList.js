@@ -4,6 +4,7 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import {
     Input,
     Modal,
+    Badge
     } from 'reactstrap';
 import { get_action} from  '../../../controllers/requests';
 import { actions } from '../../../state/actions';
@@ -35,7 +36,7 @@ class DataArtistList extends Component {
     
     async componentDidMount(){
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("GET_ALL_TRANSACTIONS",get_action(this.props.token,`lenders/${id}/transactions`,``)))
       switch(this.props.all_products_state){
         case "success":
@@ -59,7 +60,8 @@ class DataArtistList extends Component {
       }
 
       profileFormater = (cell, row) => {
-        return <div className="profile"><p>{row.type?row.type.code_description:''}</p></div>
+        const action_type= row.type?row.type.code_description:''
+      return <div className="profile"><p>{action_type==="Debit" ?<Badge className="mr-1" color="danger">Debit</Badge>:<Badge className="mr-1" color="success">Credit</Badge>}</p></div>
       };
 
       tenorFormater = (cell, row) => {
@@ -90,7 +92,7 @@ class DataArtistList extends Component {
     renderTable(){
       switch(this.props.get_all_transactions_state){
                 case "success":
-                return <BootstrapTable search={true} data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                return <BootstrapTable search={true} data={ this.props.get_all_transactions } pagination version="4" bordered={false}   hover={true} role="grid"
                 options={this.options}>
                   <TableHeaderColumn  dataField="status" width="20%" dataFormat={this.profileFormater}>STATUS</TableHeaderColumn>
                   <TableHeaderColumn dataField="amount"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>

@@ -52,7 +52,7 @@ class DataArtistList extends Component {
     }
     async componentDidMount(){
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("GET_ALL_PRODUCTS",get_action(this.props.token,`products`,`?lender_id=${id}`)))
       switch(this.props.all_products_state){
         case "success":
@@ -99,6 +99,9 @@ class DataArtistList extends Component {
         body["is_published"]=false
          await this.props.dispatch(actions("UPDATE_PRODUCTS_STATUS",put_action(this.props.token,body,`products/${row.id}`,'')))
       }
+      const profile= this.props.profile;
+      const id = profile.companies?profile.companies[0].id:""
+      await this.props.dispatch(actions("GET_ALL_PRODUCTS",get_action(this.props.token,`products`,`?lender_id=${id}`)))
       }
 
       setToggle=(row)=>{
@@ -126,9 +129,9 @@ class DataArtistList extends Component {
             <i className="icon-settings"></i>
           </DropdownToggle>
           <DropdownMenu className="h-100" right>
-            <DropdownItem>{this.state[row.id]==0?<div className="edit" onClick={()=>this.handleToggle(row)}>Activate</div>:<div className="edit" onClick={()=>this.handleToggle(row)}>Activate</div>}</DropdownItem>
-            <DropdownItem><div className="edit" onClick={()=>this.toggleModal("editusermodal",row)}>EDIT</div></DropdownItem>
-            <DropdownItem><div className="edit" onClick={()=>this.toggleModal("viewusermodal",row.id)}>VIEW</div></DropdownItem>
+            <DropdownItem  onClick={()=>this.handleToggle(row)}>{row.status===0?<div className="edit">Activate</div>:<div className="edit" onClick={()=>this.handleToggle(row)}>Deactivate</div>}</DropdownItem>
+            <DropdownItem onClick={()=>this.toggleModal("editusermodal",row)}><div className="edit" >EDIT</div></DropdownItem>
+            <DropdownItem onClick={()=>this.toggleModal("viewusermodal",row.id)}><div className="edit" >VIEW</div></DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
       </ButtonGroup>)
@@ -197,7 +200,7 @@ class DataArtistList extends Component {
     renderTable(){
       switch(this.props.all_products_state){
                 case "success":
-                return <BootstrapTable search={true} data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                return <BootstrapTable search={true} data={ this.props.all_products } pagination version="4" bordered={false}   hover={true} role="grid"
                             options={this.options}>
                       <TableHeaderColumn  dataField="product_name" width="25%" dataFormat={this.profileFormater}>NAME</TableHeaderColumn>
                       <TableHeaderColumn dataField="product_name" isKey  width="25%" dataFormat={this.tenorFormater}>TENOR</TableHeaderColumn>

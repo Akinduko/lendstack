@@ -29,7 +29,7 @@ class Accounts extends Component {
 
       try{
         const profile= this.props.profile;
-        const id = profile.lenders?profile.lenders[0].id:""
+        const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("GET_USER_BANKS",get_action(this.props.auth.token,`lenders/${id}/bank_accounts`,"")))
       switch(this.props.user_banks_state){
         case "success":
@@ -59,9 +59,9 @@ class Accounts extends Component {
     }
   }
   renderCards(){
-    const banks = this.state.banks
+
     const body =[]
-    for(let each of banks ){
+    for(let each of this.props.user_banks ){
       body.push(<div className="account-card">
                     <div className="card-container">
                     <div className="section-1">

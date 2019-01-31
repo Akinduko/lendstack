@@ -376,7 +376,7 @@ class Required extends Component {
       // const start = pre_action()
       if(this.props.profile){
         const profile= this.props.profile
-        const start = pre_action(profile.lenders[0].id)
+        const start = pre_action(profile.companies[0].id)
       }
     }
     catch(error){

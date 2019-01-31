@@ -51,7 +51,9 @@ const options = {
     GET_RESET_AUTH:"reset_auth",
     SET_RESET_AUTH:"set_reset_auth",
     NEW_USER_STATE:"new_user",
-    INVITE_LENDER_BORROWERS:"invite_borrower"
+    INVITE_LENDER_BORROWERS:"invite_borrower",
+    SET_CURRENT_COMPANY:"current_company",
+    ACTIVATE_REGISTRATION_AUTH:"activate_auth"
 }
 export const action = (    
     state = {

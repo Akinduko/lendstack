@@ -44,7 +44,7 @@ class DataArtistList extends Component {
 
     async componentDidMount(){
       const profile =this.props.profile
-      const id = profile.lenders && profile.lenders[0]?this.props.profile.lenders[0].id:this.props.history.push('/login')
+      const id = profile.companies && profile.companies[0]?this.props.profile.companies[0].id:this.props.history.push('/login')
       await this.props.dispatch(actions("GET_PENDING_LOANS",get_action(this.props.token,`loans/pending`,`?lender_id=${id}`)))
     }
 
@@ -187,7 +187,7 @@ class DataArtistList extends Component {
       renderTable(data){
         switch(this.props.get_pending_loans_state){
                   case "success":
-                  return <BootstrapTable data={ data } pagination version="4" bordered={false} search={true}   hover={true} role="grid"
+                  return <BootstrapTable data={ this.props.get_pending_loans } pagination version="4" bordered={false} search={true}   hover={true} role="grid"
                              options={this.options}>
                     <TableHeaderColumn  dataField="artist-img" width="20%" dataFormat={this.profileFormater}></TableHeaderColumn>
                     <TableHeaderColumn dataField="loan_amount" isKey  width="20%" dataFormat={this.emailFormater}></TableHeaderColumn>
@@ -270,7 +270,7 @@ export default connect(store => {
     auth: store.token.auth,
     profile:store.action.user,
     profileState:store.action.user_state,
-    get_pending_loans:store.action.get_pending_loans,
+    get_pending_loans:store.action.get_pending_loans?store.action.get_pending_loans.loans:[],
     get_pending_loans_state:store.action.get_pending_loans_state,
     get_all_loans_state:store.action.get_all_loans_state,
     get_all_loans:store.action.get_all_loans?store.action.get_all_loans.loans:[],

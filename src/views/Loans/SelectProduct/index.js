@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card } from 'reactstrap';
+import { Card ,Row, Col, Container} from 'reactstrap';
 import Header from './Header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -28,7 +28,7 @@ class SelectProduct extends Component {
 
   async componentDidMount(){
     const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
+    const id = profile.companies?profile.companies[0].id:""
     await this.props.dispatch(actions("GET_ALL_PRODUCTS",get_action(this.props.auth.token,`products`,`?lender_id=${id}`)))
     await this.props.dispatch(actions("GET_FIELD_TYPES",get_action(this.props.auth.token,`codes/fetch/field-type`,``)))
   }
@@ -91,7 +91,8 @@ class SelectProduct extends Component {
       for (let each of products){
         const amount_values = Params("Amount",each)
         const tenor_values = Params("Tenor",each)
-        cards.push(<Card className="card-each" >
+        cards.push(
+        <Card className="w-100 justify-content-between h-75 card-each card-custom" >
         <div className="product-name">
         <a>{each.product_name}</a>
         </div>
@@ -120,7 +121,8 @@ class SelectProduct extends Component {
         return <div>Please Wait</div>
     }
   }
-  renderPage(){
+
+  render() {
     const settings = {
       dots: true,
       infinite: false,
@@ -129,26 +131,25 @@ class SelectProduct extends Component {
       slidesToScroll: 1
     };
 
-    if(this.props.new_loan && this.props.new_loan.active){
-      return <AddLoans/>
-    }
-    return (<div>
-      <Header/>
-           <div className="dashboard-card-container">
-           
-           <Slider {...settings}>
+    return (
+  <Container className="w-100 h-100 d-flex flex-row justify-content-center dashboard-body" fluid>
+  <div className="w-100 h-100 d-flex flex-column">
+      <Row className="h-100">
+        <Col className="h-50" md="12">
+        <Header/>
+        </Col>
+        <Col className="h-50" md="12">
+        <div className="d-flex flex-row justify-content-around w-100 h-100 dashboard-card-container">
+        <Row className="w-100 h-100">
+        <Slider {...settings}>
             {this.renderProducts()}
            </Slider>
-           </div>   
-           
-   </div>)
-  }
-
-  render() {
-    return (
-      <div className="loan-product-body">
-        {this.renderPage()}
-      </div>
+        </Row>
+      </div>     
+      </Col>
+     </Row>
+     </div>
+     </Container>
     );
   }
 }

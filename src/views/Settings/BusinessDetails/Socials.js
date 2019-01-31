@@ -364,11 +364,11 @@ class Socials extends Component {
     this.props.history.push(link)
   }
 
-
+ 
   render() {
     return (
-        <div className="parent d-flex flex-column justify-content-between">
-        <div className="p-text-2 mb-5">Website & Socials Links</div>
+        <div className="parent d-flex h-100 flex-column justify-content-between">
+        <div className="p-text-2 mb-5 h-10">Website & Socials Links</div>
         <div className="d-flex flex-row justify-content-between h-10 w-100 mb-5">
         <div className="d-flex flex-column justify-content-center h-100 w-25">
         <p className="p-text-3">Website’s Url</p>
@@ -387,7 +387,9 @@ class Socials extends Component {
         </div>
         <div className="d-flex flex-column h-100 justify-content-center w-75">
         <div className="d-flex flex-row h-100 justify-content-start w-75">
-                <div className="d-flex flex-row h-100 justify-content-start w-75">         <Input className="form-control w-100 h-100"/>         </div>
+          <div className="d-flex flex-row h-100 justify-content-start w-75">         
+          <Input className="form-control w-100 h-100"/>         
+          </div>
         </div>
         </div>
         </div> 
@@ -414,9 +416,9 @@ class Socials extends Component {
         </div>    
         <div className="d-flex flex-row justify-content-end h-10  w-100">
         <div className="d-flex flex-column h-100 justify-content-center pl-25  w-100">
-                <div className="d-flex flex-row h-100 justify-content-start w-75">         
-                <Input className="form-control w-75 h-100"/>         
-                </div>
+        <div className="d-flex flex-row h-100 justify-content-start w-75">         
+           <Input className="form-control w-75 h-100"/>         
+        </div>
         </div>
         </div>    
         <div className="h-10 w-75 d-flex flex-row justify-content-center">

@@ -46,7 +46,7 @@ class AddLoans extends Component {
     render() {
 
         return (
-    <div className="edit-product">
+    <div className="w-100 edit-product">
     <div className="notification"><img src={require('../../../assets/img/brand/notification.svg')}/></div>
      <div className="body-header"> 
       <div className="first">

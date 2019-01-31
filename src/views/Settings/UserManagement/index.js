@@ -119,7 +119,7 @@ class Management extends Component {
         errortext: ""
       });
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("CREATE_LENDER_USER",post_action(this.props.token,body,`lenders/${id}/users`,"")))
       switch(this.props.create_lender_user_state){
         case "success":
@@ -132,7 +132,7 @@ class Management extends Component {
         });
         this.toggleModal("addusermodal")
         const profile= this.props.profile;
-        const id = profile.lenders?profile.lenders[0].id:""
+        const id = profile.companies?profile.companies[0].id:""
         await this.props.dispatch(actions("GET_ALL_USERS",get_action(this.props.token,`lenders/${id}/users`,``)))
         await this.setTimedNotification(3000)
         break;

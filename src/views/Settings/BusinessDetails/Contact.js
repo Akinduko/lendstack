@@ -367,8 +367,8 @@ class Contact extends Component {
 
   render() {
     return (
-        <div className="parent d-flex flex-column justify-content-between">
-        <div className="p-text-2">Contact Details</div>
+        <div className="parent h-100 d-flex flex-column justify-content-between">
+        <div className="p-text-2 h-10">Contact Details</div>
         <div className="d-flex flex-row justify-content-between h-10">
         <div className="d-flex flex-column justify-content-center h-100 w-25">
         <p className="p-text-3">Business Contact</p>

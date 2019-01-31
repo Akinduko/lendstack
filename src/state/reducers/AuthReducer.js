@@ -44,6 +44,15 @@ export const register = (
         failed: false,
         state: 'pending'
       };
+    case 'USER_LOGOUT_FULFILLED':
+        return {
+          ...state,
+          auth: {},
+          fetching: false,
+          fetched: true,
+          failed: false,
+          state: 'success'
+        }
     default:
       return state;
   }
@@ -95,6 +104,15 @@ export const login = (
         failed: false,
         state: 'pending',
       };
+    case 'USER_LOGOUT_FULFILLED':
+      return {
+        ...state,
+        auth: {},
+        fetching: false,
+        fetched: true,
+        failed: false,
+        state: 'success'
+      }
     default:
       return state;
   }
@@ -147,6 +165,15 @@ export const getreset = (
         failed: false,
         state: 'pending',
       };
+    case 'USER_LOGOUT_FULFILLED':
+        return {
+          ...state,
+          auth: {},
+          fetching: false,
+          fetched: true,
+          failed: false,
+          state: 'success'
+        }
     default:
       return state;
   }
@@ -198,6 +225,15 @@ export const validate = (
         failed: false,
         state: 'pending',
       };
+    case 'USER_LOGOUT_FULFILLED':
+        return {
+          ...state,
+          auth: {},
+          fetching: false,
+          fetched: true,
+          failed: false,
+          state: 'success'
+        }
     default:
       return state;
   }
@@ -249,24 +285,15 @@ export const token = (
         failed: false,
         state: 'pending',
       };
-    default:
-      return state;
-  }
-};
-
-export const logout = (
-  state = {
-    auth: {},
-    fetching: false,
-    fetched: false,
-    error: null,
-    state: 'default'
-  },
-  action
-) => {
-  switch (action.type) {
     case 'USER_LOGOUT_FULFILLED':
-      return state
+        return {
+          ...state,
+          auth: {},
+          fetching: false,
+          fetched: true,
+          failed: false,
+          state: 'success'
+        }
     default:
       return state;
   }

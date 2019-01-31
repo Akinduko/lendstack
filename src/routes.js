@@ -20,6 +20,7 @@ const BusinessDetails = React.lazy(() => import('./views/Settings/BusinessDetail
 const Loans = React.lazy(() => import('./views/Loans/Loans/'));
 const Approval = React.lazy(() => import('./views/Loans/Approval/'));
 const Schedule = React.lazy(() => import('./views/Loans/Schedule/'));
+const NewLoan = React.lazy(() => import('./views/Loans/SelectProduct/'));
 
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -40,7 +41,8 @@ const routes = [
   {path: '/transactions',exact: true, name: 'Transactions', component: Transactions},
   {path: '/reports',exact: true, name: 'Reports', component: Reports},
   {path: '/loans/pending',exact: true, name: 'Approval', component: Approval},
-  {path: '/loans/schedule',exact: true, name: 'Schedule', component: Schedule}
+  {path: '/loans/schedule',exact: true, name: 'Schedule', component: Schedule},
+  {path: '/loans/new',exact: true, name: 'NewLoan', component: NewLoan}
 ];
 
 export default routes;

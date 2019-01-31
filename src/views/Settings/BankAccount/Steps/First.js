@@ -89,7 +89,7 @@ class First extends Component {
   async handleSubmit(event) {
     event.preventDefault()
     const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
+    const id = profile.companies?profile.companies[0].id:""
     const body = {
       "bank_id":parseInt(this.state.bank_name),
       "account_number":this.state.account_number
@@ -239,7 +239,6 @@ class First extends Component {
     const _state = Object.values(state);
     const result = _state.reduce((sum, next) => sum && next, true);
     await this.setState({ formValid: result });
-    console.log(result)
   }
 
   redirect(link){
@@ -324,8 +323,8 @@ class First extends Component {
 
 export default connect(store => {
   return {
-    state: store.login.state,
-    error: store.login.error,
+    state: store.action.create_lender_account_state,
+    error: store.action.create_lender_account_error,
     all_banks: store.action.all_banks?store.action.all_banks.codes:[],
     all_banks_state: store.action.all_banks_state,
     create_lender_account:store.action.create_lender_account,

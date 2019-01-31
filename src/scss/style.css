@@ -10549,8 +10549,215 @@ body {
     cursor: pointer;
     padding: 0px 4px 0px; }
 
+.custom-badge {
+  right: unset !important; }
+
+.success-communication {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column; }
+  .success-communication p {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 35px;
+    text-align: center;
+    color: #545F7D;
+    width: 100%; }
+  .success-communication a {
+    color: inherit;
+    text-decoration: none;
+    text-align: center; }
+
 .modal-content {
   height: 100% !important; }
+
+.card-each {
+  width: 80% !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  left: 8%;
+  border: none;
+  background: #FFFFFF;
+  border: 1px solid #EDF1F5;
+  -webkit-box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.02);
+  border-radius: 5px;
+  -webkit-transition: all .3s ease-out;
+  -o-transition: all .3s ease-out;
+  transition: all .3s ease-out; }
+  .card-each .card-header {
+    border: none;
+    left: 0px;
+    background: #213F7D; }
+  .card-each .product-name {
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding: 5%;
+    width: 100%;
+    height: 30%; }
+    .card-each .product-name a {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 18px;
+      color: #545F7D;
+      opacity: 0.7; }
+  .card-each .min-amount {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5%;
+    padding-top: 5%;
+    padding-right: 5%;
+    width: 100%;
+    height: 30%;
+    justify-content: space-between; }
+    .card-each .min-amount a {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 12px;
+      color: #545F7D;
+      opacity: 0.6;
+      padding-bottom: 5%; }
+    .card-each .min-amount p {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      font-size: 25px;
+      color: #545F7D; }
+  .card-each .max-amount {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5%;
+    padding-top: 5%;
+    padding-right: 5%;
+    width: 100%;
+    height: 30%;
+    justify-content: space-between; }
+    .card-each .max-amount a {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 12px;
+      color: #545F7D;
+      opacity: 0.6;
+      padding-bottom: 5%; }
+    .card-each .max-amount p {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      font-size: 25px;
+      color: #0CA8E5; }
+  .card-each .tenor {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5%;
+    padding-top: 5%;
+    padding-right: 5%;
+    width: 100%;
+    height: 30%;
+    justify-content: space-between; }
+    .card-each .tenor a {
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      font-size: 12px;
+      color: #545F7D;
+      opacity: 0.6;
+      padding-bottom: 5%; }
+    .card-each .tenor p {
+      font-family: "Nunito";
+      font-style: normal;
+      font-weight: normal;
+      line-height: normal;
+      font-size: 20px;
+      color: #545F7D;
+      opacity: 0.7; }
+  .card-each .card-custom-footer {
+    position: absolute;
+    width: 100%;
+    height: 15%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    border: none;
+    cursor: pointer;
+    left: 0px;
+    background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%); }
+    .card-each .card-custom-footer a {
+      position: absolute;
+      height: 22px;
+      /* left: 68px; */
+      font-family: "Work Sans";
+      width: 100%;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 21px;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #39CDCC; }
+  .card-each:hover {
+    background: linear-gradient(32.84deg, #213F7D -30.58%, #39CDCC 116.98%);
+    box-shadow: 0px 30px 29px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    border: none;
+    transform: translateY(-1rem) scale(1.02); }
+  .card-each .card-header {
+    position: absolute;
+    width: 300px;
+    height: 10px;
+    left: -1px;
+    top: 0px;
+    border: none;
+    background: #D7F5F5;
+    opacity: 0.5; }
+  .card-each .card-footer {
+    position: absolute;
+    width: 100%;
+    height: 15%;
+    left: 0px;
+    border: none;
+    display: flex;
+    top: 100%;
+    background: #F8FEFE;
+    border: 1px solid #DBDFE9; }
+    .card-each .card-footer img {
+      position: relative;
+      width: 12px;
+      height: 9px;
+      left: calc(70% - 179px/50 - -70px);
+      top: calc(50% - 149px/2 + 71.5px); }
+    .card-each .card-footer a {
+      position: absolute;
+      height: 22px;
+      /* left: 68px; */
+      width: 100%;
+      top: 20px;
+      font-family: "Work Sans";
+      font-style: normal;
+      font-weight: 600;
+      line-height: 21px;
+      font-size: 14px;
+      text-align: center;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #39CDCC; }
 
 .table-responsive {
   width: 100%;
@@ -10825,7 +11032,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
 .sidebar-fixed .sidebar {
   position: fixed;
   z-index: 1019;
-  width: 300px;
+  width: 20%;
   height: 100vh; }
 
 .custom-sidebar-nav {

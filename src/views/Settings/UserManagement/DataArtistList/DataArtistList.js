@@ -77,7 +77,7 @@ class DataArtistList extends Component {
 
     async componentDidMount(){
         const profile= this.props.profile;
-        const id = profile.lenders?profile.lenders[0].id:""
+        const id = profile.companies?profile.companies[0].id:""
         await this.props.dispatch(actions("GET_ALL_USERS",get_action(this.props.token,`lenders/${id}/users`,``)))
         switch(this.props.all_products_state){
           case "success":
@@ -135,7 +135,7 @@ class DataArtistList extends Component {
         errortext: ""
       });
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("UPDATE_USER_PROFILE",put_action(this.props.token,body,`lenders/${id}/users/${this.state.current.id}`,"")))
       switch(this.props.update_user_profile_state){
         case "success":
@@ -268,7 +268,6 @@ class DataArtistList extends Component {
     const _state = Object.values(state);
     const result = _state.reduce((sum, next) => sum && next, true);
     await this.setState({ formValid: result });
-    console.log(result)
   }
 
   redirect(link){
@@ -322,7 +321,7 @@ class DataArtistList extends Component {
       renderTable(){
         switch(this.props.get_all_users_state){
                   case "success":
-                  return <BootstrapTable classname="w-100" data={ this.table } pagination version="4" bordered={false}   hover={true} role="grid"
+                  return <BootstrapTable classname="w-100" data={ this.props.get_all_users } pagination version="4" bordered={false}   hover={true} role="grid"
                   options={this.options}>
                         <TableHeaderColumn  dataField="user_name" width="25%" dataFormat={this.profileFormater}></TableHeaderColumn>
                         <TableHeaderColumn dataField="email" isKey  width="25%" dataFormat={this.emailFormater}></TableHeaderColumn>

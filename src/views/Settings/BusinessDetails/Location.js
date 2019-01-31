@@ -336,8 +336,8 @@ class Location extends Component {
 
   render() {
     return (
-        <div className="parent d-flex flex-column justify-content-between">
-        <div className="p-text-2">Location Details</div>
+        <div className="parent h-100 d-flex flex-column justify-content-between">
+        <div className="p-text-2 h-10">Location Details</div>
         <div className="d-flex flex-row justify-content-start h-10">
         <div className="d-flex flex-column justify-content-center h-100 w-25">
         <p className="p-text-3">Business Address</p>

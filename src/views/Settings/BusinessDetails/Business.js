@@ -58,12 +58,12 @@ class Business extends Component {
        
      }
     };
-
+ 
 
   render() {
     return (
-        <div className="parent d-flex flex-column justify-content-center">
-        <div className="p-text-2 mb-5">Business Details</div>
+        <div className="parent h-100 d-flex flex-column justify-content-center">
+        <div className="p-text-2 h-10 mb-5">Business Details</div>
         <div className="d-flex flex-row justify-content-start ">
         <div className="d-flex flex-column justify-content-center w-25">
         <p className="p-text-3">Business Logo</p>
@@ -161,6 +161,7 @@ export default connect(store => {
     auth_error: store.action.auth_error,
     auth: store.token.auth,
     user_profile:store.action.user,
-    user_state:store.action.user_state
+    user_state:store.action.user_state,
+    current_company:store.action.current_company
   };
 })(withRouter(Business));

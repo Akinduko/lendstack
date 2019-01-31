@@ -42,19 +42,14 @@ class Dashboard extends Component {
 
 async componentDidMount(){
     const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
+    const id = profile.companies?profile.companies[0].id:""
     await this.props.dispatch(actions("GET_LENDER_DASHBOARD",get_action(this.props.auth.token,`lenders/${id}/dashboard`,"")))
     switch(this.props.lender_dashboard_state){
       case "success":
-      // const data=[]
-      // console.log(this.props.chart_data)
-      // for(let each of this.props.chart_data){
-      //   data.push[each.total_loans]
-      // }
-      // this.setState({data})
       break
     }
 }
+
 async componentWillUnmount(){
   this.closeNewUser()
 }
@@ -84,7 +79,7 @@ validationSchema = function (values) {
   }
 }
 
- getErrorsFromValidationError = (validationError) => {
+getErrorsFromValidationError = (validationError) => {
   const FIRST_ERROR = 0
   return validationError.inner.reduce((errors, error) => {
     return {
@@ -95,13 +90,14 @@ validationSchema = function (values) {
 }
 
 
- onSubmit = (values, { setSubmitting, setErrors }) => {
+onSubmit = (values, { setSubmitting, setErrors }) => {
   setTimeout(() => {
     alert(JSON.stringify(values, null, 2))
     // console.log('User has been successfully saved!', values)
     setSubmitting(false)
   }, 2000)
 }
+
 async handleSubmit(value,event){
   event.preventDefault()
 
@@ -125,7 +121,7 @@ async handleSubmit(value,event){
       errortext: ""
     });
     const profile= this.props.profile;
-    const id = profile.lenders?profile.lenders[0].id:""
+    const id = profile.companies?profile.companies[0].id:""
     await this.props.dispatch(actions("INVITE_LENDER_BORROWERS",post_action(this.props.auth.token,body,`lenders/${id}/borrowers`,"")))
     switch(this.props.state){
       case "success":
@@ -246,12 +242,14 @@ touchAll(setTouched, errors) {
       });
     }
   }
+
   toggle() {
     this.setState({ collapse: !this.state.collapse });
   }
   closeNewUser(){
     this.props.dispatch(actions("NEW_USER_STATE_FULFILLED",{state:false}))
   }
+
   toggleFade() {
     this.setState({ fadeIn: !this.state.fadeIn });
   }
@@ -267,7 +265,7 @@ touchAll(setTouched, errors) {
         <div className="d-flex flex-row justify-content-around w-100 h-100 dashboard-card-container">
       <Row>
           <Col className="h-100"  xs="12" md="4">
-                <Card className="w-100 justify-content-between h-75 card-custom" >
+                <Card className="w-100 justify-content-between h-75 card-custom card-each" >
                   <div className="card-header"/>
                   <div className="w-100 flex-row d-flex justify-content-center">
                     <div className="w-25 h-100 flex-row d-flex justify-content-center card-image">
@@ -295,7 +293,7 @@ touchAll(setTouched, errors) {
                 <CardFooter onClick={()=>this.handleLink('/products')} className="d-flex w-100 flex-row justify-content-between card-footer">
                 <a>CREATE LOAN PRODUCT</a>
                 <img src={require('../../assets/Icons/Arrow.svg')}/>
-                  </CardFooter>
+                </CardFooter>
               </Card>
           </Col>
           <Col className="h-100" xs="12" md="4">
@@ -322,17 +320,20 @@ touchAll(setTouched, errors) {
     }
     return this.props.history.push('/login')
   }
+
   handleInvite(value){
     if(value !== this.state.inviteborrower){
-      this.setState({
-        inviteborrower:!this.state.inviteborrower,
+     return this.setState({
         response: false,
         loader:false,
         headertext: "",
-        count:1
+        count:1,
+        result:false,
+        inviteborrower:!this.state.inviteborrower
       })
     }
   }
+
   handleLink(value){
     this.props.history.push(value) 
   }
@@ -345,6 +346,7 @@ touchAll(setTouched, errors) {
     }
 
   }
+
   decrementtField(){
     this.setState({
       count: this.state.count-1
@@ -412,7 +414,7 @@ touchAll(setTouched, errors) {
      }
     }
     return body 
-    }
+  }
   
   renderResult(){
       const result = this.props.invite_borrower&&this.props.invite_borrower.response?this.props.invite_borrower.response:[]
@@ -444,7 +446,8 @@ touchAll(setTouched, errors) {
       </tbody>
     </Table>
         </div>
-    }
+  }
+  
   renderExisting(){ 
     const data=this.state.data
     const bar = {
@@ -499,16 +502,18 @@ touchAll(setTouched, errors) {
                 }) => (
           <Form className="h-100" onSubmit={this.handleSubmit.bind(this,values)}>
           <Row className="h-25">
-                  {this.state.result?this.renderResult():this.renderMailForms(errors,touched,handleChange,handleBlur,values)}
+          {this.state.result?this.renderResult():this.renderMailForms(errors,touched,handleChange,handleBlur,values)}
           <Col className="h-25" xs="12">
-                        {this.state.loader ? null :this.state.response ?                       
+            { this.state.loader ? null : this.state.response ?                       
                   <div className="text-center login-loader-text" style={{color:this.state.color,fontSize:"95%"}}>
                     {this.state.headertext}
-                  </div>:null}     
-          { this.state.response?null:this.state.loader ?
+                  </div>:null }  
+
+          { this.state.response?null: this.state.loader ?
                     <div className="d-flex flex-row w-100 justify-content-center">
                     <Loader type="Watch" color="black" height="50" width="60"/>
-                    </div>:<div className="d-flex flex-row justify-content-center h-75 w-100"><Input disabled={isSubmitting || !isValid} type="submit" color="primary" className="px-4 h-100 w-50 button-color" value="INVITE"/></div>}
+                    </div> : <div className="d-flex flex-row justify-content-center h-75 w-100"> <Input disabled={isSubmitting || !isValid } type="submit" color="primary" className="px-4 h-100 w-50 button-color" value="INVITE"/></div> }
+
                         </Col>
                       </Row>
                     </Form>
@@ -522,12 +527,6 @@ touchAll(setTouched, errors) {
           <Col className="h-50">
           <div className="dashboard-return-header-text d-flex flex-row  pl-0 pr-0 h-100 justify-content-between w-100">
           <p className="h-100">Hi, {this.props.auth && this.props.auth.user_name?this.props.auth.user_name.split(' ')[0]:""} - Welcome to your Dashboard</p>
-          <div className="h-25 add-new-loan">
-              <Input  className="submit-button h-100" onClick={()=>{this.handleLink('/loans/all')}} type="submit" value="ADD A NEW LOAN"/>
-          </div>
-          <div className="h-25 add-new-loan">
-              <Input  className="submit-button h-100" onClick={()=>{this.handleLink('/products')}} type="submit" value="ADD A NEW PRODUCT"/>
-          </div>
           <div className="h-25  add-new-loan">
               <Input  className="submit-button h-100" onClick={()=>{this.handleInvite(true)}} type="submit" value="INVITE BORROWER"/>
           </div>
@@ -536,8 +535,7 @@ touchAll(setTouched, errors) {
           <Col className="h-50">
           <div className="dashboard-return-illustration-text d-flex flex-row w-50">
               <p>Your everyday tasks feel light. More time with borrowing clients, less time with paper and spreadsheets. Your Borrowers can even connect and request loans from you online</p>
-              </div>
-       
+          </div>
           </Col>
         </Row>
         </div>
@@ -545,7 +543,7 @@ touchAll(setTouched, errors) {
       <Col xs="12" sm="12" md="12" className="h-md-50 h-75">
           <div className="w-100 d-flex views  h-100 flex-row justify-content-around">
           <Row className="w-100 h-100" >
-              <Col xs="12" sm="12" md="6" className="h-50 w-100">
+              <Col xs="12" sm="12" md="6" className="h-75 w-100">
                 <div className=" d-flex  w-100 h-100 card card-1 flex-column justify-content-around">
                 <div className=" d-flex  h-25 w-100 flex-row justify-content-around">
                 <div className=" d-flex  h-100 counts flex-column justify-content-start">
@@ -587,7 +585,6 @@ touchAll(setTouched, errors) {
     return (
       <Container className="w-100 h-100 d-flex flex-row justify-content-center dashboard-body" fluid>
         {this.props.new_user && this.props.new_user.state ?this.renderPage():this.renderExisting()}
-        {/* {this.renderPage()} */}
       </Container>
     );
   }

@@ -33,7 +33,7 @@ class DataArtistList extends Component {
     
     async componentDidMount(){
       const profile= this.props.profile;
-      const id = profile.lenders?profile.lenders[0].id:""
+      const id = profile.companies?profile.companies[0].id:""
       await this.props.dispatch(actions("GET_ALL_SCHEDULE",get_action(this.props.token,`lenders/${id}/schedules`,``)))
       switch(this.props.all_products_state){
         case "success":
@@ -107,7 +107,7 @@ class DataArtistList extends Component {
     renderTable(){
       switch(this.props.get_all_schedule_state){
                 case "success":
-                return <BootstrapTable data={ this.table } pagination version="4" search={true} bordered={false}   hover={true} role="grid"
+                return <BootstrapTable data={ this.props.get_all_schedule } pagination version="4" search={true} bordered={false}   hover={true} role="grid"
                 options={this.options}>
                   <TableHeaderColumn  dataField="status" width="20%" dataFormat={this.profileFormater}>STATUS</TableHeaderColumn>
                   <TableHeaderColumn dataField="amount"  width="20%" dataFormat={this.amountFormater}>AMOUNT</TableHeaderColumn>

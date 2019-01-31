@@ -262,7 +262,7 @@ class Loans extends Component {
 }
 
 async addLoan(){
-  await this.props.dispatch(actions("SET_LOAN_ACTION_FULFILLED",true))
+ this.props.history.push('/loans/new')
 }
   render() {
     return (
