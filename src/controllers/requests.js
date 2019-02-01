@@ -65,7 +65,7 @@ export const put_action = async (token,body,paths,params) => {
     }
   }
 
-  export const uploads = async (token,paths,file) => {
+  export const uploads = async (token,paths,id,file) => {
 
       const options ={
         headers:{
@@ -75,7 +75,7 @@ export const put_action = async (token,body,paths,params) => {
     }
       const formData = new FormData();
       formData.append('file',file)
-      formData.append('folder',paths)
+      formData.append('folder',`${paths}/${id}`)
     const response = await axios.post(`${config.base_url}/api/integrations/uploads/file`,formData,options);
     return response.data;
   };

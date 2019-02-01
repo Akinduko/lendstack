@@ -50,7 +50,7 @@ class DefaultLayout extends Component {
       <div className="app root-container">
         <AppHeader className="d-lg-none">
           <Suspense fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.logout(e)}/>
+            <DefaultHeader/>
           </Suspense>
         </AppHeader>
         <div className="d-flex flex-direction-row w-100 app-body ">

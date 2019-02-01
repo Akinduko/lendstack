@@ -53,7 +53,8 @@ const options = {
     NEW_USER_STATE:"new_user",
     INVITE_LENDER_BORROWERS:"invite_borrower",
     SET_CURRENT_COMPANY:"current_company",
-    ACTIVATE_REGISTRATION_AUTH:"activate_auth"
+    ACTIVATE_REGISTRATION_AUTH:"activate_auth",
+    UPDATE_USER_DETAILS:"update_user"
 }
 export const action = (    
     state = {

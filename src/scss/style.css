@@ -11114,7 +11114,7 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
   border-style: dashed;
   justify-content: space-between;
   width: 50%;
-  height: 150%; }
+  height: 100%; }
 
 .root-container {
   width: 100%;
@@ -13551,7 +13551,6 @@ html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
         letter-spacing: 0.1em;
         color: #39CDCC; }
       .root-container .business-details-page .tab-content .tab-pane .save-business {
-        margin-left: 33%;
         width: 20%;
         margin-top: 10% !important; }
       .root-container .business-details-page .tab-content .tab-pane .w-45 {

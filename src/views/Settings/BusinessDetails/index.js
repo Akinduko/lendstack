@@ -36,7 +36,7 @@ class Details extends Component {
   render() {
     return (
       <div className="pl-5 pr-5 h-100 business-details-page">
-        <Row className="w-100 h-100">
+        <Row className="w-100 h-100 d-flex flex-row justify-content-center">
           <Col md="12" className="w-100 h-100 main-container">
             <Nav className="w-100 h-25" tabs>
               <NavItem>
