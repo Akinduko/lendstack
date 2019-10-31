@@ -1,6 +1,6 @@
 ## Directories
 ```
-lendstack-front-end#v1.0.0
+loan-app#v1.0.0
 ├── public/      (static files)
 │   ├── assets/  (assets)
 │   └── index.html (html temlpate)
